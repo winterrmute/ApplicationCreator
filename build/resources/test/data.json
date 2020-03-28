@@ -1,0 +1,123 @@
+{
+  "info": {
+    "firstName": "Azathoth",
+    "lastName": "Outer",
+    "contact": {
+      "address": "Somwhere in universe",
+      "phone": "prayer"
+    },
+    "spokenLanguages": [
+      "R’lyehian",
+      "Quendian"
+    ],
+    "personalInterests": [
+      "Destroying worlds"
+    ]
+  },
+  "career": {
+    "educationalCareer": [
+      {
+        "from": "08/1204",
+        "until": "06/1209",
+        "description": "University of universe chaos study"
+      },
+      {
+        "from": "08/1201",
+        "until": "06/1204",
+        "description": "Blind Idiot high school"
+      },
+      {
+        "from": "08/1198",
+        "until": "07/1204",
+        "description": "Deamon elementary and middle school"
+      }
+    ],
+    "professionalCareer": [
+      {
+        "from": "15.05.1209",
+        "until": "today",
+        "job": "protagonist in necronomicon",
+        "company": "Unknown",
+        "description": "god"
+      },
+      {
+        "from": "15.05.2017",
+        "until": "31.12.2018",
+        "job": "antagonist in The Dreams in the Witch-House",
+        "company": "H.P. Lovecraft",
+        "description": "god"
+      }
+    ],
+    "misc": [
+      {
+        "from": "1210",
+        "until": "1211",
+        "description": "Destroying world"
+      }
+    ]
+  },
+  "skills": {
+    "active": [
+      {
+        "description": "flying through universe",
+        "rating": 8,
+        "category": "god"
+      },
+      {
+        "description":"reality warping",
+        "rating": 9,
+        "category": "chaos"
+      }
+    ],
+    "passive": [
+      {
+        "description":"Omnipresence",
+        "rating": 7,
+        "category": "madness"
+      }
+    ],
+    "soft": [
+      "being idiot",
+      "being blind",
+      "motivated to do really bad things"
+    ]
+  },
+  "projects": [
+    {
+      "from": "09.1215",
+      "until": "12.1220",
+      "summary": "warping reality",
+      "description": "distortion of space",
+      "position": "Outer god",
+      "tools": {
+        "languages": [
+          "chaos"
+        ],
+        "frameworks": [
+          "metapotence"
+        ],
+        "other": [
+          "beeing god"
+        ]
+      }
+    },
+    {
+      "from": "09.1220",
+      "until": "12.1225",
+      "summary": "making people mad",
+      "description": "warping reality so long that everyone has gone mad",
+      "position": "Outer god",
+      "tools": {
+        "languages": [
+          "madness"
+        ],
+        "frameworks": [
+          "omnipresence"
+        ],
+        "other": [
+          "beeing god"
+        ]
+      }
+    }
+  ]
+}
