@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{custom}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{fontawesome}
+\usepackage{array}
+\usepackage{geometry}
+\geometry{legalpaper, portrait, margin=0.5in}
+
+
+\begin{document}
+%Header
+\headerbox{1.2cm}{darkgray}{white}{Name\\ Surname\\ Job}{pics/pic.jpg}
+\begin{center}
+{	
+	\small 
+	\faEnvelopeO\/ Am Schulhof | \faMapMarker\/ Lilienthal | \faPhone\/ 015228568889 |	\faAt\protect\/ hkkosinski@gmail.com
+}
+\end{center}
+
+
+\setlength{\parskip}{\baselineskip}
+\setlength{\parindent}{2pt}
+
+%Career
+\customsection{Car}{eer}
+
+\begin{tabular}{p{10em}| p{25em}}
+	\career{01/2019 -- today}{Privacy Central GmbH}{softwaentwickla}{Product development}\\
+	\career{01/2019 -- today}{Governikus GmbH \& Co.KG}{Dev-Ops}{Infrastructure}\\
+\end{tabular}
+
+%Career
+\customsection{Edu}{cation}
+
+\begin{tabular}{p{10em}| p{25em} c}
+	\education{01/2019 -- today}{Schulzentrum UtBremen}{Technischer Assistent für Informatik}\\
+	\education{01/2019 -- today}{RealSchule}{Realschule}
+\end{tabular}
+
+%Career
+\customsection{Mis}{c}
+
+\begin{tabular}{p{10em}| p{25em} c}
+	\education{01/2019 -- today}{Lineage Game Server}{Technischer Assistent für Informatik}\\
+\end{tabular}
+
+%Skills
+\customsection{Ski}{lls}
+
+\begin{tabular}{p{10em}| p{25em}}
+	\columntitle{sprachen} & \itemlist{java}{python}{javascript} \\
+	\columntitle{datenbanken} & \itemlist{sqlite}{mysql}{postgresql}\\
+	\columntitle{os} & \itemlist{windows}{mac}{linux}
+\end{tabular}
+
+%Projects
+\customsection{Pro}{jects}
+
+%Languages
+\customsection{Lan}{guages}
+
+%Hobbies
+\customsection{Hob}{bies}
+
+
+\end{document}

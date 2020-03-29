@@ -1,0 +1,70 @@
+\ProvidesPackage{custom}
+\RequirePackage{xcolor}
+
+%column title highlighting
+\newcommand{\columntitle}[1]{
+	\raggedleft\textcolor{cyan}{\Large#1}
+}
+
+%custom section highlighting
+\newcommand{\customsection}[2]{
+	\textcolor{cyan}{\Large#1}{\Large#2}
+}
+
+%headerbox section
+\newcommand{\headerbox}[5]{
+	\hspace{-#1}% has to be the same amount as the paper margin
+	\colorbox{#2}{
+	\begin{minipage}{\paperwidth}
+	\begin{minipage}[t][][b]{0.2\textwidth}
+
+	\end{minipage}\hfill
+	\begin{minipage}[t][][b]{0.3\textwidth}
+	\Large\bfseries 
+
+	\vspace{1.5em}
+	\color{#3}{#4}
+
+	\end{minipage}\hfill
+	\begin{minipage}[t][][c]{0.3\textwidth}
+
+	\vspace{1em}
+
+	\includegraphics[width=70pt]{#5}
+	\hspace{#1}
+	\end{minipage}
+
+	\vspace{1.5em}
+
+\end{minipage}
+}
+}
+
+%career section
+\newcommand{\career}[4]{
+	\columntitle{#1} & \textbf{#2}
+	\newline{#3}\newline{#4}
+	\newline\newline
+	\vspace{-1.8em}
+}
+
+%education section
+\newcommand{\education}[3]{
+	\columntitle{#1} & \textbf{#2}
+	\newline{#3}
+	\newline\newline
+	\vspace{-1.8em}
+}
+
+%skills section
+\newcommand{\skills}[3]{
+	\columntitle{#1} & \normalsize{#2}\newline{#3}
+	\vspace{1em}
+}
+
+%self extending list with unlimited paramters
+\newcommand{\itemlist}[1]{%
+    \large#1\checknextarg
+}
+\newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
+\newcommand{\gobblenextarg}[1]{\newline\large#1\@ifnextchar\bgroup{\gobblenextarg}{\newline}}
