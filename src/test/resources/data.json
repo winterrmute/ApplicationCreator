@@ -4,12 +4,14 @@
     "lastName": "Outer",
     "contact": {
       "address": "Somwhere in universe",
-      "phone": "prayer"
+      "city": "arkham",
+      "phone": "prayer",
+      "email": "prayer@god.org"
     },
-    "spokenLanguages": [
-      "R’lyehian",
-      "Quendian"
-    ],
+    "spokenLanguages": {
+      "R’lyehian": "native speaker",
+      "Quendian": "good"
+    },
     "personalInterests": [
       "Destroying worlds"
     ]
@@ -19,17 +21,20 @@
       {
         "from": "08/1204",
         "until": "06/1209",
-        "description": "University of universe chaos study"
+        "school": "University of universe chaos study",
+        "graduation": "Bachelor of Science"
       },
       {
         "from": "08/1201",
         "until": "06/1204",
-        "description": "Blind Idiot high school"
+        "school": "Blind Idiot high school",
+        "graduation": "high school"
       },
       {
         "from": "08/1198",
         "until": "07/1204",
-        "description": "Deamon elementary and middle school"
+        "school": "Deamon elementary and middle school",
+        "graduation": "middle school"
       }
     ],
     "professionalCareer": [
@@ -64,20 +69,25 @@
         "category": "god"
       },
       {
-        "description":"reality warping",
+        "description": "reality warping",
+        "rating": 9,
+        "category": "chaos"
+      },
+      {
+        "description": "reality warping",
         "rating": 9,
         "category": "chaos"
       }
     ],
     "passive": [
       {
-        "description":"Omnipresence",
+        "description": "Omnipresence",
         "rating": 7,
         "category": "madness"
       }
     ],
     "soft": [
-      "being idiot",
+      "being god",
       "being blind",
       "motivated to do really bad things"
     ]

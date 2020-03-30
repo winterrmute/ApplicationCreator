@@ -1,4 +1,5 @@
 .gradle
 .idea
 out
+build
 src/main/resources/data.json

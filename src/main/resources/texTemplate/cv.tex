@@ -12,11 +12,12 @@
 
 \begin{document}
 %Header
-\headerbox{1.2cm}{darkgray}{white}{Name\\ Surname\\ Job}{pics/pic.jpg}
+\headerbox{1.2cm}{darkgray}{white}{Name\\ Surname}{pics/pic.jpg}
 \begin{center}
-{	
-	\small 
-	\faEnvelopeO\/ Am Schulhof | \faMapMarker\/ Lilienthal | \faPhone\/ 015228568889 |	\faAt\protect\/ hkkosinski@gmail.com
+{	
+	\small
+	%persnoal_information 
+	\faEnvelopeO\/ street | \faMapMarker\/ city | \faPhone\/ phonenumber |	\faAt\protect\/ email
 }
 \end{center}
 
@@ -28,42 +29,70 @@
 \customsection{Car}{eer}
 
 \begin{tabular}{p{10em}| p{25em}}
-	\career{01/2019 -- today}{Privacy Central GmbH}{softwaentwickla}{Product development}\\
-	\career{01/2019 -- today}{Governikus GmbH \& Co.KG}{Dev-Ops}{Infrastructure}\\
+	%career
+	\columntitle{from -- until} & \activity{company}{job}{description}\\
 \end{tabular}
 
 %Career
 \customsection{Edu}{cation}
 
 \begin{tabular}{p{10em}| p{25em} c}
-	\education{01/2019 -- today}{Schulzentrum UtBremen}{Technischer Assistent für Informatik}\\
-	\education{01/2019 -- today}{RealSchule}{Realschule}
+	\columntitle{from -- until} & \activity{school}{graduation}\\
 \end{tabular}
 
 %Career
 \customsection{Mis}{c}
 
 \begin{tabular}{p{10em}| p{25em} c}
-	\education{01/2019 -- today}{Lineage Game Server}{Technischer Assistent für Informatik}\\
+	\columntitle{from -- until} & \activity
+	{Project}{Main subject}{description}\\
 \end{tabular}
 
 %Skills
+
 \customsection{Ski}{lls}
 
-\begin{tabular}{p{10em}| p{25em}}
-	\columntitle{sprachen} & \itemlist{java}{python}{javascript} \\
-	\columntitle{datenbanken} & \itemlist{sqlite}{mysql}{postgresql}\\
-	\columntitle{os} & \itemlist{windows}{mac}{linux}
-\end{tabular}
+\begin{minipage}[t]{0.5\textwidth}
+	\tabletitle{skills\_range}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+	\tabletitle{skills\_range}
+\end{minipage}
+
+\begin{minipage}[t]{0.5\textwidth}
+	\begin{tabular}{p{10em}| p{25em}}
+		\columntitle{category} & \newlinelist{list} \\
+	\end{tabular}
+\end{minipage}
+\begin{minipage}[t]{0.5\textwidth}
+	\begin{tabular}{p{10em}| p{25em}}
+		\columntitle{category} & \newlinelist{list} \\
+	\end{tabular}
+\end{minipage}
+
+\customsection{Per}{sonal characteristics}
 
 %Projects
 \customsection{Pro}{jects}
 
+\begin{tabular}{p{10em}| p{25em} c}
+	\columntitle{from -- until} & \activity
+	{title}{subject}{description}\\
+	
+	\columnsubtitle{subtitle} & \commaseparatedlist{list}
+\end{tabular}
+
 %Languages
 \customsection{Lan}{guages}
+
+\begin{tabular}{p{10em}| p{25em} c}
+	\columntitle{language} & \singleitem{level}\\
+\end{tabular}
+
 
 %Hobbies
 \customsection{Hob}{bies}
 
+\commaseparatedlist{hobby\_list}
 
 \end{document}

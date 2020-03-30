@@ -16,12 +16,16 @@ public class DataCollector
 {
     private JsonObject applicationData;
 
+    /**
+     * Creates an instance
+     * @param data cv information as json
+     */
     public DataCollector(JsonObject data)
     {
         applicationData = data;
     }
 
-    Map<String, Object> getData()
+    public Map<String, Object> getData()
     {
         Map<String, Object> result = new HashMap<>();
         for (String key : applicationData.keySet())

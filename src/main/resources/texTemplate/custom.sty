@@ -1,16 +1,6 @@
 \ProvidesPackage{custom}
 \RequirePackage{xcolor}
 
-%column title highlighting
-\newcommand{\columntitle}[1]{
-	\raggedleft\textcolor{cyan}{\Large#1}
-}
-
-%custom section highlighting
-\newcommand{\customsection}[2]{
-	\textcolor{cyan}{\Large#1}{\Large#2}
-}
-
 %headerbox section
 \newcommand{\headerbox}[5]{
 	\hspace{-#1}% has to be the same amount as the paper margin
@@ -40,31 +30,46 @@
 }
 }
 
-%career section
-\newcommand{\career}[4]{
-	\columntitle{#1} & \textbf{#2}
-	\newline{#3}\newline{#4}
-	\newline\newline
-	\vspace{-1.8em}
+%column title highlighting
+\newcommand{\columntitle}[1]{
+	\raggedleft\textcolor{cyan}{\Large#1}
 }
 
-%education section
-\newcommand{\education}[3]{
-	\columntitle{#1} & \textbf{#2}
-	\newline{#3}
-	\newline\newline
-	\vspace{-1.8em}
+%column title highlighting
+\newcommand{\columnsubtitle}[1]{
+	\columntitle{\large#1}
 }
 
-%skills section
-\newcommand{\skills}[3]{
-	\columntitle{#1} & \normalsize{#2}\newline{#3}
-	\vspace{1em}
+%column title highlighting
+\newcommand{\tabletitle}[1]{
+	\centering #1
 }
 
-%self extending list with unlimited paramters
-\newcommand{\itemlist}[1]{%
+%custom section highlighting
+\newcommand{\customsection}[2]{
+	\vspace{3em}
+	\textcolor{cyan}{\Large#1}{\Large#2}
+}
+
+\newcommand{\singleitem}[1]{
+	\large{#1}\newline
+}
+
+%list of items for skills
+\newcommand{\activity}[1]{
+	\Large\textbf{#1}\checknextarg
+}
+
+%list of items with line break after n-th arg
+\newcommand{\newlinelist}[1]{%
     \large#1\checknextarg
 }
 \newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
 \newcommand{\gobblenextarg}[1]{\newline\large#1\@ifnextchar\bgroup{\gobblenextarg}{\newline}}
+
+%comma separated list
+\newcommand{\commaseparatedlist}[1]{%
+    \large#1\nextargprojects
+}
+\newcommand{\nextargprojects}{\@ifnextchar\bgroup{\getnextarg}{}}
+\newcommand{\getnextarg}[1]{, #1\@ifnextchar\bgroup{\getnextarg}{\newline}}
