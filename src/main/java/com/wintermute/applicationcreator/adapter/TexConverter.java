@@ -1,11 +1,9 @@
 package com.wintermute.applicationcreator.adapter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class TexConverter
 {
@@ -69,16 +67,36 @@ public class TexConverter
         {
             if (!"soft".equals(focus))
             {
-               orderedSkillsByCategories.put(focus, generateSkills(orderByCategory((List) skills.get(focus))));
+                orderedSkillsByCategories.put(focus, generateSkills(orderByCategory((List) skills.get(focus))));
             }
         }
-        offsetSkills(orderedSkillsByCategories);
-        return orderedSkillsByCategories;
+        return offsetSkills(orderedSkillsByCategories);
     }
 
-    private void offsetSkills(Map<String, List<String>> skillsLists)
+    private Map<String, List<String>> offsetSkills(Map<String, List<String>> skillsLists)
     {
-        //TODO: offset the size between lists
+        List<String> keys = new ArrayList<>(skillsLists.keySet());
+        List<String> firstCategry = skillsLists.get(keys.get(0));
+        List<String> secondCategory = skillsLists.get(keys.get(1));
+
+        if (firstCategry.size() > secondCategory.size())
+        {
+            List<String> offsetList = offsetLists(firstCategry, secondCategory);
+            skillsLists.put(keys.get(1), offsetList);
+        } else
+        {
+            List<String> offsetList = offsetLists(secondCategory, firstCategry);
+            skillsLists.put(keys.get(0), offsetList);
+        }
+        return skillsLists;
+    }
+
+    private List<String> offsetLists(List<String> bigger, List<String>smaller){
+        for (int i = 0; i < bigger.size() - smaller.size(); i++)
+        {
+            smaller.add("& \\\\");
+        }
+        return smaller;
     }
 
     private List<String> generateSkills(Map<String, Object> skillsByCategory)
@@ -88,7 +106,8 @@ public class TexConverter
         for (Map.Entry<String, Object> elem : skillsByCategory.entrySet())
         {
             texLine = new StringBuilder("\\columntitle{").append(elem.getKey()).append("} & \newlinelist");
-            for (String skill :  (List<String>) elem.getValue()){
+            for (String skill : (List<String>) elem.getValue())
+            {
                 texLine.append("{").append(skill).append("}");
             }
             result.add(texLine.toString());
@@ -115,10 +134,10 @@ public class TexConverter
     private List<String> generateCareer(String careerType)
     {
         Map<String, Object> career = (Map<String, Object>) data.get("career");
-        return getEducation((List<Map<String, Object>>) career.get(careerType), careerType);
+        return getCareerByType((List<Map<String, Object>>) career.get(careerType), careerType);
     }
 
-    private List<String> getEducation(List<Map<String, Object>> careerInfo, String careerType)
+    private List<String> getCareerByType(List<Map<String, Object>> careerInfo, String careerType)
     {
         List<String> result = new ArrayList<>();
         StringBuilder texLine;
@@ -128,8 +147,8 @@ public class TexConverter
                 .append(career.get("from"))
                 .append(" -- ")
                 .append(career.get("until"))
-                .append("\\activity{");
-            if ("".equals(careerType))
+                .append("} & \\activity{");
+            if ("educationalCareer".equals(careerType))
             {
                 texLine.append(career.get("school")).append("}{").append(career.get("graduation"));
             } else
@@ -141,7 +160,7 @@ public class TexConverter
                     .append("}{")
                     .append(career.get("description"));
             }
-            texLine.append("}");
+            texLine.append("}\\\\");
             result.add(texLine.toString());
         }
         return result;
