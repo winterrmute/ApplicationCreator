@@ -115,7 +115,7 @@ public class TexConverter
         {
             texLine = new StringBuilder();
             buildStatement(texLine, "\\columntitle{", language.getKey(),
-                "} & \\singleitem{" + language.getValue().split("[0-9] ")[1], "}\\");
+                "} & \\singleitem{" + language.getValue().split("[0-9] ")[1], "}\\\\");
             result.add(texLine.toString());
         }
         return result;
@@ -217,7 +217,7 @@ public class TexConverter
         StringBuilder texLine;
         for (Map.Entry<String, Object> elem : skillsByCategory.entrySet())
         {
-            texLine = new StringBuilder("\\columntitle{").append(elem.getKey()).append("} & \newlinelist");
+            texLine = new StringBuilder("\\columntitle{").append(elem.getKey()).append("} & \\newlinelist");
             for (String skill : (List<String>) elem.getValue())
             {
                 texLine.append("{").append(skill).append("}");
