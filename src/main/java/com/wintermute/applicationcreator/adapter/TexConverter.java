@@ -41,7 +41,7 @@ public class TexConverter
     {
         Map<String, Object> personalInfo = (Map<String, Object>) data.get("info");
         String result = "\\faEnvelopeO\\/ street | \\faMapMarker\\/ city | \\faPhone\\/ phonenumber "
-            + "|\t\\faAt\\protect\\/ email";
+            + "|\\faAt\\protect\\/ email";
         Map<String, String> replacements = new HashMap<>();
         replacements.put("street", extractEntry(personalInfo, "contact", "address"));
         replacements.put("city", extractEntry(personalInfo, "contact", "city"));
