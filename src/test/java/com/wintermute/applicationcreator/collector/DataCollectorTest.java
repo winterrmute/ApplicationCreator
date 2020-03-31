@@ -12,7 +12,6 @@ import java.io.Reader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 
 public class DataCollectorTest
@@ -28,7 +27,8 @@ public class DataCollectorTest
     }
 
     @Test
-    public void getDataFromJson(){
+    public void getDataFromJson()
+    {
         DataCollector underTest = new DataCollector(data);
         Map<String, Object> data = underTest.getData();
         Map<String, Object> info = (Map<String, Object>) data.get("info");

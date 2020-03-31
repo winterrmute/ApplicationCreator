@@ -1,6 +1,7 @@
 package com.wintermute.applicationcreator.adapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -8,7 +9,14 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+/**
+ * Converts data into tex statements for provided template.
+ *
+ * @author wintermute
+ */
 public class TexConverter
 {
     private Map<String, Object> data;
@@ -18,27 +26,48 @@ public class TexConverter
         this.data = data;
     }
 
+    public Map<String, Object> getConvertedData()
+    {
+        Map<String, Object> result = new HashMap<>();
+        result.put("header_placeholder", getHeaderData());
+        result.put("persnoal_information_placeholder", getPersonalInfo());
+        result.put("career_placeholder", getCareer("professionalCareer"));
+        result.put("education_placeholder", getCareer("educationalCareer"));
+        result.put("misc_placeholder", "TODO");
+        final Map<String, List<String>> skills = getSkills();
+        final Object[] keys = skills.keySet().toArray();
+        result.put("soft_skills", getSoftSkills());
+        result.put("first_category_skills_placeholder", skills.get(keys[0]));
+        result.put("second_category_skills_placeholder", skills.get(keys[1]));
+        result.put("projects_placeholder", getProjects());
+        result.put("languages_placeholder", getSpokenLanguages());
+        result.put("hobbies_placeholder", getHobbies());
+
+        return result;
+    }
+
     /**
      * @return header in tex
      */
-    public String generateHeader()
+    String getHeaderData()
     {
         Map<String, Object> headerData = (Map<String, Object>) data.get("info");
         String prefix = "\\headerbox{1.2cm}{darkgray}{white}{";
-        String suffix = "}{pics/pic.jpg}";
+        String suffix = "}{pics/pic2.jpg}";
         StringBuilder texLine = new StringBuilder();
-        buildStatement(texLine, prefix, headerData.get("firstName").toString(), "\\\\ ", headerData.get("lastName").toString(), suffix);
+        buildStatement(texLine, prefix, headerData.get("firstName").toString(), "\\\\ ",
+            headerData.get("lastName").toString(), suffix);
         return texLine.toString();
     }
 
     /**
      * @return personal info as tex
      */
-    public String generatePersonalInfo()
+    String getPersonalInfo()
     {
         Map<String, Object> personalInfo = (Map<String, Object>) data.get("info");
-        String result = "\\faEnvelopeO\\/ street | \\faMapMarker\\/ city | \\faPhone\\/ phonenumber "
-            + "|\\faAt\\protect\\/ email";
+        String result =
+            "\\faEnvelopeO\\/ street | \\faMapMarker\\/ city | \\faPhone\\/ phonenumber " + "|\\faAt\\protect\\/ email";
         Map<String, String> replacements = new HashMap<>();
         replacements.put("street", extractEntry(personalInfo, "contact", "address"));
         replacements.put("city", extractEntry(personalInfo, "contact", "city"));
@@ -52,32 +81,36 @@ public class TexConverter
      * @param careerType of which details should be get.
      * @return all information of picked career as tex.
      */
-    public List<String> getCareerInfo(String careerType)
+    List<String> getCareerInfo(String careerType)
     {
-        return generateCareer(careerType);
+        return getCareer(careerType);
     }
 
     /**
      * @return skills organized by focus and category as tex.
      */
-    public Map<String, List<String>> getSkills()
+    Map<String, List<String>> getSkills()
     {
-        Map<String, Object> skills = (Map<String, Object>) data.get("skills");
         Map<String, List<String>> orderedSkillsByCategories = new HashMap<>();
+        Map<String, Object> skills = (Map<String, Object>) data.get("skills");
+        Object[] lists = skills.values().toArray();
+        offsetLists((List<Map<String, Object>>) lists[0], (List<Map<String, Object>>) lists[1]);
+
         for (String focus : skills.keySet())
         {
             if (!"soft".equals(focus))
             {
-                orderedSkillsByCategories.put(focus, generateSkills(orderByCategory((List) skills.get(focus))));
+                List value = generateSkills(orderByCategory((List) skills.get(focus)));
+                orderedSkillsByCategories.put(focus, value);
             }
         }
-        return offsetSkills(orderedSkillsByCategories);
+        return orderedSkillsByCategories;
     }
 
     /**
      * @return organized projects as tex.
      */
-    public List<String> getProjects()
+    List<String> getProjects()
     {
         List<String> result = new ArrayList<>();
         List<Map<String, Object>> projects = (List<Map<String, Object>>) data.get("projects");
@@ -101,7 +134,7 @@ public class TexConverter
     /**
      * @return sorted languages by number contained in json and converted to tex.
      */
-    public List<String> getSpokenLanguages()
+    List<String> getSpokenLanguages()
     {
         Map<String, Object> info = (Map<String, Object>) data.get("info");
         Map<String, String> spokenLanguages = sortByValue((Map<String, String>) info.get("spokenLanguages"));
@@ -121,7 +154,7 @@ public class TexConverter
     /**
      * @return list of personal interests.
      */
-    public String getHobbys()
+    String getHobbies()
     {
         Map<String, Object> info = (Map<String, Object>) data.get("info");
         return getCommaSeparatedTex((List<String>) info.get("personalInterests"));
@@ -130,7 +163,7 @@ public class TexConverter
     /**
      * @return list of personal strenghts.
      */
-    public String getPersonalStrenghts()
+    String getSoftSkills()
     {
         Map<String, Object> skills = (Map<String, Object>) data.get("skills");
         return getCommaSeparatedTex((List<String>) skills.get("soft"));
@@ -181,29 +214,38 @@ public class TexConverter
         }
     }
 
-    private Map<String, List<String>> offsetSkills(Map<String, List<String>> skillsLists)
+    private List<Map<String, Object>> offsetLists(List<Map<String, Object>> first, List<Map<String, Object>> second)
     {
-        List<String> keys = new ArrayList<>(skillsLists.keySet());
-        List<String> firstCategry = skillsLists.get(keys.get(0));
-        List<String> secondCategory = skillsLists.get(keys.get(1));
+        //offset is needed to beautify skills layout
+        int offset = calculateOffset(first, second);
 
-        if (firstCategry.size() > secondCategory.size())
+        Set<Object> firstCategory = first.stream().map(e -> e.get("category")).collect(Collectors.toSet());
+        Set<Object> secondCategory = second.stream().map(e -> e.get("category")).collect(Collectors.toSet());
+        offset += calculateOffset(firstCategory, secondCategory) + 1;
+
+        List<Map<String, Object>> offsetTarget;
+        if (first.size() > second.size())
         {
-            List<String> offsetList = offsetLists(firstCategry, secondCategory);
-            skillsLists.put(keys.get(1), offsetList);
+            offsetTarget = second;
         } else
         {
-            List<String> offsetList = offsetLists(secondCategory, firstCategry);
-            skillsLists.put(keys.get(0), offsetList);
+            offsetTarget = first;
         }
-        return skillsLists;
+        return offsetElements(offset, offsetTarget);
     }
 
-    private List<String> offsetLists(List<String> bigger, List<String> smaller)
+    private int calculateOffset(Collection first, Collection second)
     {
-        for (int i = 0; i < bigger.size() - smaller.size(); i++)
+        final int max = Math.max(first.size(), second.size());
+        final int min = Math.min(first.size(), second.size());
+        return max - min;
+    }
+
+    private List<Map<String, Object>> offsetElements(int offset, List<Map<String, Object>> smaller)
+    {
+        for (int i = 0; i < offset; i++)
         {
-            smaller.add("& \\\\");
+            smaller.add(Collections.singletonMap("category", "blank"));
         }
         return smaller;
     }
@@ -214,14 +256,45 @@ public class TexConverter
         StringBuilder texLine;
         for (Map.Entry<String, Object> elem : skillsByCategory.entrySet())
         {
-            texLine = new StringBuilder("\\columntitle{").append(elem.getKey()).append("} & \\newlinelist");
+            if ("blank".equals(elem.getKey()))
+            {
+                texLine = new StringBuilder();
+            } else
+            {
+                texLine = new StringBuilder("\\columntitle{").append(elem.getKey()).append("} & \\newlinelist");
+            }
             for (String skill : (List<String>) elem.getValue())
             {
-                texLine.append("{").append(skill).append("}");
+                if (skill == null)
+                {
+                    result.add("& \\\\");
+                } else
+                {
+                    texLine.append("{").append(skill).append("}");
+                }
             }
-            result.add(texLine.toString());
+            result.add(texLine.append("\\\\").toString());
+        }
+        if (result.contains("& \\\\"))
+        {
+            repairContainingBlank(result);
         }
         return result;
+    }
+
+    private void repairContainingBlank(List<String> list)
+    {
+        List<String> toMove = new ArrayList<>();
+        for (String elem : list)
+        {
+            if ("& \\\\".equals(elem))
+            {
+                toMove.add(elem);
+            }
+        }
+        list.removeAll(toMove);
+        list.addAll(toMove);
+        list.remove("\\\\");
     }
 
     private Map<String, List<String>> orderByCategory(List<Map<String, Object>> skills)
@@ -240,7 +313,7 @@ public class TexConverter
         return result;
     }
 
-    private List<String> generateCareer(String careerType)
+    private List<String> getCareer(String careerType)
     {
         Map<String, Object> career = (Map<String, Object>) data.get("career");
         return getCareerByType((List<Map<String, Object>>) career.get(careerType), careerType);

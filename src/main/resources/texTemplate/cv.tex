@@ -11,13 +11,11 @@
 
 
 \begin{document}
-%Header
-\headerbox{1.2cm}{darkgray}{white}{Name\\ Surname}{pics/pic.jpg}
+%header_placeholder
 \begin{center}
 {	
 	\small
-	%persnoal_information 
-	\faEnvelopeO\/ street | \faMapMarker\/ city | \faPhone\/ phonenumber |	\faAt\protect\/ email
+	%persnoal_information_placeholder
 }
 \end{center}
 
@@ -29,23 +27,21 @@
 \customsection{Car}{eer}
 
 \begin{tabular}{p{11em}| p{25em}}
-	%career
-	\columntitle{from -- until} & \activity{company}{job title}{description}\\
+	%career_placeholder
 \end{tabular}
 
 %Career
 \customsection{Edu}{cation}
 
 \begin{tabular}{p{11em}| p{25em} c}
-	\columntitle{from -- until} & \activity{school}{graduation}\\
+	%education_placeholder
 \end{tabular}
 
 %Career
 \customsection{Mis}{c}
 
 \begin{tabular}{p{11em}| p{25em} c}
-	\columntitle{from -- until} & \activity
-	{Project}{Main subject}{description}\\
+	%misc_placeholder
 \end{tabular}
 
 %Skills
@@ -61,41 +57,37 @@
 
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{tabular}{p{11em}| p{25em}}
-		\columntitle{category} & \newlinelist{list}{other\_list} \\				\columntitle{category} & \newlinelist{list} \\
+		%first_category_skills_placeholder
 	\end{tabular}
 \end{minipage}
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{tabular}{p{11em}| p{25em}}
-		\columntitle{category} & \newlinelist{list} \\
-		& \\
-		& \\
-		& \\
-		& \\
+		%second_category_skills_placeholder
 	\end{tabular}
 \end{minipage}
 
 \customsection{Per}{sonal characteristics}
 
+%soft_skills
+
 %Projects
 \customsection{Pro}{jects}
 
 \begin{tabular}{p{11em}| p{25em} c}
-	\columntitle{from -- until} & \activity
-	{title}{subject}{description}\\
-	\columnsubtitle{subtitle} & \commaseparatedlist{elem1}{elem2}\\
+	%projects_placeholder
 \end{tabular}
 
 %Languages
 \customsection{Lan}{guages}
 
 \begin{tabular}{p{11em}| p{25em} c}
-	\columntitle{language} & \singleitem{level}\\
+	%languages_placeholder
 \end{tabular}
 
 
 %Hobbies
 \customsection{Hob}{bies}
 
-\commaseparatedlist{hobby\_list}
+%hobbies_placeholder
 
 \end{document}

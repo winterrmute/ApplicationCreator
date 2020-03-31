@@ -42,14 +42,14 @@
     ],
     "professionalCareer": [
       {
-        "from": "15.05.1209",
+        "from": "05/1209",
         "until": "today",
         "job": "protagonist in necronomicon",
         "company": "Unknown",
         "description": "god"
       },
       {
-        "from": "15.05.2017",
+        "from": "05/2017",
         "until": "31.12.2018",
         "job": "antagonist in The Dreams in the Witch-House",
         "company": "H.P. Lovecraft",
@@ -70,6 +70,16 @@
         "description": "flying through universe",
         "rating": 8,
         "category": "god"
+      },
+      {
+        "description": "flying through universe",
+        "rating": 8,
+        "category": "other"
+      },
+      {
+        "description": "flying through universe",
+        "rating": 8,
+        "category": "other"
       },
       {
         "description": "reality warping",
