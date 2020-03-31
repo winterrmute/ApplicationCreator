@@ -37,6 +37,10 @@ public class TexConverterTest
         List<String> education = underTest.getCareerInfo("educationalCareer");
         List<String> professional = underTest.getCareerInfo("professionalCareer");
         Map<String, List<String>> skills = underTest.getSkills();
+        List<String> projects = underTest.getProjects();
+        List<String> languages = underTest.getSpokenLanguages();
+        String interests = underTest.getHobbys();
+        String strenghts = underTest.getPersonalStrenghts();
         System.out.println(header + "\n" + info);
     }
 }

@@ -9,11 +9,14 @@
       "email": "prayer@god.org"
     },
     "spokenLanguages": {
-      "R’lyehian": "native speaker",
-      "Quendian": "good"
+      "R’lyehian": "1 native speaker",
+      "Quendian": "2 advanced",
+      "polnisch": "3 good",
+      "spanish": "4 beginner"
     },
     "personalInterests": [
-      "Destroying worlds"
+      "Destroying worlds",
+      "Beeing god"
     ]
   },
   "career": {
@@ -101,13 +104,13 @@
       "position": "Outer god",
       "tools": {
         "languages": [
-          "chaos"
+          "chaos", "something other"
         ],
         "frameworks": [
-          "metapotence"
+          "metapotence", "second element"
         ],
         "other": [
-          "beeing god"
+          "beeing god", "beeing immortal"
         ]
       }
     },

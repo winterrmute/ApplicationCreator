@@ -36,7 +36,7 @@ public class DataCollectorTest
         Map<String, Object> contact = (Map<String, Object>) info.get("contact");
         assertThat(contact.get("address")).isEqualTo("Somwhere in universe");
         Map<String, String> languges = (Map) info.get("spokenLanguages");
-        assertThat(languges.keySet().size()).isEqualTo(2);
-        assertThat(languges.get("R’lyehian")).isEqualTo("native speaker");
+        assertThat(languges.keySet().size()).isEqualTo(4);
+        assertThat(languges.get("R’lyehian")).isEqualTo("1 native speaker");
     }
 }

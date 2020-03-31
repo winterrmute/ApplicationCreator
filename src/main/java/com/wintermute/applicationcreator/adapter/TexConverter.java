@@ -1,7 +1,11 @@
 package com.wintermute.applicationcreator.adapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +35,7 @@ public class TexConverter
     }
 
     /**
-     * @return personal info in tex
+     * @return personal info as tex
      */
     public String generatePersonalInfo()
     {
@@ -49,7 +53,7 @@ public class TexConverter
 
     /**
      * @param careerType of which details should be get.
-     * @return all information of picked career.
+     * @return all information of picked career as tex.
      */
     public List<String> getCareerInfo(String careerType)
     {
@@ -57,7 +61,7 @@ public class TexConverter
     }
 
     /**
-     * @return skills organized by focus and category.
+     * @return skills organized by focus and category as tex.
      */
     public Map<String, List<String>> getSkills()
     {
@@ -71,6 +75,113 @@ public class TexConverter
             }
         }
         return offsetSkills(orderedSkillsByCategories);
+    }
+
+    /**
+     * @return organized projects as tex.
+     */
+    public List<String> getProjects()
+    {
+        List<String> result = new ArrayList<>();
+        List<Map<String, Object>> projects = (List<Map<String, Object>>) data.get("projects");
+
+        StringBuilder texLine;
+        for (Map<String, Object> project : projects)
+        {
+            texLine = new StringBuilder();
+            buildStatement(texLine, "\\columntitle{", (String) project.get("from"), " -- ",
+                (String) project.get("until"), "} & \\activity{", (String) project.get("summary"), "}{",
+                (String) project.get("position"), "}{", (String) project.get("description"), "}\\\\");
+
+            getToolsForProject(texLine, (Map<String, List<String>>) project.get("tools"));
+
+            result.add(texLine.toString());
+        }
+
+        return result;
+    }
+
+    /**
+     * @return sorted languages by number contained in json and converted to tex.
+     */
+    public List<String> getSpokenLanguages()
+    {
+        Map<String, Object> info = (Map<String, Object>) data.get("info");
+        Map<String, String> spokenLanguages = sortByValue((Map<String, String>) info.get("spokenLanguages"));
+
+        List<String> result = new ArrayList<>();
+        StringBuilder texLine;
+        for (Map.Entry<String, String> language : spokenLanguages.entrySet())
+        {
+            texLine = new StringBuilder();
+            buildStatement(texLine, "\\columntitle{", language.getKey(),
+                "} & \\singleitem{" + language.getValue().split("[0-9] ")[1], "}\\");
+            result.add(texLine.toString());
+        }
+        return result;
+    }
+
+    /**
+     * @return list of personal interests.
+     */
+    public String getHobbys()
+    {
+        Map<String, Object> info = (Map<String, Object>) data.get("info");
+        return getCommaSeparatedTex((List<String>) info.get("personalInterests"));
+    }
+
+    /**
+     * @return list of personal strenghts.
+     */
+    public String getPersonalStrenghts()
+    {
+        Map<String, Object> skills = (Map<String, Object>) data.get("skills");
+        return getCommaSeparatedTex((List<String>) skills.get("soft"));
+    }
+
+    private String getCommaSeparatedTex(List<String> input)
+    {
+        StringBuilder texLine = new StringBuilder("\\commaseparatedlist");
+        for (String elem : input)
+        {
+            buildStatement(texLine, "{" + elem + "}");
+        }
+        return texLine.toString();
+    }
+
+    private static Map<String, String> sortByValue(Map<String, String> target)
+    {
+        List<Map.Entry<String, String>> list = new LinkedList<>(target.entrySet());
+        Collections.sort(list, Comparator.comparing(Map.Entry::getValue));
+
+        Map<String, String> sortedMap = new LinkedHashMap<String, String>();
+        for (Map.Entry<String, String> entry : list)
+        {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap;
+    }
+
+    private void getToolsForProject(StringBuilder target, Map<String, List<String>> tools)
+    {
+        for (Map.Entry<String, List<String>> category : tools.entrySet())
+        {
+            buildStatement(target, " \\columnsubtitle{", category.getKey(), "} & \\commaseparatedlist");
+            for (String elem : category.getValue())
+            {
+                buildStatement(target, "{", elem, "}");
+            }
+            target.append("\\\\");
+        }
+    }
+
+    private void buildStatement(StringBuilder target, String... keys)
+    {
+        for (String key : keys)
+        {
+            target.append(key);
+        }
     }
 
     private Map<String, List<String>> offsetSkills(Map<String, List<String>> skillsLists)
@@ -91,7 +202,8 @@ public class TexConverter
         return skillsLists;
     }
 
-    private List<String> offsetLists(List<String> bigger, List<String>smaller){
+    private List<String> offsetLists(List<String> bigger, List<String> smaller)
+    {
         for (int i = 0; i < bigger.size() - smaller.size(); i++)
         {
             smaller.add("& \\\\");
@@ -143,22 +255,16 @@ public class TexConverter
         StringBuilder texLine;
         for (Map<String, Object> career : careerInfo)
         {
-            texLine = new StringBuilder("\\columntitle{")
-                .append(career.get("from"))
-                .append(" -- ")
-                .append(career.get("until"))
-                .append("} & \\activity{");
+            texLine = new StringBuilder();
+            buildStatement(texLine, "\\columntitle{", (String) career.get("from"), " -- ", (String) career.get("until"),
+                "} & \\activity{");
             if ("educationalCareer".equals(careerType))
             {
-                texLine.append(career.get("school")).append("}{").append(career.get("graduation"));
+                buildStatement(texLine, (String) career.get("school"), "}{", (String) career.get("graduation"));
             } else
             {
-                texLine
-                    .append(career.get("company"))
-                    .append("}{")
-                    .append(career.get("job"))
-                    .append("}{")
-                    .append(career.get("description"));
+                buildStatement(texLine, (String) career.get("company"), "}{", (String) career.get("job"), "}{",
+                    (String) career.get("description"));
             }
             texLine.append("}\\\\");
             result.add(texLine.toString());
