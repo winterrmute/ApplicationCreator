@@ -24,12 +24,6 @@ import java.util.Map;
  */
 public class TexCreator
 {
-    private static final List<String> PLACEHOLDERS =
-        Arrays.asList("header_placeholder", "persnoal_information_placeholder", "career_placeholder",
-            "education_placeholder", "misc_placeholder", "first_category_skills_placeholder",
-            "second_category_skills_placeholder", "projects_placeholder", "languages_placeholder",
-            "hobbies_placeholder");
-
     private String pattern = "(\\t)|(%)";
     private JsonObject data;
 

@@ -33,9 +33,10 @@ public class TexConverter
         result.put("persnoal_information_placeholder", getPersonalInfo());
         result.put("career_placeholder", getCareer("professionalCareer"));
         result.put("education_placeholder", getCareer("educationalCareer"));
-        result.put("misc_placeholder", "TODO");
         final Map<String, List<String>> skills = getSkills();
         final Object[] keys = skills.keySet().toArray();
+        result.put("skills_title1", "\\tabletitle{" + keys[0] + "}");
+        result.put("skills_title2", "\\tabletitle{" + keys[1] + "}");
         result.put("soft_skills", getSoftSkills());
         result.put("first_category_skills_placeholder", skills.get(keys[0]));
         result.put("second_category_skills_placeholder", skills.get(keys[1]));
