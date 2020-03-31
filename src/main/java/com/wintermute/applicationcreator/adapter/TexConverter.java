@@ -26,12 +26,9 @@ public class TexConverter
         Map<String, Object> headerData = (Map<String, Object>) data.get("info");
         String prefix = "\\headerbox{1.2cm}{darkgray}{white}{";
         String suffix = "}{pics/pic.jpg}";
-        return new StringBuilder(prefix)
-            .append(headerData.get("firstName").toString())
-            .append("\\\\ ")
-            .append(headerData.get("lastName").toString())
-            .append(suffix)
-            .toString();
+        StringBuilder texLine = new StringBuilder();
+        buildStatement(texLine, prefix, headerData.get("firstName").toString(), "\\\\ ", headerData.get("lastName").toString(), suffix);
+        return texLine.toString();
     }
 
     /**
