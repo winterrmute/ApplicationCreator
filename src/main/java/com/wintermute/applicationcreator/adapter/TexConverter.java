@@ -1,6 +1,7 @@
 package com.wintermute.applicationcreator.adapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,6 +18,8 @@ import java.util.Map;
  */
 public class TexConverter
 {
+    private static final List<String> RESERVED_CHARS = Arrays.asList("#", "$", "%", "&", "{", "}", "_", "~", "^");
+
     private Map<String, Object> data;
 
     public TexConverter(Map<String, Object> data)
@@ -31,8 +34,8 @@ public class TexConverter
         result.put("persnoal_information_placeholder", getPersonalInfo());
         result.put("career_placeholder", getCareer("professionalCareer"));
         result.put("education_placeholder", getCareer("educationalCareer"));
-        final Map<String, List<String>> skills = getSkills();
-        final Object[] keys = skills.keySet().toArray();
+        Map<String, List<String>> skills = getSkills();
+        Object[] keys = skills.keySet().toArray();
         result.put("skills_title1", "\\tabletitle{" + keys[0] + "}");
         result.put("skills_title2", "\\tabletitle{" + keys[1] + "}");
         result.put("soft_skills", getSoftSkills());
@@ -54,8 +57,8 @@ public class TexConverter
         String prefix = "\\headerbox{1.2cm}{darkgray}{white}{";
         String suffix = "}{pics/pic2.jpg}";
         StringBuilder texLine = new StringBuilder();
-        buildStatement(texLine, prefix, headerData.get("firstName").toString(), "\\\\ ",
-            headerData.get("lastName").toString(), suffix);
+        buildStatement(texLine, prefix, sanitize(headerData.get("firstName").toString()), "\\\\ ",
+            sanitize(headerData.get("lastName").toString()), suffix);
         return texLine.toString();
     }
 
@@ -166,6 +169,19 @@ public class TexConverter
         return getCommaSeparatedTex((List<String>) skills.get("soft"));
     }
 
+    private String sanitize(String target)
+    {
+        for (String illegalChar : RESERVED_CHARS)
+        {
+            if (target.contains(illegalChar))
+            {
+                String legalChar = "\\" + illegalChar;
+                target = target.replace(illegalChar, legalChar);
+            }
+        }
+        return target;
+    }
+
     private String getCommaSeparatedTex(List<String> input)
     {
         StringBuilder texLine = new StringBuilder("\\commaseparatedlist");
@@ -194,7 +210,8 @@ public class TexConverter
     {
         for (Map.Entry<String, List<String>> category : tools.entrySet())
         {
-            if (!category.getValue().get(0).equals("")){
+            if (!category.getValue().get(0).equals(""))
+            {
                 buildStatement(target, " \\columnsubtitle{", category.getKey(), "} & \\commaseparatedlist");
                 for (String elem : category.getValue())
                 {
@@ -248,26 +265,7 @@ public class TexConverter
             }
             result.add(texLine.append("\\\\").toString());
         }
-        if (result.contains("& \\\\"))
-        {
-            repairContainingBlank(result);
-        }
         return result;
-    }
-
-    private void repairContainingBlank(List<String> list)
-    {
-        List<String> toMove = new ArrayList<>();
-        for (String elem : list)
-        {
-            if ("& \\\\".equals(elem))
-            {
-                toMove.add(elem);
-            }
-        }
-        list.removeAll(toMove);
-        list.addAll(toMove);
-        list.remove("\\\\");
     }
 
     private Map<String, List<String>> orderByCategory(List<Map<String, Object>> skills)
@@ -276,11 +274,10 @@ public class TexConverter
         List<String> listByCategory;
         for (Map<String, Object> skill : skills)
         {
-            String category = (String) skill.get("category");
-
+            String category = sanitize(skill.get("category").toString());
             result.putIfAbsent(category, new ArrayList<>());
             listByCategory = result.get(category);
-            listByCategory.add((String) skill.get("description"));
+            listByCategory.add(sanitize(skill.get("description").toString()));
             result.put(category, listByCategory);
         }
         return result;
@@ -303,11 +300,12 @@ public class TexConverter
                 "} & \\activity{");
             if ("educationalCareer".equals(careerType))
             {
-                buildStatement(texLine, (String) career.get("school"), "}{", (String) career.get("graduation"));
+                buildStatement(texLine, sanitize(career.get("school").toString()), "}{",
+                    sanitize(career.get("graduation").toString()));
             } else
             {
-                buildStatement(texLine, (String) career.get("company"), "}{", (String) career.get("job"), "}{",
-                    (String) career.get("description"));
+                buildStatement(texLine, sanitize(career.get("company").toString()), "}{", sanitize(career.get("job").toString()), "}{",
+                    (String) sanitize(career.get("description").toString()));
             }
             texLine.append("}\\\\");
             result.add(texLine.toString());

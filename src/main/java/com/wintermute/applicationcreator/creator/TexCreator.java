@@ -15,7 +15,6 @@ import java.io.Reader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +56,8 @@ public class TexCreator
             String line;
             while ((line = br.readLine()) != null)
             {
-                if (line.equals("\\customsection{Per}{sonal characteristics}")){
+                if (line.equals("\\customsection{Per}{sonal characteristics}"))
+                {
                     System.out.println();
                 }
                 String s = line.replaceAll(pattern, "");
