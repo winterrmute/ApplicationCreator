@@ -86,7 +86,7 @@ public class TexCreator
 
     File writeNewFile()
     {
-        final String path = "out/out.tex";
+        final String path = "src/main/resources/texTemplate/out.tex";
         File result = new File(path);
         try
         {
