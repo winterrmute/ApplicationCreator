@@ -10,7 +10,7 @@ public class TexCreatorTest
     @Test
     public void testCreatingFile() throws URISyntaxException
     {
-        TexCreator underTest = new TexCreator("kk.json");
+        TexCreator underTest = new TexCreator("data.json");
         underTest.createTexFile(
             Paths.get(TexCreatorTest.class.getClassLoader().getResource("cv.tex").toURI()).toFile());
     }

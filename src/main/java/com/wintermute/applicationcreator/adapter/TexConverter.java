@@ -55,10 +55,11 @@ public class TexConverter
     {
         Map<String, Object> headerData = (Map<String, Object>) data.get("info");
         String prefix = "\\headerbox{1.2cm}{darkgray}{white}{";
-        String suffix = "}{pics/pic2.jpg}";
+        String suffix = "}{pics/pic.jpg}";
         StringBuilder texLine = new StringBuilder();
         buildStatement(texLine, prefix, sanitize(headerData.get("firstName").toString()), "\\\\ ",
-            sanitize(headerData.get("lastName").toString()), suffix);
+            sanitize(headerData.get("lastName").toString()), "\\\\" + sanitize(headerData.get("jobtitle").toString()),
+            suffix);
         return texLine.toString();
     }
 
@@ -120,8 +121,9 @@ public class TexConverter
         {
             texLine = new StringBuilder();
             buildStatement(texLine, "\\columntitle{", (String) project.get("from"), " -- ",
-                (String) project.get("until"), "} & \\activity{", (String) project.get("summary"), "}{",
-                (String) project.get("position"), "}{", (String) project.get("description"), "}\\\\");
+                (String) project.get("until"), "} & \\activity{", (String) sanitize(project.get("summary").toString()),
+                "}{", (String) sanitize(project.get("position").toString()), "}{",
+                sanitize(project.get("description").toString()), "}\\\\");
 
             getToolsForProject(texLine, (Map<String, List<String>>) project.get("tools"));
 
@@ -187,7 +189,7 @@ public class TexConverter
         StringBuilder texLine = new StringBuilder("\\commaseparatedlist");
         for (String elem : input)
         {
-            buildStatement(texLine, "{" + elem + "}");
+            buildStatement(texLine, "{" + sanitize(elem) + "}");
         }
         return texLine.toString();
     }
@@ -304,7 +306,8 @@ public class TexConverter
                     sanitize(career.get("graduation").toString()));
             } else
             {
-                buildStatement(texLine, sanitize(career.get("company").toString()), "}{", sanitize(career.get("job").toString()), "}{",
+                buildStatement(texLine, sanitize(career.get("company").toString()), "}{",
+                    sanitize(career.get("job").toString()), "}{",
                     (String) sanitize(career.get("description").toString()));
             }
             texLine.append("}\\\\");
