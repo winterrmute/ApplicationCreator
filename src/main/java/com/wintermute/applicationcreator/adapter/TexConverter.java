@@ -9,8 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Converts data into tex statements for provided template.
@@ -94,8 +92,6 @@ public class TexConverter
     {
         Map<String, List<String>> orderedSkillsByCategories = new HashMap<>();
         Map<String, Object> skills = (Map<String, Object>) data.get("skills");
-        Object[] lists = skills.values().toArray();
-        offsetLists((List<Map<String, Object>>) lists[0], (List<Map<String, Object>>) lists[1]);
 
         for (String focus : skills.keySet())
         {
@@ -198,12 +194,18 @@ public class TexConverter
     {
         for (Map.Entry<String, List<String>> category : tools.entrySet())
         {
-            buildStatement(target, " \\columnsubtitle{", category.getKey(), "} & \\commaseparatedlist");
-            for (String elem : category.getValue())
-            {
-                buildStatement(target, "{", elem, "}");
+            if (!category.getValue().get(0).equals("")){
+                buildStatement(target, " \\columnsubtitle{", category.getKey(), "} & \\commaseparatedlist");
+                for (String elem : category.getValue())
+                {
+                    buildStatement(target, "{", elem, "}");
+                }
+                if (category.getValue().size() == 1)
+                {
+                    target.append("\\newline");
+                }
+                target.append("\\\\");
             }
-            target.append("\\\\");
         }
     }
 
@@ -215,40 +217,11 @@ public class TexConverter
         }
     }
 
-    private List<Map<String, Object>> offsetLists(List<Map<String, Object>> first, List<Map<String, Object>> second)
-    {
-        //offset is needed to beautify skills layout
-        int offset = calculateOffset(first, second);
-
-        Set<Object> firstCategory = first.stream().map(e -> e.get("category")).collect(Collectors.toSet());
-        Set<Object> secondCategory = second.stream().map(e -> e.get("category")).collect(Collectors.toSet());
-        offset += calculateOffset(firstCategory, secondCategory) + 1;
-
-        List<Map<String, Object>> offsetTarget;
-        if (first.size() > second.size())
-        {
-            offsetTarget = second;
-        } else
-        {
-            offsetTarget = first;
-        }
-        return offsetElements(offset, offsetTarget);
-    }
-
     private int calculateOffset(Collection first, Collection second)
     {
         final int max = Math.max(first.size(), second.size());
         final int min = Math.min(first.size(), second.size());
         return max - min;
-    }
-
-    private List<Map<String, Object>> offsetElements(int offset, List<Map<String, Object>> smaller)
-    {
-        for (int i = 0; i < offset; i++)
-        {
-            smaller.add(Collections.singletonMap("category", "blank"));
-        }
-        return smaller;
     }
 
     private List<String> generateSkills(Map<String, Object> skillsByCategory)
@@ -257,13 +230,8 @@ public class TexConverter
         StringBuilder texLine;
         for (Map.Entry<String, Object> elem : skillsByCategory.entrySet())
         {
-            if ("blank".equals(elem.getKey()))
-            {
-                texLine = new StringBuilder();
-            } else
-            {
-                texLine = new StringBuilder("\\columntitle{").append(elem.getKey()).append("} & \\newlinelist");
-            }
+            texLine = new StringBuilder("\\columntitle{").append(elem.getKey()).append("} & \\newlinelist");
+
             for (String skill : (List<String>) elem.getValue())
             {
                 if (skill == null)
@@ -272,6 +240,10 @@ public class TexConverter
                 } else
                 {
                     texLine.append("{").append(skill).append("}");
+                }
+                if (((List<String>) elem.getValue()).size() == 1)
+                {
+                    texLine.append("\\newline");
                 }
             }
             result.add(texLine.append("\\\\").toString());
