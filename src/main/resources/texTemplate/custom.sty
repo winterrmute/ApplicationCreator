@@ -13,7 +13,7 @@
 	\Large\bfseries 
 
 	\vspace{1.5em}
-	\color{#3}{#4}
+	\headingfont\color{#3}{#4}
 
 	\end{minipage}\hfill
 	\begin{minipage}[t][][c]{0.3\textwidth}
@@ -32,15 +32,15 @@
 
 %column title highlighting
 \newcommand{\columntitle}[1]{
-	\raggedleft\textcolor{cyan}{\Large#1}
+	\raggedleft\textcolor{cyan}{\bodyfont\large#1}
 }
 
-%column title highlighting
+%column subtitle highlighting
 \newcommand{\columnsubtitle}[1]{
-	\columntitle{\large#1}
+	\columntitle{\bodyfont\large#1}
 }
 
-%column title highlighting
+%table title highlighting
 \newcommand{\tabletitle}[1]{
 	\centering #1
 }
@@ -48,28 +48,28 @@
 %custom section highlighting
 \newcommand{\customsection}[2]{
 	\vspace{3em}
-	\textcolor{cyan}{\Large#1}{\Large#2}
+	{\headingfont\huge\textcolor{cyan}{#1}}{\headingfont\huge\textcolor{gray}{#2}}
 }
 
 \newcommand{\singleitem}[1]{
-	\large{#1}\newline
+	\large{\thinfont#1}\newline
 }
 
 %list of items for skills
 \newcommand{\activity}[1]{
-	\Large\textbf{#1}\checknextarg
+	\Large\textbf{\bodyfont#1}\thinfont\checknextarg
 }
 
 %list of items with line break after n-th arg
 \newcommand{\newlinelist}[1]{%
-    \large#1\checknextarg
+    \thinfont\large#1\checknextarg
 }
 \newcommand{\checknextarg}{\@ifnextchar\bgroup{\gobblenextarg}{}}
-\newcommand{\gobblenextarg}[1]{\newline\large#1\@ifnextchar\bgroup{\gobblenextarg}{\newline}}
+\newcommand{\gobblenextarg}[1]{\vspace{0.4em}\newline\large#1\@ifnextchar\bgroup{\gobblenextarg}{\newline}}
 
 %comma separated list
 \newcommand{\commaseparatedlist}[1]{%
-    \large#1\nextargprojects
+    \thinfont\large#1\nextargprojects
 }
 \newcommand{\nextargprojects}{\@ifnextchar\bgroup{\getnextarg}{}}
 \newcommand{\getnextarg}[1]{, #1\@ifnextchar\bgroup{\getnextarg}{\newline}}
