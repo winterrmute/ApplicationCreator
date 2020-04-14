@@ -1,6 +1,43 @@
 \ProvidesPackage{custom}
 \RequirePackage{xcolor}
 
+%personal info cover letter
+\newcommand{\about}[1]{
+	\hfill\begin{minipage}{0.4\textwidth}
+		#1
+	\end{minipage}
+}
+
+\newcommand{\receipient}[1]{
+	\vspace{2.5em}\begin{minipage}{0.2\textwidth}
+		#1
+	\end{minipage}
+}
+
+\newcommand{\coverparagraph}[1]{
+	\vspace{1.5em}
+	\begin{minipage}{0.8\textwidth}
+		\bodyfont#1
+	\end{minipage}
+}
+
+\newcommand{\signatur}[1]{
+	\vspace{3em}
+	\coverparagraph{#1}
+}
+
+\newcommand{\coverlist}[1]{
+	\thinfont#1\covernextarg
+}
+
+
+\newcommand{\coversender}[1]{
+	\large{\bodyfont\textcolor{cyan}{#1}}
+}
+
+\newcommand{\covernextarg}{\@ifnextchar\bgroup{\covergobblenextarg}{}}
+\newcommand{\covergobblenextarg}[1]{\vspace{0.1em}\newline\small#1\@ifnextchar\bgroup{\covergobblenextarg}{\newline}}
+
 %headerbox section
 \newcommand{\headerbox}[5]{
 	\hspace{-#1}% has to be the same amount as the paper margin

@@ -1,0 +1,38 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{fontawesome}
+\usepackage{custom}
+\usepackage{geometry}
+\geometry{legalpaper, portrait, margin=0.5in}
+
+\newfontfamily\bodyfont{Roboto-Regular}[Path=fonts/]
+\newfontfamily\thinfont{Roboto-Thin}[Path=fonts/]
+\newfontfamily\headingfont{RobotoCondensed-Bold}[Path=fonts/]
+
+\begin{document}
+\about{\thinfont{:city:, den \today}}
+\vspace{2em}
+	
+\about{\thinfont\coverlist{\faUser\ \coversender
+{:name:}}
+{\faMapMarker\ \small :address:}
+{\small \faPhone\ :phone:}
+{\small \faAt\ :email:}
+{\small \faGithub\ :website:}}
+	
+\receipient{\coverlist{{\normalsize :company:}}{:recipient\_address:}}
+
+\customsection{:application\_topic:}{}
+
+\vspace{1em}
+\coverparagraph{
+Sehr geehrte Damen und Herren,}
+
+:text:
+
+\coverparagraph{Mit freundlichen Grüßen}
+
+\signatur{:name:}
+
+\end{document}

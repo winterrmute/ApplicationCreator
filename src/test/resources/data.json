@@ -1,12 +1,28 @@
 {
+  "recipient": {
+    "company": "Example copmpany",
+    "address": "Example address",
+    "city": "Example city"
+  },
+  "cover_letter": {
+    "application_topic": "Bewerbung als...",
+    "paragraphs": [
+      "Begrüßung",
+      "Einleitung",
+      "Text",
+      "Abschlussnote"
+    ]
+  },
   "info": {
     "firstName": "Azathoth",
     "lastName": "Outer",
+    "jobtitle": "God",
     "contact": {
       "address": "Somwhere in universe",
       "city": "arkham",
       "phone": "prayer",
-      "email": "prayer@god.org"
+      "email": "prayer@god.org",
+      "website": "www.github.com"
     },
     "spokenLanguages": {
       "R’lyehian": "1 native speaker",

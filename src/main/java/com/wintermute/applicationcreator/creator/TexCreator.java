@@ -1,92 +1,28 @@
 package com.wintermute.applicationcreator.creator;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.wintermute.applicationcreator.adapter.TexConverter;
-import com.wintermute.applicationcreator.collector.DataCollector;
-import lombok.SneakyThrows;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Gets data converted to tex and fits it into template
  */
-public class TexCreator
+public abstract class TexCreator
 {
-    private String pattern = "(\\t)|(%)";
-    private JsonObject data;
 
-    public TexCreator(String path)
+    public abstract void create(File file);
+
+    final Map<String, Object> data;
+
+    public TexCreator(Map<String, Object> data)
     {
-        try (Reader reader = Files.newBufferedReader(
-            Paths.get(TexCreator.class.getClassLoader().getResource(path).toURI())))
-        {
-            data = JsonParser.parseReader(reader).getAsJsonObject();
-        } catch (IOException | URISyntaxException e)
-        {
-            e.printStackTrace();
-        }
+        this.data = data;
     }
 
-    private Map<String, Object> getTexContent()
+    File writeNewFile(String name)
     {
-        DataCollector dataCollector = new DataCollector(data);
-        TexConverter converter = new TexConverter(dataCollector.getData());
-        return converter.getConvertedData();
-    }
-
-    @SneakyThrows
-    public void createTexFile(File file)
-    {
-        Map<String, Object> texContent = getTexContent();
-        File out = writeNewFile();
-        FileWriter fw = new FileWriter(out);
-        try (BufferedReader br = new BufferedReader(new FileReader(file)))
-        {
-            String line;
-            while ((line = br.readLine()) != null)
-            {
-                if (line.equals("\\customsection{Per}{sonal characteristics}"))
-                {
-                    System.out.println();
-                }
-                String s = line.replaceAll(pattern, "");
-                if (texContent.keySet().contains(s))
-                {
-                    if (texContent.get(s) instanceof String)
-                    {
-                        fw.write((String) texContent.get(s));
-                    } else if (texContent.get(s) instanceof List)
-                    {
-                        for (String texLine : (List<String>) texContent.get(s))
-                        {
-                            fw.write(texLine);
-                            fw.write("\n");
-                        }
-                    }
-                } else
-                {
-                    fw.write(line);
-                }
-                fw.write("\n");
-            }
-            fw.close();
-        }
-    }
-
-    File writeNewFile()
-    {
-        final String path = "src/main/resources/texTemplate/out.tex";
+        final String path = "src/main/resources/texTemplate/" + name + ".tex";
         File result = new File(path);
         try
         {
