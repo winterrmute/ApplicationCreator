@@ -67,11 +67,22 @@ public class CoverLetterCreator extends TexCreator
                 if (line.contains(":company:"))
                 {
                     line = line.replace(":company:", ((Map) data.get("recipient")).get("company").toString());
-                }
-                if (line.contains(":recipient\\_address:"))
-                {
-                    line = line.replace(":recipient\\_address:",
-                        ((Map) data.get("recipient")).get("address").toString());
+
+                    if (line.contains(":contact\\_person:"))
+                    {
+                        line = line.replace(":contact\\_person:",
+                            ((Map) data.get("recipient")).get("contact_person").toString());
+                    }
+                    if (line.contains(":recipient\\_address:"))
+                    {
+                        line = line.replace(":recipient\\_address:",
+                            ((Map) data.get("recipient")).get("address").toString());
+                    }
+                    if (line.contains(":recipient\\_city:"))
+                    {
+                        line = line.replace(":recipient\\_city:",
+                            ((Map) data.get("recipient")).get("city").toString());
+                    }
                 }
                 if (line.contains(":application\\_topic:"))
                 {

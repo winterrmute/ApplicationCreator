@@ -2,4 +2,5 @@
 .idea
 out
 build
+texTemplate/pics
 src/main/resources/data.json

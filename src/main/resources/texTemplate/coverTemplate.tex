@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
+\usepackage{graphicx}
 \usepackage{fontawesome}
 \usepackage{custom}
 \usepackage{geometry}
@@ -9,6 +10,8 @@
 \newfontfamily\bodyfont{Roboto-Regular}[Path=fonts/]
 \newfontfamily\thinfont{Roboto-Thin}[Path=fonts/]
 \newfontfamily\headingfont{RobotoCondensed-Bold}[Path=fonts/]
+
+\pagenumbering{gobble}
 
 \begin{document}
 \about{\thinfont{:city:, den \today}}
@@ -21,18 +24,17 @@
 {\small \faAt\ :email:}
 {\small \faGithub\ :website:}}
 	
-\receipient{\coverlist{{\normalsize :company:}}{:recipient\_address:}}
+\receipient{\coverlist{{\normalsize\bodyfont :company:}}{:contact\_person:}{:recipient\_address:}{:recipient\_city:}}
 
 \customsection{:application\_topic:}{}
 
 \vspace{1em}
-\coverparagraph{
-Sehr geehrte Damen und Herren,}
 
 :text:
 
 \coverparagraph{Mit freundlichen Grüßen}
 
-\signatur{:name:}
+\includegraphics[scale=0.5]{pics/signature.jpg}
+\newline\signatur{:name:}
 
 \end{document}

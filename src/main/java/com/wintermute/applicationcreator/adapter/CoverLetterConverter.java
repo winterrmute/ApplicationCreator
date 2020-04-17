@@ -24,13 +24,11 @@ public class CoverLetterConverter extends TexConverter
     @Override
     public Map<String, Object> getConvertedData()
     {
-        convertData("info", new String[]{"firstName", "lastName", "jobtitle", "contact"});
-        convertData("recipient", new String[]{"company", "address", "city"});
-        convertData("cover_letter", new String[]{"application_topic", "paragraphs"});
+        convertData("info", new String[] {"firstName", "lastName", "jobtitle", "contact"});
+        convertData("recipient", new String[] {"company", "contact_person", "address", "city"});
+        convertData("cover_letter", new String[] {"application_topic", "paragraphs"});
         return result;
     }
-
-
 
     private void convertData(String key, String[] subkeys)
     {
@@ -50,9 +48,10 @@ public class CoverLetterConverter extends TexConverter
             if (origin.get(key) instanceof String)
             {
                 tmp.put(key, sanitize(origin.get(key).toString()));
-            } else if (origin.get(key) instanceof List) {
+            } else if (origin.get(key) instanceof List)
+            {
                 List<String> list = new ArrayList<>();
-                ((List) origin.get(key)).stream().forEach(e-> list.add(sanitize(e.toString())));
+                ((List) origin.get(key)).stream().forEach(e -> list.add(sanitize(e.toString())));
                 tmp.put(key, list);
             } else if (origin.get(key) instanceof Map)
             {
