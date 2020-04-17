@@ -3,7 +3,7 @@ This program is still in the process of making. If you wish to creates an applic
 
 - under src/test/resources you will find data.json. This is an example file which contains the data structure needed to create application.
 - copy data.json to src/main/resources and fill it with your content.
-- under src/main/resources create subdirectory pics: Put there two files:
+- under src/main/resources/texTemplate create subdirectory pics: Put there two files:
 	- picture of you and name it "pic.jpg"
 	- picture of your signature and name it "signature.jpg"
 - run the programm.
