@@ -14,10 +14,11 @@ import java.util.Map;
  */
 public class DataCollector
 {
-    private JsonObject applicationData;
+    private final JsonObject applicationData;
 
     /**
      * Creates an instance
+     *
      * @param data cv information as json
      */
     public DataCollector(JsonObject data)
@@ -35,7 +36,7 @@ public class DataCollector
         return result;
     }
 
-    private<T> T extractData(T data)
+    private <T> T extractData(T data)
     {
         if (data instanceof JsonPrimitive)
         {

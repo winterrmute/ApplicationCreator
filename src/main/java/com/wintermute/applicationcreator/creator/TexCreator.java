@@ -3,7 +3,6 @@ package com.wintermute.applicationcreator.creator;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Gets data converted to tex and fits it into template

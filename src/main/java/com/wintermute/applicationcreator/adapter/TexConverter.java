@@ -41,6 +41,7 @@ public abstract class TexConverter
 
     /**
      * mandatory method of data converters.
+     *
      * @return converted and validated data for latex.
      */
     public abstract Map<String, Object> getConvertedData();

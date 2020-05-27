@@ -1,8 +1,5 @@
 package com.wintermute.applicationcreator.creator;
 
-import com.wintermute.applicationcreator.adapter.CoverLetterConverter;
-import com.wintermute.applicationcreator.collector.DataCollector;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -80,8 +77,7 @@ public class CoverLetterCreator extends TexCreator
                     }
                     if (line.contains(":recipient\\_city:"))
                     {
-                        line = line.replace(":recipient\\_city:",
-                            ((Map) data.get("recipient")).get("city").toString());
+                        line = line.replace(":recipient\\_city:", ((Map) data.get("recipient")).get("city").toString());
                     }
                 }
                 if (line.contains(":application\\_topic:"))

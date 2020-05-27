@@ -18,7 +18,7 @@ public class CoverLetterConverter extends TexConverter
         this.data = data;
     }
 
-    private Map<String, Object> result = new HashMap<>();
+    private final Map<String, Object> result = new HashMap<>();
     private Map<String, Object> tmp;
 
     @Override

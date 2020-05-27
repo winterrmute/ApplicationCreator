@@ -22,8 +22,9 @@ public class CvConverter extends TexConverter
     }
 
     /**
+     * Reads passed data and organizes it.
      *
-     * @return
+     * @return collected data.
      */
     public Map<String, Object> getConvertedData()
     {
@@ -97,8 +98,8 @@ public class CvConverter extends TexConverter
         {
             texLine = new StringBuilder();
             buildStatement(texLine, "\\columntitle{", (String) project.get("from"), " - ",
-                (String) project.get("until"), "} & \\activity{", (String) sanitize(project.get("summary").toString()),
-                "}{", (String) sanitize(project.get("position").toString()), "}{",
+                (String) project.get("until"), "} & \\activity{", sanitize(project.get("summary").toString()),
+                "}{", sanitize(project.get("position").toString()), "}{",
                 sanitize(project.get("description").toString()), "}\\\\");
 
             getToolsForProject(texLine, (Map<String, List<String>>) project.get("tools"));
@@ -246,8 +247,7 @@ public class CvConverter extends TexConverter
             } else
             {
                 buildStatement(texLine, sanitize(career.get("company").toString()), "}{",
-                    sanitize(career.get("job").toString()), "}{",
-                    sanitize(career.get("description").toString()));
+                    sanitize(career.get("job").toString()), "}{", sanitize(career.get("description").toString()));
             }
             texLine.append("}\\\\");
             result.add(texLine.toString());
@@ -260,7 +260,7 @@ public class CvConverter extends TexConverter
         StringBuilder result = new StringBuilder();
         for (String word : template.split(" "))
         {
-            if (replacements.keySet().contains(word))
+            if (replacements.containsKey(word))
             {
                 result.append(" ").append(replacements.get(word)).append(" ");
             } else

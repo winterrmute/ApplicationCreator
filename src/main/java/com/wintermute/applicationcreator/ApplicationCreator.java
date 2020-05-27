@@ -4,11 +4,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wintermute.applicationcreator.adapter.CoverLetterConverter;
 import com.wintermute.applicationcreator.adapter.CvConverter;
-import com.wintermute.applicationcreator.adapter.TexConverter;
 import com.wintermute.applicationcreator.collector.DataCollector;
 import com.wintermute.applicationcreator.creator.CoverLetterCreator;
 import com.wintermute.applicationcreator.creator.CvCreator;
-import com.wintermute.applicationcreator.creator.TexCreator;
+import com.wintermute.applicationcreator.wrapper.TexWrapper;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -33,22 +32,11 @@ public class ApplicationCreator
         DataCollector collector = new DataCollector(data);
         Map<String, Object> collectedData = collector.getData();
 
-        createTex(new CoverLetterCreator(convert(new CoverLetterConverter(collectedData))), "texTemplate/coverTemplate.tex");
-        createTex(new CvCreator(convert(new CvConverter(collectedData))), "texTemplate/cvTemplate.tex");
-    }
+        TexWrapper texWrapper = new TexWrapper();
 
-    private static<T extends TexConverter> Map<String, Object> convert(T converter){
-        return converter.getConvertedData();
-    }
-
-    private static<T extends TexCreator> void createTex(T creator, String file){
-        try
-        {
-            creator.create(
-                Paths.get(ApplicationCreator.class.getClassLoader().getResource(file).toURI()).toFile());
-        } catch (URISyntaxException e)
-        {
-            e.printStackTrace();
-        }
+        texWrapper.createTex(new CoverLetterCreator(texWrapper.convert(new CoverLetterConverter(collectedData))),
+            "texTemplate/coverTemplate.tex");
+        texWrapper.createTex(new CvCreator(texWrapper.convert(new CvConverter(collectedData))),
+            "texTemplate/cvTemplate.tex");
     }
 }
