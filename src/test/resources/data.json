@@ -1,162 +1,176 @@
 {
   "recipient": {
-    "company": "Example copmpany",
-    "address": "Example address",
-    "city": "Example city"
+    "company": "Sarif Industries",
+    "contactPerson": "z.Hd. Herrn Sarif",
+    "address": "38 Sandy Ter, Hanson",
+    "city": "48127 Detroit"
   },
-  "cover_letter": {
-    "application_topic": "Bewerbung als...",
+  "coverLetter": {
+    "applicationTopic": "Bewerbung als Sicherheitsspezialist",
     "paragraphs": [
-      "Begrüßung",
-      "Einleitung",
-      "Text",
-      "Abschlussnote"
+      "Sehr geehrter Herr Sarif,",
+      "Das ist meine Bewerbung",
+      "Die ist schon sehr überzeugend",
+      "Darum sollte ich genommen werden.",
+      "Abschlussnote."
     ]
   },
   "info": {
-    "firstName": "Azathoth",
-    "lastName": "Outer",
-    "jobtitle": "God",
+    "firstName": "Adam",
+    "lastName": "Jensen",
+    "jobtitle": "Sicherheitsspezialist",
+    "dateOfBirth": "09.03.1993",
     "contact": {
-      "address": "Somwhere in universe",
-      "city": "arkham",
-      "phone": "prayer",
-      "email": "prayer@god.org",
-      "website": "www.github.com"
+      "address": "6127 Evergreen Rd",
+      "city": "48127 Detroit",
+      "phone": "(313) 271-918",
+      "email": "ajensen@sarifindustries.com",
+      "website": "https://sarifindustries.com/ajensen"
     },
+    "placeOfBirth": "USA, Michigan, Detroit",
+    "familyStatus": "Ledig",
     "spokenLanguages": {
-      "R’lyehian": "1 native speaker",
-      "Quendian": "2 advanced",
-      "polnisch": "3 good",
-      "spanish": "4 beginner"
+      "Polnisch": "Englisch",
+      "Deutsch": "Muttersprache Niveau",
+      "Englisch": "Gute Kenntnise"
     },
-    "personalInterests": [
-      "Destroying worlds",
-      "Beeing god"
+    "hobbies": [
+      "Hacken",
+      "Anschleichen",
+      "Schießen",
+      "Opts installieren"
     ]
   },
   "career": {
     "educationalCareer": [
       {
-        "from": "08/1204",
-        "until": "06/1209",
-        "school": "University of universe chaos study",
-        "graduation": "Bachelor of Science"
+        "from": "08/2010",
+        "until": "07/2014",
+        "school": "Detroit Police Department",
+        "graduation": "Polizist Ausbildung"
       },
       {
-        "from": "08/1201",
-        "until": "06/1204",
-        "school": "Blind Idiot high school",
-        "graduation": "high school"
+        "from": "08/2007",
+        "until": "07/2010",
+        "school": "Secondary School",
+        "graduation": "Secondary School"
       },
       {
-        "from": "08/1198",
-        "until": "07/1204",
-        "school": "Deamon elementary and middle school",
-        "graduation": "middle school"
+        "from": "09/2004",
+        "until": "07/2007",
+        "school": "Middle-School in Detroit",
+        "graduation": "Gymnasium"
+      },
+      {
+        "from": "09/1999",
+        "until": "07/2004",
+        "school": "Elementary School in Detroit",
+        "graduation": "Grundschule"
       }
     ],
     "professionalCareer": [
       {
-        "from": "05/1209",
-        "until": "today",
-        "job": "protagonist in necronomicon",
-        "company": "Unknown",
-        "description": "god"
+        "from": "01/2014",
+        "until": "01/2018",
+        "job": "Polizist",
+        "company": "Detroit Police Department",
+        "description": "Normaller job als Bulle"
       },
       {
-        "from": "05/2017",
-        "until": "31.12.2018",
-        "job": "antagonist in The Dreams in the Witch-House",
-        "company": "H.P. Lovecraft",
-        "description": "god"
-      }
-    ],
-    "misc": [
+        "from": "01/2018",
+        "until": "01/2022",
+        "job": "SWAT Soldat",
+        "company": "Detroit Police Department",
+        "description": "Soldat in der SWAT Einheit"
+      },
       {
-        "from": "1210",
-        "until": "1211",
-        "description": "Destroying world"
+        "from": "05/2025",
+        "until": "heute",
+        "job": "Sicherheitschef",
+        "company": "Sarif Industries",
+        "description": "Internes Sicherheitsmanagement"
+      },
+      {
+        "from": "01/2022",
+        "until": "01/2025",
+        "job": "SWAT Teamleiter",
+        "company": "Detroit Police Department",
+        "description": "Teamleiter der SWAT einheit"
       }
     ]
   },
   "skills": {
-    "active": [
+    "manual": [
       {
-        "description": "flying through universe",
-        "rating": 8,
-        "category": "god"
+        "description": "Kampfsport",
+        "rating": 7,
+        "category": "Kampf"
       },
       {
-        "description": "flying through universe",
-        "rating": 8,
-        "category": "other"
+        "description": "Schießen",
+        "rating": 7,
+        "category": "Kampf"
       },
       {
-        "description": "flying through universe",
-        "rating": 8,
-        "category": "other"
+        "description": "Hacken",
+        "rating": 5,
+        "category": "Technik"
       },
       {
-        "description": "reality warping",
-        "rating": 9,
-        "category": "chaos"
-      },
-      {
-        "description": "reality warping",
-        "rating": 9,
-        "category": "chaos"
+        "description": "Auguments Reparatur",
+        "rating": 5,
+        "category": "Biotechnik"
       }
     ],
-    "passive": [
+    "aug": [
       {
-        "description": "Omnipresence",
+        "description": "Nachtsicht",
         "rating": 7,
-        "category": "madness"
+        "category": "Taktische Fähigkeiten"
+      },
+      {
+        "description": "Infrarotsensoren",
+        "rating": 7,
+        "category": "Taktische Fähigkeiten"
+      },
+      {
+        "description": "In-Eye-Camera",
+        "rating": 7,
+        "category": "Spionage"
+      },
+      {
+        "description": "Tarnkappe",
+        "rating": 7,
+        "category": "Spionage"
       }
     ],
     "soft": [
-      "being god",
-      "being blind",
-      "motivated to do really bad things"
+      "Lernbegierig für innovative technische Entwicklungen",
+      "Zielorientiert",
+      "Anpassungsfähig",
+      "Kritikfähig"
     ]
   },
-  "projects": [
-    {
-      "from": "09.1215",
-      "until": "12.1220",
-      "summary": "warping reality",
-      "description": "distortion of space",
-      "position": "Outer god",
-      "tools": {
-        "languages": [
-          "chaos", "something other"
-        ],
-        "frameworks": [
-          "metapotence", "second element"
-        ],
-        "other": [
-          "beeing god", "beeing immortal"
-        ]
+  "projects": {
+    "private": [
+      {
+        "from": "06/2013",
+        "until": "06/2012",
+        "summary": "example Project",
+        "description": "example description",
+        "position": "SWAT Soldat (Berufliches projekt)",
+        "tools": {
+          "languages": [
+            "example languages"
+          ],
+          "frameworks": [
+            "example languages"
+          ],
+          "other": [
+            "example tool"
+          ]
+        }
       }
-    },
-    {
-      "from": "09.1220",
-      "until": "12.1225",
-      "summary": "making people mad",
-      "description": "warping reality so long that everyone has gone mad",
-      "position": "Outer god",
-      "tools": {
-        "languages": [
-          "madness"
-        ],
-        "frameworks": [
-          "omnipresence"
-        ],
-        "other": [
-          "beeing god"
-        ]
-      }
-    }
-  ]
+    ]
+  }
 }

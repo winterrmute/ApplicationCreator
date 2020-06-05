@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,8 @@ import java.util.Map;
  */
 public class DataCollector
 {
-    private final JsonObject applicationData;
+    private final JsonObject data;
+    private static final List<String> ILLEGAL_LETTERS = Arrays.asList("#", "$", "%", "&", "{", "}", "_", "~", "^");
 
     /**
      * Creates an instance
@@ -23,15 +25,15 @@ public class DataCollector
      */
     public DataCollector(JsonObject data)
     {
-        applicationData = data;
+        this.data = data;
     }
 
     public Map<String, Object> getData()
     {
         Map<String, Object> result = new HashMap<>();
-        for (String key : applicationData.keySet())
+        for (String key : data.keySet())
         {
-            result.put(key, extractData(applicationData.get(key)));
+            result.put(sanitize(key), extractData(data.get(key)));
         }
         return result;
     }
@@ -40,7 +42,8 @@ public class DataCollector
     {
         if (data instanceof JsonPrimitive)
         {
-            return (T) data.toString().replace("\"", "");
+            String result = data.toString().replace("\"", "");
+            return (T) sanitize(result);
         } else if (data instanceof JsonArray)
         {
             List<Object> innerElements = new ArrayList<>();
@@ -60,5 +63,18 @@ public class DataCollector
             return (T) element;
         }
         return null;
+    }
+
+    private String sanitize(String target)
+    {
+        for (String toMask : ILLEGAL_LETTERS)
+        {
+            if (target.contains(toMask))
+            {
+                String maskedLetter = "\\" + toMask;
+                target = target.replace(toMask, maskedLetter);
+            }
+        }
+        return target;
     }
 }
