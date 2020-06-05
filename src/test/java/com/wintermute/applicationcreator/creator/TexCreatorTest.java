@@ -34,7 +34,6 @@ public class TexCreatorTest
         DataCollector collector = new DataCollector(data);
         Map<String, Object> collectedData = collector.getData();
 
-        createTex(new CoverLetterCreator(convert(new CoverLetterConverter(collectedData))), "cover.tex");
         createTex(new CvCreator(convert(new CvConverter(collectedData))), "cv.tex");
     }
 

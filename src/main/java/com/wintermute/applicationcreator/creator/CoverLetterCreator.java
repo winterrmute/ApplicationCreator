@@ -1,12 +1,17 @@
 package com.wintermute.applicationcreator.creator;
 
+import com.wintermute.applicationcreator.applicationData.Applicant;
+import com.wintermute.applicationcreator.applicationData.CoverLetter;
+import com.wintermute.applicationcreator.applicationData.Recipient;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 /**
  * Creates application cover letter in latex from extracted data.
@@ -16,81 +21,90 @@ import java.util.Map;
 public class CoverLetterCreator extends TexCreator
 {
 
-    public CoverLetterCreator(Map<String, Object> data)
+    private Applicant applicant;
+    private Recipient recipient;
+    private CoverLetter coverLetter;
+
+    public CoverLetterCreator(Applicant applicant, CoverLetter coverLetter)
     {
-        super(data);
+        super(null);
+        this.applicant = applicant;
+        this.coverLetter = coverLetter;
+        this.recipient = coverLetter.getRecipient();
     }
 
     @Override
     public void create(File file)
     {
         File out = writeNewFile("coverLetter");
-        try (BufferedReader br = new BufferedReader(new FileReader(file)))
+        try (BufferedReader br = new BufferedReader(new FileReader(file)); FileWriter fw = new FileWriter(out))
         {
-            FileWriter fw = new FileWriter(out);
             String line;
             while ((line = br.readLine()) != null)
             {
-                if (line.contains(":city:"))
+                if (line.contains(":header_date:"))
                 {
-                    line = line.replace(":city:", ((Map) data.get("info")).get("city").toString());
+                    line = writeIntoFile(line, ":header_date:",
+                        applicant.getContact().getCity() + ", den " + LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(
+                            FormatStyle.LONG)));
                 }
                 if (line.contains(":name:"))
                 {
-                    line = line.replace(":name:",
-                        ((Map) data.get("info")).get("firstName").toString() + " " + ((Map) data.get("info"))
-                            .get("lastName")
-                            .toString());
+                    line = writeIntoFile(line, ":name:", applicant.getFirstName() + " " + applicant.getLastName());
                 }
                 if (line.contains(":address:"))
                 {
-                    line = line.replace(":address:",
-                        ((Map) data.get("info")).get("address").toString() + ", " + ((Map) data.get("info"))
-                            .get("city")
-                            .toString());
+                    line = writeIntoFile(line, ":address:",
+                        applicant.getContact().getZipCode() + " " + applicant.getContact().getCity() //
+                            + ", " + applicant.getContact().getAddress());
                 }
                 if (line.contains(":phone:"))
                 {
-                    line = line.replace(":phone:", ((Map) data.get("info")).get("phone").toString());
+                    line = writeIntoFile(line, ":phone:", applicant.getContact().getPhoneNumber());
                 }
                 if (line.contains(":email:"))
                 {
-                    line = line.replace(":email:", ((Map) data.get("info")).get("email").toString());
+                    line = writeIntoFile(line, ":email:", applicant.getContact().getEmail());
                 }
                 if (line.contains(":website:"))
                 {
-                    line = line.replace(":website:", ((Map) data.get("info")).get("website").toString());
+                    line = writeIntoFile(line, ":website:", applicant.getContact().getWebsite());
                 }
+
                 if (line.contains(":company:"))
                 {
-                    line = line.replace(":company:", ((Map) data.get("recipient")).get("company").toString());
-
-                    if (line.contains(":contact\\_person:"))
+                    line = writeIntoFile(line, ":company:", recipient.getCompany());
+                }
+                if (line.contains(":contactPerson:"))
+                {
+                    if (recipient.getContactPerson() == null)
                     {
-                        line = line.replace(":contact\\_person:",
-                            ((Map) data.get("recipient")).get("contact_person").toString());
-                    }
-                    if (line.contains(":recipient\\_address:"))
+                        line = writeIntoFile(line, ":contactPerson:", "");
+                    } else
                     {
-                        line = line.replace(":recipient\\_address:",
-                            ((Map) data.get("recipient")).get("address").toString());
-                    }
-                    if (line.contains(":recipient\\_city:"))
-                    {
-                        line = line.replace(":recipient\\_city:", ((Map) data.get("recipient")).get("city").toString());
+                        line = writeIntoFile(line, ":contactPerson:", recipient.getContactPerson());
                     }
                 }
-                if (line.contains(":application\\_topic:"))
+                if (line.contains(":recipientAddress:"))
                 {
-                    line = line.replace(":application\\_topic:",
-                        ((Map) data.get("cover_letter")).get("application_topic").toString());
+                    line = writeIntoFile(line, ":recipientAddress:", recipient.getContact().getAddress());
+                }
+                if (line.contains(":recipientCity:"))
+                {
+                    line = writeIntoFile(line, ":recipientCity:",
+                        recipient.getContact().getZipCode() + " " + recipient.getContact().getCity());
+                }
+
+                if (line.contains(":applicationTopic:"))
+                {
+                    line = writeIntoFile(line, ":applicationTopic:", coverLetter.getApplicationAs());
                 }
                 if (line.contains(":text:"))
                 {
                     line = line.replace(":text:", "");
                     fw.write(line);
-                    List<String> text = (List) ((Map) data.get("cover_letter")).get("paragraphs");
-                    for (String elem : text)
+
+                    for (String elem : coverLetter.getParagraphs())
                     {
                         fw.write("\\coverparagraph{" + elem + "}\n\n");
                     }
@@ -99,10 +113,14 @@ public class CoverLetterCreator extends TexCreator
                 fw.write(line);
                 fw.write("\n");
             }
-            fw.close();
         } catch (IOException e)
         {
             e.printStackTrace();
         }
+    }
+
+    private String writeIntoFile(String toReplace, String holder, String target)
+    {
+        return toReplace.replace(holder, target);
     }
 }

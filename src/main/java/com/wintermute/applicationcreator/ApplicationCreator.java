@@ -1,14 +1,14 @@
 package com.wintermute.applicationcreator;
 
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.wintermute.applicationcreator.adapter.CoverLetterConverter;
 import com.wintermute.applicationcreator.adapter.CvConverter;
 import com.wintermute.applicationcreator.collector.DataCollector;
+import com.wintermute.applicationcreator.collector.ObjectMapper;
 import com.wintermute.applicationcreator.creator.CoverLetterCreator;
 import com.wintermute.applicationcreator.creator.CvCreator;
 import com.wintermute.applicationcreator.wrapper.TexWrapper;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URISyntaxException;
@@ -27,16 +27,16 @@ public class ApplicationCreator
     {
         Reader reader = Files.newBufferedReader(
             Paths.get(ApplicationCreator.class.getClassLoader().getResource("data.json").toURI()));
-        JsonObject data = JsonParser.parseReader(reader).getAsJsonObject();
+        DataCollector collector = new DataCollector(JsonParser.parseReader(reader).getAsJsonObject());
+        Map<String, Object> data = collector.getData();
 
-        DataCollector collector = new DataCollector(data);
-        Map<String, Object> collectedData = collector.getData();
+        ObjectMapper objectMapper = new ObjectMapper(data);
 
+        CoverLetterCreator coverLetterCreator = new CoverLetterCreator(objectMapper.getApplicant(), objectMapper.getCoverLetter());
+        coverLetterCreator.create(new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()));
+
+        //TODO: refactor cv creation
         TexWrapper texWrapper = new TexWrapper();
-
-        texWrapper.createTex(new CoverLetterCreator(texWrapper.convert(new CoverLetterConverter(collectedData))),
-            "texTemplate/coverTemplate.tex");
-        texWrapper.createTex(new CvCreator(texWrapper.convert(new CvConverter(collectedData))),
-            "texTemplate/cvTemplate.tex");
+        texWrapper.createTex(new CvCreator(texWrapper.convert(new CvConverter(data))), "texTemplate/cvTemplate.tex");
     }
 }

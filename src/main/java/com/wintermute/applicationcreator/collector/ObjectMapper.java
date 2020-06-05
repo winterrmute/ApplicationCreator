@@ -27,7 +27,7 @@ public class ObjectMapper
 {
     Map<String, Object> data;
 
-    ObjectMapper(Map<String, Object> data)
+    public ObjectMapper(Map<String, Object> data)
     {
         this.data = data;
     }
@@ -37,7 +37,7 @@ public class ObjectMapper
      *
      * @return Applicant with organized data provided by user.
      */
-    Applicant getApplicant()
+    public Applicant getApplicant()
     {
         Map<String, Object> applicantsInfo = (Map<String, Object>) data.get("info");
         Applicant result = new Applicant();
@@ -63,7 +63,7 @@ public class ObjectMapper
      *
      * @return organized cover letter.
      */
-    CoverLetter getCoverLetter()
+    public CoverLetter getCoverLetter()
     {
         Map<String, Object> coverLetter = (Map<String, Object>) data.get("coverLetter");
         CoverLetter result = new CoverLetter();
