@@ -8,13 +8,8 @@ import java.util.Map;
 @Data
 public class Applicant
 {
-    private String firstName;
-    private String lastName;
-    private String jobTitle;
-    private String dateOfBirth;
+    private PersonalInfo personalInfo;
     private Contact contact;
-    private String placeOfBirth;
-    private String familyStatus;
     private List<Language> languages;
     private List<String> hobbies;
     private List<String> softSkills;

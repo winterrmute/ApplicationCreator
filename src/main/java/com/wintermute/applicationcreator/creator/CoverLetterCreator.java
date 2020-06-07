@@ -47,13 +47,12 @@ public class CoverLetterCreator extends TexCreator
                 }
                 if (line.contains(":name:"))
                 {
-                    line = writeIntoFile(line, ":name:", applicant.getFirstName() + " " + applicant.getLastName());
+                    line = writeIntoFile(line, ":name:", applicant.getPersonalInfo().getFullName());
                 }
                 if (line.contains(":address:"))
                 {
                     line = writeIntoFile(line, ":address:",
-                        applicant.getContact().getZipCode() + " " + applicant.getContact().getCity() //
-                            + ", " + applicant.getContact().getAddress());
+                        applicant.getContact().getCityWithZipcode() + ", " + applicant.getContact().getAddress());
                 }
                 if (line.contains(":phone:"))
                 {
@@ -90,7 +89,7 @@ public class CoverLetterCreator extends TexCreator
                 if (line.contains(":recipientCity:"))
                 {
                     line = writeIntoFile(line, ":recipientCity:",
-                        recipient.getContact().getZipCode() + " " + recipient.getContact().getCity());
+                        recipient.getContact().getCityWithZipcode());
                 }
 
                 if (line.contains(":applicationTopic:"))

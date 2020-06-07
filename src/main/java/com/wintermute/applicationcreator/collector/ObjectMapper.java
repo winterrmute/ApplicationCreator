@@ -5,6 +5,7 @@ import com.wintermute.applicationcreator.applicationData.Career;
 import com.wintermute.applicationcreator.applicationData.Contact;
 import com.wintermute.applicationcreator.applicationData.CoverLetter;
 import com.wintermute.applicationcreator.applicationData.Language;
+import com.wintermute.applicationcreator.applicationData.PersonalInfo;
 import com.wintermute.applicationcreator.applicationData.Project;
 import com.wintermute.applicationcreator.applicationData.Recipient;
 import com.wintermute.applicationcreator.applicationData.Skill;
@@ -27,12 +28,10 @@ import java.util.Map;
 public class ObjectMapper
 {
     private final Map<String, Object> data;
-    private final Map<String, Object> applicantsInfo;
 
     public ObjectMapper(Map<String, Object> data)
     {
         this.data = data;
-        this.applicantsInfo = (Map<String, Object>) data.get("info");
     }
 
     /**
@@ -42,18 +41,14 @@ public class ObjectMapper
      */
     public Applicant getApplicant()
     {
-        Applicant result = new Applicant();
-        result.setFirstName(applicantsInfo.get("firstName").toString());
-        result.setLastName(applicantsInfo.get("lastName").toString());
-        result.setJobTitle(applicantsInfo.get("jobtitle").toString());
-        result.setDateOfBirth(applicantsInfo.get("dateOfBirth").toString());
-        result.setPlaceOfBirth(applicantsInfo.get("placeOfBirth").toString());
-        result.setFamilyStatus(applicantsInfo.get("familyStatus").toString());
+        Map<String, Object> applicantsData = (Map<String, Object>) data.get("info");
 
-        result.setContact(getContact(true, (Map<String, String>) applicantsInfo.get("contact")));
-        result.setHobbies((List<String>) applicantsInfo.get("hobbies"));
+        Applicant result = new Applicant();
+        result.setPersonalInfo(getPersonalInfo(applicantsData));
+        result.setContact(getContact(true, (Map<String, String>) applicantsData.get("contact")));
+        result.setHobbies((List<String>) applicantsData.get("hobbies"));
         result.setSoftSkills((List<String>) data.get("softSkills"));
-        result.setLanguages(mapLanguages());
+        result.setLanguages(mapLanguages((List<Map<String, Object>>) applicantsData.get("spokenLanguages")));
         result.setCareer(mapCareer());
         result.setSkills(mapSkills());
         result.setProjects(mapProjects());
@@ -75,12 +70,22 @@ public class ObjectMapper
         return result;
     }
 
-    private List<Language> mapLanguages()
+    private PersonalInfo getPersonalInfo(Map<String, Object> applicantsData)
     {
-        List<Map<String, Object>> spokenLanguages = (List<Map<String, Object>>) applicantsInfo.get("spokenLanguages");
-        List<Language> result = new ArrayList<>();
+        PersonalInfo result = new PersonalInfo();
+        result.setFirstName(applicantsData.get("firstName").toString());
+        result.setLastName(applicantsData.get("lastName").toString());
+        result.setJobTitle(applicantsData.get("jobtitle").toString());
+        result.setDateOfBirth(applicantsData.get("dateOfBirth").toString());
+        result.setPlaceOfBirth(applicantsData.get("placeOfBirth").toString());
+        result.setFamilyStatus(applicantsData.get("familyStatus").toString());
+        return result;
+    }
 
-        spokenLanguages.forEach(l -> result.add(
+    private List<Language> mapLanguages(List<Map<String, Object>> languages)
+    {
+        List<Language> result = new ArrayList<>();
+        languages.forEach(l -> result.add(
             new Language(l.get("language").toString(), Integer.parseInt(l.get("rating").toString()),
                 l.get("levelDesc").toString())));
         result.sort(Comparator.comparingInt(Language::getRating).reversed());

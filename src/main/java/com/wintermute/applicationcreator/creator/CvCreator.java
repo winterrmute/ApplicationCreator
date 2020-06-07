@@ -43,8 +43,8 @@ public class CvCreator extends TexCreator
                 if (line.contains(":header"))
                 {
                     line = writeIntoFile(line, ":header:}",
-                        applicant.getFirstName() + "\\\\" + applicant.getLastName() + "\\\\" + applicant.getJobTitle()
-                            + "}{pics/pic.jpg}");
+                        applicant.getPersonalInfo().getFirstName() + "\\\\" + applicant.getPersonalInfo().getLastName()
+                            + "\\\\" + applicant.getPersonalInfo().getJobTitle() + "}{pics/pic.jpg}");
                 }
                 if (line.contains(":street:"))
                 {
@@ -53,7 +53,7 @@ public class CvCreator extends TexCreator
                 if (line.contains(":city:"))
                 {
                     line = writeIntoFile(line, ":city:",
-                        applicant.getContact().getZipCode() + " " + applicant.getContact().getCity());
+                        applicant.getContact().getCityWithZipcode());
                 }
                 if (line.contains(":phonenumber:"))
                 {
