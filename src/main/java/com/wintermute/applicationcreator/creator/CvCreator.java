@@ -108,13 +108,11 @@ public class CvCreator extends TexCreator
                 if (line.contains(":languages:"))
                 {
                     line = writeIntoFile(line, ":languages:", "");
+
                     for (Language language : applicant.getLanguages())
                     {
-                        fw.write(
-                            "\\columntitle{" + language.getLanguage() + "} & \\singleitem{" + language.getLevelDesc()
-                                + "}\\\\\n");
+                        fw.write(columnSubtitle(language.getLanguage(), language.getLevelDesc()));
                     }
-                    fw.write("\\\\");
                 }
                 if (line.contains(":softSkills:"))
                 {
