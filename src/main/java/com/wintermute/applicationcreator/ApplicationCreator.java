@@ -1,12 +1,10 @@
 package com.wintermute.applicationcreator;
 
 import com.google.gson.JsonParser;
-import com.wintermute.applicationcreator.adapter.CvConverter;
 import com.wintermute.applicationcreator.collector.DataCollector;
 import com.wintermute.applicationcreator.collector.ObjectMapper;
 import com.wintermute.applicationcreator.creator.CoverLetterCreator;
 import com.wintermute.applicationcreator.creator.CvCreator;
-import com.wintermute.applicationcreator.wrapper.TexWrapper;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,11 +30,12 @@ public class ApplicationCreator
 
         ObjectMapper objectMapper = new ObjectMapper(data);
 
-        CoverLetterCreator coverLetterCreator = new CoverLetterCreator(objectMapper.getApplicant(), objectMapper.getCoverLetter());
-        coverLetterCreator.create(new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()));
-
-        //TODO: refactor cv creation
-        TexWrapper texWrapper = new TexWrapper();
-        texWrapper.createTex(new CvCreator(texWrapper.convert(new CvConverter(data))), "texTemplate/cvTemplate.tex");
+        CoverLetterCreator coverLetterCreator =
+            new CoverLetterCreator(objectMapper.getApplicant(), objectMapper.getCoverLetter());
+        coverLetterCreator.create(
+            new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()));
+        CvCreator cvCreator = new CvCreator(objectMapper.getApplicant());
+        cvCreator.create(
+            new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/cvTemplate.tex").getFile()));
     }
 }

@@ -21,16 +21,13 @@ import java.time.format.FormatStyle;
 public class CoverLetterCreator extends TexCreator
 {
 
-    private Applicant applicant;
-    private Recipient recipient;
-    private CoverLetter coverLetter;
+    private final Applicant applicant;
+    private final CoverLetter coverLetter;
 
     public CoverLetterCreator(Applicant applicant, CoverLetter coverLetter)
     {
-        super(null);
         this.applicant = applicant;
         this.coverLetter = coverLetter;
-        this.recipient = coverLetter.getRecipient();
     }
 
     @Override
@@ -44,9 +41,9 @@ public class CoverLetterCreator extends TexCreator
             {
                 if (line.contains(":header_date:"))
                 {
-                    line = writeIntoFile(line, ":header_date:",
-                        applicant.getContact().getCity() + ", den " + LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(
-                            FormatStyle.LONG)));
+                    line = writeIntoFile(line, ":header_date:", applicant.getContact().getCity() + ", den " + LocalDate
+                        .now()
+                        .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
                 }
                 if (line.contains(":name:"))
                 {
@@ -71,6 +68,7 @@ public class CoverLetterCreator extends TexCreator
                     line = writeIntoFile(line, ":website:", applicant.getContact().getWebsite());
                 }
 
+                Recipient recipient = coverLetter.getRecipient();
                 if (line.contains(":company:"))
                 {
                     line = writeIntoFile(line, ":company:", recipient.getCompany());
@@ -117,10 +115,5 @@ public class CoverLetterCreator extends TexCreator
         {
             e.printStackTrace();
         }
-    }
-
-    private String writeIntoFile(String toReplace, String holder, String target)
-    {
-        return toReplace.replace(holder, target);
     }
 }

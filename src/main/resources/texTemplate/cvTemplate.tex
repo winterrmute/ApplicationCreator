@@ -15,64 +15,49 @@
 \newfontfamily\headingfont{RobotoCondensed-Bold}[Path=fonts/]
 
 \begin{document}
-%header_placeholder
-	\begin{center}
-	{
-		\small\bodyfont
-	%persnoal_information_placeholder
-	}
-	\end{center}
+    \headerbox{1.2cm}{darkgray}{white}{:header:}
+
+    \begin{center}
+    {
+        \small\bodyfont
+        \faEnvelopeO\/ :street: | \faMapMarker\/ :city: | \faPhone\/ :phonenumber: |\faAt\protect\/ :email:"
+    }
+    \end{center}
 
 
-	\setlength{\parskip}{\baselineskip}
-	\setlength{\parindent}{2pt}
+    \setlength{\parskip}{\baselineskip}
+    \setlength{\parindent}{2pt}
 
-%Career
-	\customsection{Car}{eer}
+    \customsection{Car}{eer}
 
-	\begin{longtable}{p{11em}| p{25em}}
-		%career_placeholder
-	\end{longtable}
+    \begin{longtable}{p{11em}| p{25em}}
+        :career:
+    \end{longtable}
 
-%Career
-	\customsection{Edu}{cation}
+    \customsection{Edu}{cation}
 
-	\begin{longtable}{p{11em}| p{25em} c}
-		%education_placeholder
-	\end{longtable}
+    \begin{longtable}{p{11em}| p{25em} c}
+        :education:
+    \end{longtable}
 
-%Skills
+    :skills:
 
-	\customsection{Ski}{lls}
+    \customsection{Pro}{jects}
 
-	\begin{longtable}{p{11em}| p{25em}}
-		%first_category_skills_placeholder
-	\end{longtable}
-	\begin{longtable}{p{11em}| p{25em}}
-		%second_category_skills_placeholder
-	\end{longtable}
+    :projects:
 
-%Projects
-	\customsection{Pro}{jects}
+    \customsection{Lan}{guages}
 
-	\begin{longtable}{p{11em}| p{25em} c}
-		%projects_placeholder
-	\end{longtable}
+    \begin{longtable}{p{11em}| p{25em} c}
+        :languages:
+    \end{longtable}
 
-%Languages
-	\customsection{Lan}{guages}
+    \customsection{Per}{sonal characteristics}
 
-	\begin{longtable}{p{11em}| p{25em} c}
-		%languages_placeholder
-	\end{longtable}
+    :softSkills:
 
-	\customsection{Per}{sonal characteristics}
+    \customsection{Hob}{bies}
 
-%soft_skills
-
-%Hobbies
-	\customsection{Hob}{bies}
-
-%hobbies_placeholder
+    :hobbies:
 
 \end{document}

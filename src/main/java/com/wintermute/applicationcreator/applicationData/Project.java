@@ -7,11 +7,11 @@ import java.util.List;
 @Data
 public class Project extends WithDate
 {
-    private String summary;
+    private String position;
     private String description;
     private String title;
     private String githubLink;
-    private List<String> languages;
+    private List<String> programmingLanguages;
     private List<String> frameworks;
     private List<String> tools;
 }

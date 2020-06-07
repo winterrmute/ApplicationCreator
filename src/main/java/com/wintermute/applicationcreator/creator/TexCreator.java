@@ -2,7 +2,6 @@ package com.wintermute.applicationcreator.creator;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Gets data converted to tex and fits it into template
@@ -12,11 +11,9 @@ public abstract class TexCreator
 
     public abstract void create(File file);
 
-    final Map<String, Object> data;
-
-    public TexCreator(Map<String, Object> data)
+    String writeIntoFile(String toReplace, String holder, String target)
     {
-        this.data = data;
+        return toReplace.replace(holder, target);
     }
 
     File writeNewFile(String name)

@@ -4,6 +4,7 @@ import com.wintermute.applicationcreator.applicationData.Applicant;
 import com.wintermute.applicationcreator.applicationData.Career;
 import com.wintermute.applicationcreator.applicationData.Contact;
 import com.wintermute.applicationcreator.applicationData.CoverLetter;
+import com.wintermute.applicationcreator.applicationData.Language;
 import com.wintermute.applicationcreator.applicationData.Project;
 import com.wintermute.applicationcreator.applicationData.Recipient;
 import com.wintermute.applicationcreator.applicationData.Skill;
@@ -25,43 +26,44 @@ import java.util.Map;
  */
 public class ObjectMapper
 {
-    Map<String, Object> data;
+    private final Map<String, Object> data;
+    private final Map<String, Object> applicantsInfo;
 
     public ObjectMapper(Map<String, Object> data)
     {
         this.data = data;
+        this.applicantsInfo = (Map<String, Object>) data.get("info");
     }
 
     /**
      * Collects information about the applicant. {@link Applicant} holds the pojo information
      *
-     * @return Applicant with organized data provided by user.
+     * @return {@link Applicant} filled with data.
      */
     public Applicant getApplicant()
     {
-        Map<String, Object> applicantsInfo = (Map<String, Object>) data.get("info");
         Applicant result = new Applicant();
         result.setFirstName(applicantsInfo.get("firstName").toString());
         result.setLastName(applicantsInfo.get("lastName").toString());
         result.setJobTitle(applicantsInfo.get("jobtitle").toString());
         result.setDateOfBirth(applicantsInfo.get("dateOfBirth").toString());
-        result.setContact(getContact(true, (Map<String, String>) applicantsInfo.get("contact")));
         result.setPlaceOfBirth(applicantsInfo.get("placeOfBirth").toString());
         result.setFamilyStatus(applicantsInfo.get("familyStatus").toString());
-        result.setHobbies((List<String>) applicantsInfo.get("hobbies"));
-        result.setLanguageByGrade((Map<String, String>) applicantsInfo.get("spokenLanguages")); //TODO
 
+        result.setContact(getContact(true, (Map<String, String>) applicantsInfo.get("contact")));
+        result.setHobbies((List<String>) applicantsInfo.get("hobbies"));
+        result.setSoftSkills((List<String>) data.get("softSkills"));
+        result.setLanguages(mapLanguages());
         result.setCareer(mapCareer());
         result.setSkills(mapSkills());
         result.setProjects(mapProjects());
         return result;
     }
 
-
     /**
-     * Mapps information for creating cover letter.
+     * Maps information for creating {@link CoverLetter}.
      *
-     * @return organized cover letter.
+     * @return {@link CoverLetter} filled with data.
      */
     public CoverLetter getCoverLetter()
     {
@@ -73,9 +75,35 @@ public class ObjectMapper
         return result;
     }
 
-    private Map<String, List<Skill>> mapSkills()
+    private List<Language> mapLanguages()
     {
-        return mapDataByType("skills", Skill.class);
+        List<Map<String, Object>> spokenLanguages = (List<Map<String, Object>>) applicantsInfo.get("spokenLanguages");
+        List<Language> result = new ArrayList<>();
+
+        spokenLanguages.forEach(l -> result.add(
+            new Language(l.get("language").toString(), Integer.parseInt(l.get("rating").toString()),
+                l.get("levelDesc").toString())));
+        result.sort(Comparator.comparingInt(Language::getRating).reversed());
+        return result;
+    }
+
+    private Map<String, Map<String, List<Skill>>> mapSkills()
+    {
+        Map<String, Map<String, List<Skill>>> result = new HashMap<>();
+        Map<String, List<Skill>> skillsGroup;
+        Map<String, List<Skill>> skills = mapDataByType("skills", Skill.class);
+        for (String key : skills.keySet())
+        {
+            skillsGroup = new HashMap<>();
+            for (Skill target : skills.get(key))
+            {
+                skillsGroup.computeIfAbsent(target.getCategory(), l -> new ArrayList<>());
+                skillsGroup.get(target.getCategory()).add(target);
+                skillsGroup.get(target.getCategory()).sort(Comparator.comparingInt(Skill::getRating).reversed());
+                result.put(key, skillsGroup);
+            }
+        }
+        return result;
     }
 
     private Map<String, List<Career>> mapCareer()
@@ -97,10 +125,11 @@ public class ObjectMapper
         {
             result.setTitle(careerInfo.get("company").toString());
             result.setJob(careerInfo.get("job").toString());
+            result.setDescription(careerInfo.get("description").toString());
         } else if ("educationalCareer".equals(careerType))
         {
             result.setTitle(careerInfo.get("school").toString());
-            result.setGraduation(careerInfo.get("graduation").toString());
+            result.setDescription(careerInfo.get("graduation").toString());
         }
         return result;
     }
@@ -108,7 +137,7 @@ public class ObjectMapper
     private Skill getMappedSkill(Map<String, Object> skillInfo, String skillType)
     {
         Skill result = new Skill();
-        result.setDescription(skillInfo.get("description").toString());
+        result.setName(skillInfo.get("description").toString());
         result.setRating(Integer.parseInt(skillInfo.get("rating").toString()));
         result.setCategory(skillInfo.get("category").toString());
         result.setType(skillType);
@@ -122,11 +151,12 @@ public class ObjectMapper
         result.setUntil(projectInfo.get("until").toString());
         result.setTitle(projectInfo.get("summary").toString());
         result.setDescription(projectInfo.get("description").toString());
+        result.setPosition(projectInfo.get("position").toString());
+        result.setGithubLink(projectInfo.get("githubLink") != null ? projectInfo.get("githubLink").toString() : null);
         Map<String, List<String>> tools = (Map<String, List<String>>) projectInfo.get("tools");
-        result.setLanguages(tools.get("languages"));
-        result.setFrameworks(tools.get("frameworks"));
-        result.setTools(tools.get("other"));
-        result.setGithubLink(tools.get("githubLink") != null ? tools.get("githubLink").get(0) : null);
+        result.setProgrammingLanguages("".equals(tools.get("languages").get(0)) ? null : tools.get("languages"));
+        result.setFrameworks("".equals(tools.get("frameworks").get(0)) ? null : tools.get("frameworks"));
+        result.setTools("".equals(tools.get("other").get(0)) ? null : tools.get("other"));
         return result;
     }
 
@@ -183,7 +213,8 @@ public class ObjectMapper
                         dataContent.add((T) getMappedProject(dataInfo));
                     }
                 }
-                if (!(classPrefix + "Skill").equals(clazz.getName())) {
+                if (!(classPrefix + "Skill").equals(clazz.getName()))
+                {
                     sortByDate(dataContent);
                 }
                 result.put(dataType.getKey(), dataContent);
@@ -192,9 +223,9 @@ public class ObjectMapper
         return result;
     }
 
-    private<T> void sortByDate(List<T> target)
+    private <T> void sortByDate(List<T> target)
     {
-        ProjectComparator dateComparator = new ProjectComparator();
+        DateComparator dateComparator = new DateComparator();
         target.sort((Comparator) dateComparator);
     }
 }
@@ -204,18 +235,24 @@ public class ObjectMapper
  *
  * @author wintermute
  */
-class ProjectComparator implements Comparator<WithDate> {
-    public int compare(WithDate p, WithDate q) {
-        if (getDate(p.getFrom()).before(getDate(q.getFrom()))) {
+class DateComparator implements Comparator<WithDate>
+{
+    public int compare(WithDate p, WithDate q)
+    {
+        if (getDate(p.getFrom()).before(getDate(q.getFrom())))
+        {
             return 1;
-        } else if (getDate(p.getFrom()).after(getDate(q.getFrom()))) {
+        } else if (getDate(p.getFrom()).after(getDate(q.getFrom())))
+        {
             return -1;
-        } else {
+        } else
+        {
             return 0;
         }
     }
 
-    Date getDate(String date){
+    Date getDate(String date)
+    {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
         Date result;
         try

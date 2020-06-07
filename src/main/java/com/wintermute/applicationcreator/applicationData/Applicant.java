@@ -15,9 +15,10 @@ public class Applicant
     private Contact contact;
     private String placeOfBirth;
     private String familyStatus;
-    private Map<String, String> languageByGrade;
+    private List<Language> languages;
     private List<String> hobbies;
+    private List<String> softSkills;
     private Map<String, List<Career>> career;
-    private Map<String, List<Skill>> skills;
+    private Map<String, Map<String, List<Skill>>> skills;
     private Map<String, List<Project>> projects;
 }

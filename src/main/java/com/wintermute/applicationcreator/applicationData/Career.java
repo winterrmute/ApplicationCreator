@@ -6,6 +6,6 @@ import lombok.Data;
 public class Career extends WithDate
 {
     private String title;
-    private String graduation;
     private String job;
+    private String description;
 }
