@@ -29,11 +29,23 @@
     },
     "placeOfBirth": "USA, Michigan, Detroit",
     "familyStatus": "Ledig",
-    "spokenLanguages": {
-      "Polnisch": "Englisch",
-      "Deutsch": "Muttersprache Niveau",
-      "Englisch": "Gute Kenntnise"
-    },
+    "spokenLanguages": [
+      {
+        "language": "Englisch",
+        "rating": "1",
+        "levelDesc": "Gute Kenntnise"
+      },
+      {
+        "language": "Polnisch",
+        "rating": "3",
+        "levelDesc": "Muttersprache"
+      },
+      {
+        "language": "Deutsch",
+        "rating": "2",
+        "levelDesc": "Muttersprache Niveau"
+      }
+    ],
     "hobbies": [
       "Hacken",
       "Anschleichen",

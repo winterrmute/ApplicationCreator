@@ -1,10 +1,10 @@
 package com.wintermute.applicationcreator.creator;
 
-import com.wintermute.applicationcreator.applicationData.Applicant;
-import com.wintermute.applicationcreator.applicationData.Career;
-import com.wintermute.applicationcreator.applicationData.Language;
-import com.wintermute.applicationcreator.applicationData.Project;
-import com.wintermute.applicationcreator.applicationData.Skill;
+import com.wintermute.applicationcreator.data.Applicant;
+import com.wintermute.applicationcreator.data.Career;
+import com.wintermute.applicationcreator.data.Language;
+import com.wintermute.applicationcreator.data.Project;
+import com.wintermute.applicationcreator.data.Skill;
 
 import java.io.BufferedReader;
 import java.io.File;

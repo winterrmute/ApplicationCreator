@@ -1,8 +1,8 @@
 package com.wintermute.applicationcreator.creator;
 
-import com.wintermute.applicationcreator.applicationData.Applicant;
-import com.wintermute.applicationcreator.applicationData.CoverLetter;
-import com.wintermute.applicationcreator.applicationData.Recipient;
+import com.wintermute.applicationcreator.data.Applicant;
+import com.wintermute.applicationcreator.data.CoverLetter;
+import com.wintermute.applicationcreator.data.Recipient;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -4,11 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.wintermute.applicationcreator.applicationData.Applicant;
-import com.wintermute.applicationcreator.applicationData.Career;
-import com.wintermute.applicationcreator.applicationData.Contact;
-import com.wintermute.applicationcreator.applicationData.CoverLetter;
-import com.wintermute.applicationcreator.applicationData.Recipient;
+import com.wintermute.applicationcreator.data.Applicant;
+import com.wintermute.applicationcreator.data.Career;
+import com.wintermute.applicationcreator.data.Contact;
+import com.wintermute.applicationcreator.data.CoverLetter;
+import com.wintermute.applicationcreator.data.Language;
+import com.wintermute.applicationcreator.data.Recipient;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -33,7 +34,7 @@ public class ObjectMapperTest
     public static void init() throws URISyntaxException, IOException
     {
         Reader reader = Files.newBufferedReader(
-            Paths.get(DataCollectorTest.class.getClassLoader().getResource("data.json").toURI()));
+            Paths.get(ObjectMapper.class.getClassLoader().getResource("data.json").toURI()));
         JsonObject data = JsonParser.parseReader(reader).getAsJsonObject();
         DataCollector dc = new DataCollector(data);
         om = new ObjectMapper(dc.getData());
@@ -43,7 +44,7 @@ public class ObjectMapperTest
     public void testApplicant()
     {
         Applicant applicant = om.getApplicant();
-        assertThat(applicant.getJobTitle()).isEqualTo("Sicherheitsspezialist");
+        assertThat(applicant.getPersonalInfo().getJobTitle()).isEqualTo("Sicherheitsspezialist");
 
         Contact contact = applicant.getContact();
         assertThat(contact.getEmail()).isEqualTo("ajensen@sarifindustries.com");
@@ -57,6 +58,11 @@ public class ObjectMapperTest
 
         List<String> hobbies = applicant.getHobbies();
         assertThat(hobbies.get(0)).isEqualTo("Hacken");
+
+        List<Language> spokenLanguages = applicant.getLanguages();
+        assertThat(spokenLanguages.size()).isEqualTo(3);
+        assertThat(spokenLanguages.get(0).getLanguage()).isEqualTo("Polnisch");
+        assertThat(spokenLanguages.get(2).getLanguage()).isEqualTo("Englisch");
     }
 
     @Test

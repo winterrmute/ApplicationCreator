@@ -1,15 +1,6 @@
 package com.wintermute.applicationcreator.collector;
 
-import com.wintermute.applicationcreator.applicationData.Applicant;
-import com.wintermute.applicationcreator.applicationData.Career;
-import com.wintermute.applicationcreator.applicationData.Contact;
-import com.wintermute.applicationcreator.applicationData.CoverLetter;
-import com.wintermute.applicationcreator.applicationData.Language;
-import com.wintermute.applicationcreator.applicationData.PersonalInfo;
-import com.wintermute.applicationcreator.applicationData.Project;
-import com.wintermute.applicationcreator.applicationData.Recipient;
-import com.wintermute.applicationcreator.applicationData.Skill;
-import com.wintermute.applicationcreator.applicationData.WithDate;
+import com.wintermute.applicationcreator.data.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -195,7 +186,7 @@ public class ObjectMapper
 
     private <T> Map<String, List<T>> mapDataByType(String dataSection, Class<T> clazz)
     {
-        String classPrefix = "com.wintermute.applicationcreator.applicationData.";
+        String classPrefix = "com.wintermute.applicationcreator.data.";
         Map<String, List<T>> result = new HashMap<>();
         Map<String, List<Map<String, Object>>> extractedData =
             (Map<String, List<Map<String, Object>>>) data.get(dataSection);

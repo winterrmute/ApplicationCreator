@@ -1,4 +1,4 @@
-package com.wintermute.applicationcreator.applicationData;
+package com.wintermute.applicationcreator.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,10 +1,12 @@
-package com.wintermute.applicationcreator.applicationData;
+package com.wintermute.applicationcreator.data;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class Project extends WithDate
 {
     private String position;
