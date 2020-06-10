@@ -37,7 +37,7 @@ public class ObjectMapper
         Applicant result = new Applicant();
         result.setPersonalInfo(getPersonalInfo(applicantsData));
         result.setContact(getContact(true, (Map<String, String>) applicantsData.get("contact")));
-        result.setHobbies((List<String>) applicantsData.get("hobbies"));
+        result.setHobbies((List<String>) data.get("hobbies"));
         result.setSoftSkills((List<String>) data.get("softSkills"));
         result.setLanguages(mapLanguages((List<Map<String, Object>>) applicantsData.get("spokenLanguages")));
         result.setCareer(mapCareer());
@@ -150,9 +150,9 @@ public class ObjectMapper
         result.setPosition(projectInfo.get("position").toString());
         result.setGithubLink(projectInfo.get("githubLink") != null ? projectInfo.get("githubLink").toString() : null);
         Map<String, List<String>> tools = (Map<String, List<String>>) projectInfo.get("tools");
-        result.setProgrammingLanguages("".equals(tools.get("languages").get(0)) ? null : tools.get("languages"));
-        result.setFrameworks("".equals(tools.get("frameworks").get(0)) ? null : tools.get("frameworks"));
-        result.setTools("".equals(tools.get("other").get(0)) ? null : tools.get("other"));
+        result.setProgrammingLanguages(tools.get("languages").size() == 0 ? null : tools.get("languages"));
+        result.setFrameworks(tools.get("frameworks").size() == 0 ? null : tools.get("frameworks"));
+        result.setTools(tools.get("other").size() == 0 ? null : tools.get("other"));
         return result;
     }
 
