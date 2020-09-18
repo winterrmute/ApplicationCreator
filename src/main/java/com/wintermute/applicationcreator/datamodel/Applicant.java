@@ -1,4 +1,4 @@
-package com.wintermute.applicationcreator.data;
+package com.wintermute.applicationcreator.datamodel;
 
 import lombok.Data;
 
@@ -13,7 +13,10 @@ public class Applicant
     private List<Language> languages;
     private List<String> hobbies;
     private List<String> softSkills;
-    private Map<String, List<Career>> career;
+//    private Map<String, List<Career>> career;
+//    private Map<String, List<Career>> career;
+    private List<Career> career;
+    private List<Career> education;
     private Map<String, Map<String, List<Skill>>> skills;
-    private Map<String, List<Project>> projects;
+    private List<Project> projects;
 }

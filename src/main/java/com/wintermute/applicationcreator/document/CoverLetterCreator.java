@@ -1,8 +1,8 @@
-package com.wintermute.applicationcreator.creator;
+package com.wintermute.applicationcreator.document;
 
-import com.wintermute.applicationcreator.data.Applicant;
-import com.wintermute.applicationcreator.data.CoverLetter;
-import com.wintermute.applicationcreator.data.Recipient;
+import com.wintermute.applicationcreator.datamodel.Applicant;
+import com.wintermute.applicationcreator.datamodel.CoverLetter;
+import com.wintermute.applicationcreator.datamodel.Recipient;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,7 +18,7 @@ import java.time.format.FormatStyle;
  *
  * @author wintermute
  */
-public class CoverLetterCreator extends TexCreator
+public class CoverLetterCreator extends DocumentCreator
 {
 
     private final Applicant applicant;
@@ -31,70 +31,70 @@ public class CoverLetterCreator extends TexCreator
     }
 
     @Override
-    public void create(File file)
+    public void createDocument(File template)
     {
         File out = writeNewFile("coverLetter");
-        try (BufferedReader br = new BufferedReader(new FileReader(file)); FileWriter fw = new FileWriter(out))
+        try (BufferedReader br = new BufferedReader(new FileReader(template)); FileWriter fw = new FileWriter(out))
         {
             String line;
             while ((line = br.readLine()) != null)
             {
                 if (line.contains(":header_date:"))
                 {
-                    line = writeIntoFile(line, ":header_date:", applicant.getContact().getCity() + ", den " + LocalDate
+                    line = getPreparedDocumentPart(line, ":header_date:", applicant.getContact().getCity() + ", den " + LocalDate
                         .now()
                         .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)));
                 }
                 if (line.contains(":name:"))
                 {
-                    line = writeIntoFile(line, ":name:", applicant.getPersonalInfo().getFullName());
+                    line = getPreparedDocumentPart(line, ":name:", applicant.getPersonalInfo().getFullName());
                 }
                 if (line.contains(":address:"))
                 {
-                    line = writeIntoFile(line, ":address:",
+                    line = getPreparedDocumentPart(line, ":address:",
                         applicant.getContact().getCityWithZipcode() + ", " + applicant.getContact().getAddress());
                 }
                 if (line.contains(":phone:"))
                 {
-                    line = writeIntoFile(line, ":phone:", applicant.getContact().getPhoneNumber());
+                    line = getPreparedDocumentPart(line, ":phone:", applicant.getContact().getPhoneNumber());
                 }
                 if (line.contains(":email:"))
                 {
-                    line = writeIntoFile(line, ":email:", applicant.getContact().getEmail());
+                    line = getPreparedDocumentPart(line, ":email:", applicant.getContact().getEmail());
                 }
                 if (line.contains(":website:"))
                 {
-                    line = writeIntoFile(line, ":website:", applicant.getContact().getWebsite());
+                    line = getPreparedDocumentPart(line, ":website:", applicant.getContact().getWebsite());
                 }
 
                 Recipient recipient = coverLetter.getRecipient();
                 if (line.contains(":company:"))
                 {
-                    line = writeIntoFile(line, ":company:", recipient.getCompany());
+                    line = getPreparedDocumentPart(line, ":company:", recipient.getCompany());
                 }
                 if (line.contains(":contactPerson:"))
                 {
                     if (recipient.getContactPerson() == null)
                     {
-                        line = writeIntoFile(line, ":contactPerson:", "");
+                        line = getPreparedDocumentPart(line, ":contactPerson:", "");
                     } else
                     {
-                        line = writeIntoFile(line, ":contactPerson:", recipient.getContactPerson());
+                        line = getPreparedDocumentPart(line, ":contactPerson:", recipient.getContactPerson());
                     }
                 }
                 if (line.contains(":recipientAddress:"))
                 {
-                    line = writeIntoFile(line, ":recipientAddress:", recipient.getContact().getAddress());
+                    line = getPreparedDocumentPart(line, ":recipientAddress:", recipient.getContact().getAddress());
                 }
                 if (line.contains(":recipientCity:"))
                 {
-                    line = writeIntoFile(line, ":recipientCity:",
+                    line = getPreparedDocumentPart(line, ":recipientCity:",
                         recipient.getContact().getCityWithZipcode());
                 }
 
                 if (line.contains(":applicationTopic:"))
                 {
-                    line = writeIntoFile(line, ":applicationTopic:", coverLetter.getApplicationAs());
+                    line = getPreparedDocumentPart(line, ":applicationTopic:", coverLetter.getApplicationTopic());
                 }
                 if (line.contains(":text:"))
                 {

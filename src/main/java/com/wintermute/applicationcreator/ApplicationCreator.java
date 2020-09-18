@@ -1,10 +1,10 @@
 package com.wintermute.applicationcreator;
 
 import com.google.gson.JsonParser;
-import com.wintermute.applicationcreator.collector.DataCollector;
-import com.wintermute.applicationcreator.collector.ObjectMapper;
-import com.wintermute.applicationcreator.creator.CoverLetterCreator;
-import com.wintermute.applicationcreator.creator.CvCreator;
+import com.wintermute.applicationcreator.data.DataCollector;
+import com.wintermute.applicationcreator.data.DocumentContentFactory;
+import com.wintermute.applicationcreator.document.CoverLetterCreator;
+import com.wintermute.applicationcreator.document.CvCreator;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,14 +28,15 @@ public class ApplicationCreator
         DataCollector collector = new DataCollector(JsonParser.parseReader(reader).getAsJsonObject());
         Map<String, Object> data = collector.getData();
 
-        ObjectMapper objectMapper = new ObjectMapper(data);
+        DocumentContentFactory objectMapper = new DocumentContentFactory(data);
 
         CoverLetterCreator coverLetterCreator =
             new CoverLetterCreator(objectMapper.getApplicant(), objectMapper.getCoverLetter());
-        coverLetterCreator.create(
+        coverLetterCreator.createDocument(
             new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()));
+
         CvCreator cvCreator = new CvCreator(objectMapper.getApplicant());
-        cvCreator.create(
+        cvCreator.createDocument(
             new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/cvTemplate.tex").getFile()));
     }
 }

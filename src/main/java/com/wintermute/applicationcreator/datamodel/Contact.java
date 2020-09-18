@@ -1,4 +1,4 @@
-package com.wintermute.applicationcreator.data;
+package com.wintermute.applicationcreator.datamodel;
 
 import lombok.Data;
 

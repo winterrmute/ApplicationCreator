@@ -1,15 +1,15 @@
-package com.wintermute.applicationcreator.collector;
+package com.wintermute.applicationcreator.data;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.wintermute.applicationcreator.data.Applicant;
-import com.wintermute.applicationcreator.data.Career;
-import com.wintermute.applicationcreator.data.Contact;
-import com.wintermute.applicationcreator.data.CoverLetter;
-import com.wintermute.applicationcreator.data.Language;
-import com.wintermute.applicationcreator.data.Recipient;
+import com.wintermute.applicationcreator.datamodel.Applicant;
+import com.wintermute.applicationcreator.datamodel.Career;
+import com.wintermute.applicationcreator.datamodel.Contact;
+import com.wintermute.applicationcreator.datamodel.CoverLetter;
+import com.wintermute.applicationcreator.datamodel.Language;
+import com.wintermute.applicationcreator.datamodel.Recipient;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Test the object mapping class.
@@ -28,33 +29,27 @@ import java.util.Map;
  */
 public class ObjectMapperTest
 {
-    private static ObjectMapper om;
+    private static DocumentContentFactory om;
 
     @BeforeAll
     public static void init() throws URISyntaxException, IOException
     {
         Reader reader = Files.newBufferedReader(
-            Paths.get(ObjectMapper.class.getClassLoader().getResource("data.json").toURI()));
+            Paths.get(DocumentContentFactory.class.getClassLoader().getResource("data.json").toURI()));
         JsonObject data = JsonParser.parseReader(reader).getAsJsonObject();
         DataCollector dc = new DataCollector(data);
-        om = new ObjectMapper(dc.getData());
+        om = new DocumentContentFactory(dc.getData());
     }
 
     @Test
     public void testApplicant()
     {
+        om.getDocumentContent();
         Applicant applicant = om.getApplicant();
         assertThat(applicant.getPersonalInfo().getJobTitle()).isEqualTo("Sicherheitsspezialist");
 
         Contact contact = applicant.getContact();
         assertThat(contact.getEmail()).isEqualTo("ajensen@sarifindustries.com");
-
-        Map<String, List<Career>> career = applicant.getCareer();
-        assertThat(career.size()).isEqualTo(2);
-
-        List<Career> professionalCareer = career.get("professionalCareer");
-        assertThat(professionalCareer.size()).isEqualTo(4);
-        assertThat(professionalCareer.get(0).getJob()).isEqualTo("Sicherheitschef");
 
         List<String> hobbies = applicant.getHobbies();
         assertThat(hobbies.get(0)).isEqualTo("Hacken");

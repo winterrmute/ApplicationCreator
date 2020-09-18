@@ -1,17 +1,24 @@
-package com.wintermute.applicationcreator.creator;
+package com.wintermute.applicationcreator.document;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Gets data converted to tex and fits it into template
+ * This class describes the process of creating specified types of documents and required information.
+ *
+ * @author wintermute
  */
-public abstract class TexCreator
+public abstract class DocumentCreator
 {
 
-    public abstract void create(File file);
+    /**
+     * Takes template and generates document of it.
+     *
+     * @param template for specified type of document.
+     */
+    public abstract void createDocument(File template);
 
-    String writeIntoFile(String toReplace, String holder, String target)
+    String getPreparedDocumentPart(String toReplace, String holder, String target)
     {
         return toReplace.replace(holder, target);
     }
