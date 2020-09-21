@@ -1,11 +1,9 @@
 package com.wintermute.applicationcreator.document;
 
-import com.wintermute.applicationcreator.datamodel.*;
+import com.wintermute.applicationcreator.model.*;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Creates application curriculum vitae in latex from extracted data.
@@ -45,22 +43,22 @@ public class CvCreator extends DocumentCreator {
                 if (line.contains(":email:")) {
                     line = getPreparedDocumentPart(line, ":email:", applicant.getContact().getEmail());
                 }
-                if (line.contains(":skills:")) {
-                    for (String skillsCategory : applicant.getSkills().keySet()) {
-                        Map<String, List<Skill>> skillsGroups = applicant.getSkills().get(skillsCategory);
-                        fw.write("\\customsection{Ski}{lls (" + skillsCategory + ")}\n\n");
-                        fw.write("\\begin{longtable}{p{11em}| p{25em}}\n\n");
-                        for (String groupName : skillsGroups.keySet()) {
-                            fw.write("\t\\columnsubtitle{" + groupName + "} & \\newlinelist");
-                            for (Skill skill : skillsGroups.get(groupName)) {
-                                fw.write("{" + skill.getName() + "}");
-                            }
-                            fw.write("\\\\\n\n");
-                        }
-                        fw.write("\\end{longtable}");
-                    }
-                    continue;
-                }
+//                if (line.contains(":skills:")) {
+//                    for (String skillsCategory : applicant.getSkills().keySet()) {
+//                        Map<String, List<Skill>> skillsGroups = applicant.getSkills().get(skillsCategory);
+//                        fw.write("\\customsection{Ski}{lls (" + skillsCategory + ")}\n\n");
+//                        fw.write("\\begin{longtable}{p{11em}| p{25em}}\n\n");
+//                        for (String groupName : skillsGroups.keySet()) {
+//                            fw.write("\t\\columnsubtitle{" + groupName + "} & \\newlinelist");
+//                            for (Skill skill : skillsGroups.get(groupName)) {
+//                                fw.write("{" + skill.getName() + "}");
+//                            }
+//                            fw.write("\\\\\n\n");
+//                        }
+//                        fw.write("\\end{longtable}");
+//                    }
+//                    continue;
+//                }
                 if (line.contains(":languages:")) {
                     line = getPreparedDocumentPart(line, ":languages:", "");
 
@@ -68,10 +66,10 @@ public class CvCreator extends DocumentCreator {
                         fw.write(columnSubtitle(language.getLanguage(), language.getLevelDesc()));
                     }
                 }
-                if (line.contains(":softSkills:")) {
-                    line = getPreparedDocumentPart(line, ":softSkills:", "");
-                    fw.write(buildCommaSeparatedList(applicant.getSoftSkills()));
-                }
+//                if (line.contains(":softSkills:")) {
+//                    line = getPreparedDocumentPart(line, ":softSkills:", "");
+//                    fw.write(buildCommaSeparatedList(applicant.getSoftSkills()));
+//                }
                 if (line.contains(":hobbies:")) {
                     line = getPreparedDocumentPart(line, ":hobbies:", "");
                     fw.write(buildCommaSeparatedList(applicant.getHobbies()));

@@ -1,8 +1,8 @@
 package com.wintermute.applicationcreator.document;
 
-import com.wintermute.applicationcreator.datamodel.Applicant;
-import com.wintermute.applicationcreator.datamodel.CoverLetter;
-import com.wintermute.applicationcreator.datamodel.Recipient;
+import com.wintermute.applicationcreator.model.Applicant;
+import com.wintermute.applicationcreator.model.CoverLetter;
+import com.wintermute.applicationcreator.model.Recipient;
 
 import java.io.BufferedReader;
 import java.io.File;
