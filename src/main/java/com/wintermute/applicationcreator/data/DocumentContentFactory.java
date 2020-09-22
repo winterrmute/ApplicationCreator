@@ -39,7 +39,7 @@ public class DocumentContentFactory
 
     public Map<String, Function<String, String>> getDocumentContent()
     {
-        ReplaceTagHandlerGenerator contentGenerator = new ReplaceTagHandlerGenerator();
+        DocumentContentProvider contentGenerator = new DocumentContentProvider();
 
         Applicant applicant = getApplicant();
 

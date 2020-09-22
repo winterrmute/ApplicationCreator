@@ -1,124 +1,135 @@
 package com.wintermute.applicationcreator.data;
 
-import com.wintermute.applicationcreator.model.Career;
-import com.wintermute.applicationcreator.model.CategoryGroup;
-import com.wintermute.applicationcreator.model.Project;
-import com.wintermute.applicationcreator.model.Skill;
+import com.wintermute.applicationcreator.model.*;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Generates line entry with filled data which is passed into final document.
  */
-public class DocumentContentParser
-{
+public class DocumentContentParser {
+
     /**
-     * @param target data set ordered by category.
+     * @param target  data set ordered by category.
      * @param section to create new tex document syntax.
      * @param isTable to define whether the document entry is a table element.
-     * @param <T> type of applicant data.
+     * @param <T>     type of applicant data.
      * @return parsed data to document tex format.
      */
-    <T> StringBuilder parseEntryWithCategory(Map<CategoryGroup, List<T>> target, String section,
-                                                     boolean isTable)
-    {
+    <T> StringBuilder getParsedContentGroupedByCategory(Map<CategoryGroup, List<T>> target, String section,
+                                                        boolean isTable) {
         StringBuilder result = new StringBuilder();
         target.forEach((category, content) ->
         {
-            result.append(parseHeader(section, category.getTitle()));
+            result.append(getParsedHeader(section, category.getTitle()));
             result.append(isTable ? "\\begin{longtable}{p{11em}| p{25em}}\n" : "");
-            result.append(parseContent(content));
+            result.append(getParsedListContent(content));
             result.append(isTable ? "\n\\end{longtable}\n\n" : "");
         });
         return result;
     }
 
     /**
+     * @param target list of languages.
+     * @return parsed languages to tex document format.
+     */
+    String getParsedLanguages(List<Language> target) {
+        StringBuilder result = new StringBuilder(getParsedHeader("Languages", ""));
+        target.forEach(l -> result.append(getParsedSingleItem(l.getLanguage(), l.getLevelDesc())));
+        return result.toString();
+    }
+
+    /**
      * @param target ordered skills by category.
      * @return parsed data to document tex format.
      */
-    String parseSkills(Map<CategoryGroup, List<Skill>> target)
-    {
+    String getParsedSkills(Map<CategoryGroup, List<Skill>> target){
         StringBuilder result = new StringBuilder();
-        target.forEach((category, skills) -> {
-            result.append(parseHeader("Skills", category.getTitle()));
-            result.append("\\begin{longtable}{p{11em}| p{25em}}\n");
-            Map<String, List<Skill>> bySkillCategory = new HashMap<>();
-            //TODO: collect skills by skill category
+        target.forEach((k,v) -> {
+            result.append(getParsedHeader("Skills", k.getTitle())).append("\n");
+            Map<String, List<String>> orderedSkillsByInnerCategory = getOrderedSkillsByInnerCategory(v);
+            orderedSkillsByInnerCategory.forEach((k1,v1) -> {
+                result.append(getParsedNewLineList(k1, v1));
+            });
+            result.append("\n");
         });
         return result.toString();
     }
 
-    private <T> String parseContent(List<T> content)
-    {
+    private Map<String, List<String>> getOrderedSkillsByInnerCategory(List<Skill> target) {
+        Map<String, List<String>> skillsByInnerCategory = new HashMap<>();
+        target.forEach(s -> {
+            if (skillsByInnerCategory.get(s.getCategory()) == null) {
+                skillsByInnerCategory.computeIfAbsent(s.getCategory(), r -> new ArrayList<>(List.of(s.getTitle())));
+            } else {
+                skillsByInnerCategory.get(s.getCategory()).add(s.getTitle());
+            }
+        });
+        return skillsByInnerCategory;
+    }
+
+    private <T> String getParsedListContent(List<T> content) {
         StringBuilder result = new StringBuilder();
         Iterator<T> iterator = content.iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             T next = iterator.next();
-            if (next instanceof Project)
-            {
-                result.append(parseProject((Project) next)).append(iterator.hasNext() ? "\n" : "");
-            } else if (next instanceof Career)
-            {
-                result.append(parseCareer((Career) next)).append(iterator.hasNext() ? "\n" : "");
+            if (next instanceof Project) {
+                result.append(getParsedProject((Project) next)).append(iterator.hasNext() ? "\n" : "");
+            } else if (next instanceof Career) {
+                result.append(getParsedCareer((Career) next)).append(iterator.hasNext() ? "\n" : "");
             }
         }
         return result.toString();
     }
 
-    private String parseProject(Project project)
-    {
+    private String getParsedProject(Project project) {
         StringBuilder result = new StringBuilder("\\begin{longtable}{p{11em}| p{25em}}\n")
-            .append(parseActivity(project.getFrom() + " - " + project.getUntil(), project.getTitle())).append("\\\\n")
-            .append(parseSingleItem("position", project.getPosition()))
-            .append(parseSingleItem("description", project.getDescription()));
+                .append(getParsedActivity(project.getFrom() + " - " + project.getUntil(), project.getTitle())).append("\\\\n")
+                .append(getParsedSingleItem("position", project.getPosition()))
+                .append(getParsedSingleItem("description", project.getDescription()));
         result.append(
-            project.getGithubLink() != null ? parseCommaSeparatedList("github", List.of(project.getGithubLink())) : "");
-        result.append(project.getProgrammingLanguages() != null ? parseCommaSeparatedList("languages",
-            project.getProgrammingLanguages()) : "");
+                project.getGithubLink() != null ? getParsedCommaSeparatedList("github", List.of(project.getGithubLink())) : "");
+        result.append(project.getProgrammingLanguages() != null ? getParsedCommaSeparatedList("languages",
+                project.getProgrammingLanguages()) : "");
         result.append(
-            project.getFrameworks() != null ? parseCommaSeparatedList("frameworks", project.getFrameworks()) : "");
-        result.append(project.getTools() != null ? parseCommaSeparatedList("tools", project.getTools()) : "");
+                project.getFrameworks() != null ? getParsedCommaSeparatedList("frameworks", project.getFrameworks()) : "");
+        result.append(project.getTools() != null ? getParsedCommaSeparatedList("tools", project.getTools()) : "");
         return result.append("\\end{longtable}\n\n").toString();
     }
 
-    private String parseCareer(Career career)
-    {
-        return parseActivity(career.getFrom() + " - " + career.getUntil(), career.getTitle()) + "{"
-            + career.getDescription() + "}\\\\";
+    private String getParsedCareer(Career career) {
+        return getParsedActivity(career.getFrom() + " - " + career.getUntil(), career.getTitle()) + "{"
+                + career.getDescription() + "}\\\\";
     }
 
-    private String parseHeader(String section, String category)
-    {
-        return "\\customsection{" + section.substring(0, 3) + "}{" + section.substring(3) + " (" + category + ")}\n";
+    private String getParsedHeader(String section, String... category) {
+        return "\\customsection{" + section.substring(0, 3) + "}{" + section.substring(3) + (category != null ? "(" + category[0] + ")}" : "}");
     }
 
-
-    private String parseActivity(String fieldHeader, String activity)
-    {
+    private String getParsedActivity(String fieldHeader, String activity) {
         return "\\columntitle{" + fieldHeader + "} & \\activity{" + activity + "}";
     }
 
-    private String parseSingleItem(String fieldHeader, String item)
-    {
-        return parseColumnSubTitle(fieldHeader) + " & \\singleitem{" + item + "}\\\\\n";
+    private String getParsedSingleItem(String fieldHeader, String item) {
+        return getParsedColumnSubTitle(fieldHeader) + " & \\singleitem{" + item + "}\\\\\n";
     }
 
-    private String parseColumnSubTitle(String fieldHeader)
-    {
+    private String getParsedColumnSubTitle(String fieldHeader) {
         return "\t\\columnsubtitle{" + fieldHeader + "}";
     }
 
-    private String parseCommaSeparatedList(String title, List<String> elements)
-    {
-        StringBuilder result = new StringBuilder(parseColumnSubTitle(title)).append(" & \\commaseparatedlist{");
-        Iterator<String> iterator = elements.iterator();
-        while (iterator.hasNext())
-        {
+    private String getParsedNewLineList(String title, List<String> items){
+        return getParsedList(title, items, "newlinelist");
+    }
+
+    private String getParsedCommaSeparatedList(String title, List<String> items) {
+        return getParsedList(title, items, "commaseparatedlist");
+    }
+
+    private String getParsedList(String title, List<String> items, String texListTag){
+        StringBuilder result = new StringBuilder(getParsedColumnSubTitle(title)).append(" & \\").append(texListTag).append("{");
+        Iterator<String> iterator = items.iterator();
+        while (iterator.hasNext()) {
             result.append(iterator.next()).append(iterator.hasNext() ? "," : "");
         }
         return result.append("}\\\\\n").toString();
