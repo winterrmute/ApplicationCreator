@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 /**
- * Generates information in statements tex document content organized by replace tags.
+ * Generates final document content provided by tags to replace in template file.
  *
  * @author wintermute
  */
@@ -39,62 +39,57 @@ public class DocumentContentFactory
 
     public Map<String, Function<String, String>> getDocumentContent()
     {
-        DocumentContentProvider contentGenerator = new DocumentContentProvider();
+        DocumentContentProvider contentProvider = new DocumentContentProvider();
 
         Applicant applicant = getApplicant();
 
-        generatedDocumentContent.put(":header:", contentGenerator.createInlineEntry(
+        generatedDocumentContent.put(":header:", contentProvider.createInlineEntry(
             applicant.getPersonalInfo().getFirstName() + "\\\\" + applicant.getPersonalInfo().getLastName() + "\\\\"
                 + applicant.getPersonalInfo().getJobTitle() + "}{pics/pic.jpg}"));
-        generatedDocumentContent.put(":header_date:", contentGenerator.createInlineEntry(
+        generatedDocumentContent.put(":header_date:", contentProvider.createInlineEntry(
             applicant.getContact().getCity() + ", den " + LocalDate
                 .now()
                 .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))));
         generatedDocumentContent.put(":name:",
-            contentGenerator.createInlineEntry(applicant.getPersonalInfo().getFullName()));
+            contentProvider.createInlineEntry(applicant.getPersonalInfo().getFullName()));
         generatedDocumentContent.put("address",
-            contentGenerator.createInlineEntry(applicant.getContact().getAddress()));
+            contentProvider.createInlineEntry(applicant.getContact().getAddress()));
         generatedDocumentContent.put(":website:",
-            contentGenerator.createInlineEntry(applicant.getContact().getWebsite()));
+            contentProvider.createInlineEntry(applicant.getContact().getWebsite()));
         generatedDocumentContent.put(":street:",
-            contentGenerator.createInlineEntry(applicant.getContact().getAddress()));
+            contentProvider.createInlineEntry(applicant.getContact().getAddress()));
         generatedDocumentContent.put(":city:",
-            contentGenerator.createInlineEntry(applicant.getContact().getCityWithZipcode()));
+            contentProvider.createInlineEntry(applicant.getContact().getCityWithZipcode()));
         generatedDocumentContent.put(":phonenumber:",
-            contentGenerator.createInlineEntry(applicant.getContact().getPhoneNumber()));
+            contentProvider.createInlineEntry(applicant.getContact().getPhoneNumber()));
         generatedDocumentContent.put(":email:",
-            contentGenerator.createInlineEntry(applicant.getContact().getPhoneNumber()));
-        generatedDocumentContent.put(":career:", contentGenerator.createCareerEntries(applicant.getCareer()));
+            contentProvider.createInlineEntry(applicant.getContact().getPhoneNumber()));
+        generatedDocumentContent.put(":career:", contentProvider.createCareerEntries(applicant.getCareer()));
         generatedDocumentContent.put(":skills:",
-            contentGenerator.createSkillsEntries(applicant.getSkills())); //TODO: handle skills
-        generatedDocumentContent.put(":projects:", contentGenerator.createProjectEntries(applicant.getProjects()));
-        generatedDocumentContent.put(":hobbies:", contentGenerator.createInlineEntry("")); //TODO: handle projects
+            contentProvider.createSkillsEntries(applicant.getSkills())); //TODO: handle skills
+        generatedDocumentContent.put(":projects:", contentProvider.createProjectEntries(applicant.getProjects()));
+        generatedDocumentContent.put(":hobbies:", contentProvider.createInlineEntry("")); //TODO: handle projects
         generatedDocumentContent.put(":languages:",
-            contentGenerator.createLanguageEntries(applicant.getLanguages())); //TODO: handle projects
+            contentProvider.createLanguageEntries(applicant.getLanguages())); //TODO: handle projects
 
         CoverLetter coverLetter = getCoverLetter();
         Recipient recipient = coverLetter.getRecipient();
-        generatedDocumentContent.put(":company:", contentGenerator.createInlineEntry(recipient.getCompany()));
+        generatedDocumentContent.put(":company:", contentProvider.createInlineEntry(recipient.getCompany()));
         generatedDocumentContent.put(":contactPerson:",
-            contentGenerator.createInlineEntry(recipient.getContactPerson()));
+            contentProvider.createInlineEntry(recipient.getContactPerson()));
         generatedDocumentContent.put(":recipientAddress:",
-            contentGenerator.createInlineEntry(recipient.getContact().getAddress()));
+            contentProvider.createInlineEntry(recipient.getContact().getAddress()));
         generatedDocumentContent.put(":recipientCity:",
-            contentGenerator.createInlineEntry(recipient.getContact().getCityWithZipcode()));
+            contentProvider.createInlineEntry(recipient.getContact().getCityWithZipcode()));
         generatedDocumentContent.put(":applicationTopic:",
-            contentGenerator.createInlineEntry(coverLetter.getApplicationTopic()));
-        //        generatedDocumentContent.put(":text:", contentGenerator.createMultiLineEntry(coverLetter
-        //        .getParagraphs()));
+            contentProvider.createInlineEntry(coverLetter.getApplicationTopic()));
+//                generatedDocumentContent.put(":text:", contentGenerator.createMultiLineEntry(coverLetter
+//                .getParagraphs()));
 
         return generatedDocumentContent;
     }
 
-    /**
-     * Collects information about the applicant. {@link Applicant} holds the pojo information
-     *
-     * @return {@link Applicant} filled with data.
-     */
-    public Applicant getApplicant()
+    private Applicant getApplicant()
     {
         Map<String, Object> applicantsData = (Map<String, Object>) data.get("info");
 
@@ -117,12 +112,7 @@ public class DocumentContentFactory
         return result;
     }
 
-    /**
-     * Collects information about {@link CoverLetter} and organizes it.
-     *
-     * @return {@link CoverLetter} filled with data.
-     */
-    public CoverLetter getCoverLetter()
+    private CoverLetter getCoverLetter()
     {
         Map<String, Object> coverLetter = (Map<String, Object>) data.get("coverLetter");
         CoverLetter result = new CoverLetter();

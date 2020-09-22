@@ -12,9 +12,7 @@ public class Applicant
     private Contact contact;
     private List<Language> languages;
     private List<String> hobbies;
-//    private Map<String, List<Career>> career;
     private Map<CategoryGroup, List<Career>> career;
     private Map<CategoryGroup, List<Skill>> skills;
     private Map<CategoryGroup, List<Project>> projects;
-//    private Map<String,List<Project>> projects;
 }

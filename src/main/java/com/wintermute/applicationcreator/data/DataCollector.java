@@ -11,24 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Collects application data and translates it to model.
+ * Extracts data from json file and sanitizes it.
  */
 public class DataCollector
 {
-    private final JsonObject data;
     private static final List<String> ILLEGAL_LETTERS = Arrays.asList("#", "$", "%", "&", "{", "}", "_", "~", "^");
 
     /**
-     * Creates an instance
-     *
-     * @param data cv information as json
+     * @return collected and sanitized organized data.
      */
-    public DataCollector(JsonObject data)
-    {
-        this.data = data;
-    }
-
-    public Map<String, Object> getData()
+    public Map<String, Object> getDataFromJson(JsonObject data)
     {
         Map<String, Object> result = new HashMap<>();
         for (String key : data.keySet())

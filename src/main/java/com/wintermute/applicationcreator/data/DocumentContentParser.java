@@ -43,12 +43,12 @@ public class DocumentContentParser {
      * @param target ordered skills by category.
      * @return parsed data to document tex format.
      */
-    String getParsedSkills(Map<CategoryGroup, List<Skill>> target){
+    String getParsedSkills(Map<CategoryGroup, List<Skill>> target) {
         StringBuilder result = new StringBuilder();
-        target.forEach((k,v) -> {
+        target.forEach((k, v) -> {
             result.append(getParsedHeader("Skills", k.getTitle())).append("\n");
             Map<String, List<String>> orderedSkillsByInnerCategory = getOrderedSkillsByInnerCategory(v);
-            orderedSkillsByInnerCategory.forEach((k1,v1) -> {
+            orderedSkillsByInnerCategory.forEach((k1, v1) -> {
                 result.append(getParsedNewLineList(k1, v1));
             });
             result.append("\n");
@@ -118,7 +118,7 @@ public class DocumentContentParser {
         return "\t\\columnsubtitle{" + fieldHeader + "}";
     }
 
-    private String getParsedNewLineList(String title, List<String> items){
+    private String getParsedNewLineList(String title, List<String> items) {
         return getParsedList(title, items, "newlinelist");
     }
 
@@ -126,7 +126,7 @@ public class DocumentContentParser {
         return getParsedList(title, items, "commaseparatedlist");
     }
 
-    private String getParsedList(String title, List<String> items, String texListTag){
+    private String getParsedList(String title, List<String> items, String texListTag) {
         StringBuilder result = new StringBuilder(getParsedColumnSubTitle(title)).append(" & \\").append(texListTag).append("{");
         Iterator<String> iterator = items.iterator();
         while (iterator.hasNext()) {
@@ -134,10 +134,4 @@ public class DocumentContentParser {
         }
         return result.append("}\\\\\n").toString();
     }
-
-//    private String getTimePeriod(String start, String end, String title)
-//    {
-//        return "\t\\columntitle{" + start + "-" + end + "} & \\activity{" + title + "}" + (title.length() > 37
-//                                                                                           ? "\\\\\\\\" : "\\\\");
-//    }
 }
