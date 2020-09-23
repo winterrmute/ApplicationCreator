@@ -12,7 +12,8 @@ public class Contact
     private String email;
     private String website;
 
-    public String getCityWithZipcode(){
+    public String getCityWithZipcode()
+    {
         return this.getZipCode() + " " + this.getCity();
     }
 }

@@ -23,7 +23,8 @@ public abstract class CategoryMapper
         Map<CategoryGroup, List<T>> result = new TreeMap<>(new RatingComparator());
         //TODO: check for same entries but in different categories. Sometimes they will be merged. It´s critical.
         data.forEach((categoryGroup, content) -> result.put(
-            new CategoryGroup(categoryGroup, content.get("title").toString(), Integer.parseInt(content.get("position").toString())),
+            new CategoryGroup(categoryGroup, content.get("title").toString(),
+                Integer.parseInt(content.get("position").toString())),
             getContentForCategoryGroup((List<Map<String, Object>>) content.get("children"), getEntityFromType)));
         return result;
     }

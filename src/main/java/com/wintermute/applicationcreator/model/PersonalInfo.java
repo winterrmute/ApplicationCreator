@@ -12,7 +12,8 @@ public class PersonalInfo
     private String placeOfBirth;
     private String familyStatus;
 
-    public String getFullName(){
+    public String getFullName()
+    {
         return this.getFirstName() + " " + this.getLastName();
     }
 }

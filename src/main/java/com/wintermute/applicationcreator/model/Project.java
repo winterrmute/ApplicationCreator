@@ -2,7 +2,6 @@ package com.wintermute.applicationcreator.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  * Represents project with all important information.
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Project extends ElementWithTimePeriod
 {
     private String position;

@@ -17,16 +17,23 @@ import java.nio.file.Paths;
  *
  * @author wintermute
  */
-public class ApplicationCreator {
-    public static void main(String[] args) throws URISyntaxException, IOException {
+public class ApplicationCreator
+{
+    public static void main(String[] args) throws URISyntaxException, IOException
+    {
         Reader reader = Files.newBufferedReader(
-                Paths.get(ApplicationCreator.class.getClassLoader().getResource("data.json").toURI()));
+            Paths.get(ApplicationCreator.class.getClassLoader().getResource("data.json").toURI()));
 
         DataCollector collector = new DataCollector();
-        DocumentContentFactory objectMapper = new DocumentContentFactory(collector.getDataFromJson(JsonParser.parseReader(reader).getAsJsonObject()));
+        DocumentContentFactory objectMapper =
+            new DocumentContentFactory(collector.getDataFromJson(JsonParser.parseReader(reader).getAsJsonObject()));
 
         DocumentCreator documentCreator = new DocumentCreator(objectMapper.getDocumentContent());
-        documentCreator.createDocument(new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()), "coverLetter");
-        documentCreator.createDocument(new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/cvTemplate.tex").getFile()), "cv");
+        documentCreator.createDocument(
+            new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()),
+            "coverLetter");
+        documentCreator.createDocument(
+            new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/cvTemplate.tex").getFile()),
+            "cv");
     }
 }

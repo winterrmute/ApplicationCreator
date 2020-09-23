@@ -43,48 +43,47 @@ public class DocumentContentFactory
 
         Applicant applicant = getApplicant();
 
-        generatedDocumentContent.put(":header:", contentProvider.createInlineEntry(
+        generatedDocumentContent.put("<header>", contentProvider.createInlineEntry(
             applicant.getPersonalInfo().getFirstName() + "\\\\" + applicant.getPersonalInfo().getLastName() + "\\\\"
                 + applicant.getPersonalInfo().getJobTitle() + "}{pics/pic.jpg}"));
-        generatedDocumentContent.put(":header_date:", contentProvider.createInlineEntry(
+        generatedDocumentContent.put("<header_date>", contentProvider.createInlineEntry(
             applicant.getContact().getCity() + ", den " + LocalDate
                 .now()
                 .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG))));
-        generatedDocumentContent.put(":name:",
+        generatedDocumentContent.put("<name>",
             contentProvider.createInlineEntry(applicant.getPersonalInfo().getFullName()));
-        generatedDocumentContent.put("address",
-            contentProvider.createInlineEntry(applicant.getContact().getAddress()));
-        generatedDocumentContent.put(":website:",
+        generatedDocumentContent.put("address", contentProvider.createInlineEntry(applicant.getContact().getAddress()));
+        generatedDocumentContent.put("<website>",
             contentProvider.createInlineEntry(applicant.getContact().getWebsite()));
-        generatedDocumentContent.put(":street:",
+        generatedDocumentContent.put("<street>",
             contentProvider.createInlineEntry(applicant.getContact().getAddress()));
-        generatedDocumentContent.put(":city:",
+        generatedDocumentContent.put("<city>",
             contentProvider.createInlineEntry(applicant.getContact().getCityWithZipcode()));
-        generatedDocumentContent.put(":phonenumber:",
+        generatedDocumentContent.put("<phonenumber>",
             contentProvider.createInlineEntry(applicant.getContact().getPhoneNumber()));
-        generatedDocumentContent.put(":email:",
+        generatedDocumentContent.put("<email>",
             contentProvider.createInlineEntry(applicant.getContact().getPhoneNumber()));
-        generatedDocumentContent.put(":career:", contentProvider.createCareerEntries(applicant.getCareer()));
-        generatedDocumentContent.put(":skills:",
+        generatedDocumentContent.put("<career>", contentProvider.createCareerEntries(applicant.getCareer()));
+        generatedDocumentContent.put("<skills>",
             contentProvider.createSkillsEntries(applicant.getSkills())); //TODO: handle skills
-        generatedDocumentContent.put(":projects:", contentProvider.createProjectEntries(applicant.getProjects()));
-        generatedDocumentContent.put(":hobbies:", contentProvider.createInlineEntry("")); //TODO: handle projects
-        generatedDocumentContent.put(":languages:",
+        generatedDocumentContent.put("<projects>", contentProvider.createProjectEntries(applicant.getProjects()));
+        generatedDocumentContent.put("<hobbies>", contentProvider.createInlineEntry("")); //TODO: handle projects
+        generatedDocumentContent.put("<languages>",
             contentProvider.createLanguageEntries(applicant.getLanguages())); //TODO: handle projects
 
         CoverLetter coverLetter = getCoverLetter();
         Recipient recipient = coverLetter.getRecipient();
-        generatedDocumentContent.put(":company:", contentProvider.createInlineEntry(recipient.getCompany()));
-        generatedDocumentContent.put(":contactPerson:",
+        generatedDocumentContent.put("<company>", contentProvider.createInlineEntry(recipient.getCompany()));
+        generatedDocumentContent.put("<contactPerson>",
             contentProvider.createInlineEntry(recipient.getContactPerson()));
-        generatedDocumentContent.put(":recipientAddress:",
+        generatedDocumentContent.put("<recipientAddress>",
             contentProvider.createInlineEntry(recipient.getContact().getAddress()));
-        generatedDocumentContent.put(":recipientCity:",
+        generatedDocumentContent.put("<recipientCity>",
             contentProvider.createInlineEntry(recipient.getContact().getCityWithZipcode()));
-        generatedDocumentContent.put(":applicationTopic:",
+        generatedDocumentContent.put("<applicationTopic>",
             contentProvider.createInlineEntry(coverLetter.getApplicationTopic()));
-//                generatedDocumentContent.put(":text:", contentGenerator.createMultiLineEntry(coverLetter
-//                .getParagraphs()));
+        //                generatedDocumentContent.put("<text>", contentGenerator.createMultiLineEntry(coverLetter
+        //                .getParagraphs()));
 
         return generatedDocumentContent;
     }
