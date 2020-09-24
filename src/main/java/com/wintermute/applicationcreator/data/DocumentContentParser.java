@@ -5,6 +5,7 @@ import com.wintermute.applicationcreator.model.CategoryGroup;
 import com.wintermute.applicationcreator.model.Language;
 import com.wintermute.applicationcreator.model.Project;
 import com.wintermute.applicationcreator.model.Skill;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class DocumentContentParser
         target.forEach((category, content) ->
         {
             result.append(getParsedHeader(section, category.getTitle()));
-            result.append(isTable ? "\\begin{longtable}{p{11em}| p{25em}}\n" : "");
+            result.append(isTable ? getTableHeader() : "");
             result.append(getParsedListContent(content));
             result.append(isTable ? "\n\\end{longtable}\n\n" : "");
         });
@@ -46,8 +47,16 @@ public class DocumentContentParser
     String getParsedLanguages(List<Language> target)
     {
         StringBuilder result = new StringBuilder(getParsedHeader("Languages", ""));
+        result.append(getTableHeader());
         target.forEach(l -> result.append(getParsedSingleItem(l.getLanguage(), l.getLevelDesc())));
+        result.append("\n\\end{longtable}\n");
         return result.toString();
+    }
+
+    String getParsedHobbies(List<String> hobbies){
+        StringBuilder result = new StringBuilder("\\customsection{Hob}{bies}\n\n\\commaseparatedlist{");
+        hobbies.forEach(h -> result.append(h).append(", "));
+        return result.append("}").toString();
     }
 
     /**
@@ -61,11 +70,12 @@ public class DocumentContentParser
         {
             result.append(getParsedHeader("Skills", k.getTitle())).append("\n");
             Map<String, List<String>> orderedSkillsByInnerCategory = getOrderedSkillsByInnerCategory(v);
+            result.append(getTableHeader());
             orderedSkillsByInnerCategory.forEach((k1, v1) ->
             {
                 result.append(getParsedNewLineList(k1, v1));
             });
-            result.append("\n");
+            result.append("\n\\end{longtable}");
         });
         return result.toString();
     }
@@ -106,9 +116,9 @@ public class DocumentContentParser
 
     private String getParsedProject(Project project)
     {
-        StringBuilder result = new StringBuilder("\\begin{longtable}{p{11em}| p{25em}}\n")
+        StringBuilder result = new StringBuilder(getTableHeader())
             .append(getParsedActivity(project.getFrom() + " - " + project.getUntil(), project.getTitle()))
-            .append("\\\\n")
+            .append("\\\\")
             .append(getParsedSingleItem("position", project.getPosition()))
             .append(getParsedSingleItem("description", project.getDescription()));
         result.append(
@@ -120,6 +130,12 @@ public class DocumentContentParser
             project.getFrameworks() != null ? getParsedCommaSeparatedList("frameworks", project.getFrameworks()) : "");
         result.append(project.getTools() != null ? getParsedCommaSeparatedList("tools", project.getTools()) : "");
         return result.append("\\end{longtable}\n\n").toString();
+    }
+
+    @NotNull
+    private String getTableHeader()
+    {
+        return "\\begin{longtable}{p{11em}| p{25em}}\n";
     }
 
     private String getParsedCareer(Career career)
@@ -136,12 +152,12 @@ public class DocumentContentParser
 
     private String getParsedActivity(String fieldHeader, String activity)
     {
-        return "\\columntitle{" + fieldHeader + "} \\& \\activity{" + activity + "}";
+        return "\\columntitle{" + fieldHeader + "} & \\activity{" + activity + "}";
     }
 
     private String getParsedSingleItem(String fieldHeader, String item)
     {
-        return getParsedColumnSubTitle(fieldHeader) + " \\& \\singleitem{" + item + "}\\\\\n";
+        return getParsedColumnSubTitle(fieldHeader) + " & \\singleitem{" + item + "}\\\\\n";
     }
 
     private String getParsedColumnSubTitle(String fieldHeader)
@@ -162,7 +178,7 @@ public class DocumentContentParser
     private String getParsedList(String title, List<String> items, String texListTag)
     {
         StringBuilder result =
-            new StringBuilder(getParsedColumnSubTitle(title)).append(" \\& \\").append(texListTag).append("{");
+            new StringBuilder(getParsedColumnSubTitle(title)).append(" & \\").append(texListTag).append("{");
         Iterator<String> iterator = items.iterator();
         while (iterator.hasNext())
         {

@@ -45,7 +45,7 @@ public class DocumentContentFactory
 
         generatedDocumentContent.put("<header>", contentProvider.createInlineEntry(
             applicant.getPersonalInfo().getFirstName() + "\\\\" + applicant.getPersonalInfo().getLastName() + "\\\\"
-                + applicant.getPersonalInfo().getJobTitle() + "}{pics/pic.jpg}"));
+                + applicant.getPersonalInfo().getJobTitle() + "}{pics/pic.jpg"));
         generatedDocumentContent.put("<header_date>", contentProvider.createInlineEntry(
             applicant.getContact().getCity() + ", den " + LocalDate
                 .now()
@@ -67,7 +67,7 @@ public class DocumentContentFactory
         generatedDocumentContent.put("<skills>",
             contentProvider.createSkillsEntries(applicant.getSkills())); //TODO: handle skills
         generatedDocumentContent.put("<projects>", contentProvider.createProjectEntries(applicant.getProjects()));
-        generatedDocumentContent.put("<hobbies>", contentProvider.createInlineEntry("")); //TODO: handle projects
+        generatedDocumentContent.put("<hobbies>", contentProvider.createHobbyEntries(applicant.getHobbies())); //TODO: handle projects
         generatedDocumentContent.put("<languages>",
             contentProvider.createLanguageEntries(applicant.getLanguages())); //TODO: handle projects
 
@@ -95,7 +95,7 @@ public class DocumentContentFactory
         Applicant result = new Applicant();
         result.setPersonalInfo(getPersonalInfo(applicantsData));
         result.setContact(getContact(true, (Map<String, String>) applicantsData.get("contact")));
-        result.setHobbies((List<String>) data.get("hobbies"));
+        result.setHobbies( ((Map<String, List<String>>) data.get("info")).get("hobbies"));
         result.setLanguages(mapLanguages((List<Map<String, Object>>) applicantsData.get("spokenLanguages")));
 
         CareerMapper careerMapper = new CareerMapper();

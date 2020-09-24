@@ -6,6 +6,7 @@ import com.wintermute.applicationcreator.model.Language;
 import com.wintermute.applicationcreator.model.Project;
 import com.wintermute.applicationcreator.model.Skill;
 
+import java.security.KeyPair;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -35,12 +36,26 @@ public class DocumentContentProvider
     }
 
     /**
+     * @param target information to replace the placeholder.
+     * @return function replacing the placeholder with provided data.
+     */
+    public Function<String, String> createInline(String target)
+    {
+        return s -> s.replace(s, target);
+    }
+
+    /**
      * @param target list of languages.
      * @return function replacing the placeholder with provided languages.
      */
     public Function<String, String> createLanguageEntries(List<Language> target)
     {
         return s -> s.replace(s, contentParser.getParsedLanguages(target));
+    }
+
+    public Function<String, String> createHobbyEntries(List<String> target)
+    {
+        return s -> s.replace(s, contentParser.getParsedHobbies(target));
     }
 
     /**

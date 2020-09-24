@@ -49,7 +49,7 @@ public class DocumentCreator
                 {
                     if (content.containsKey(matcher.group()))
                     {
-                        fw.write(content.get(matcher.group()).apply(matcher.group()));
+                        fw.write(line.replace(matcher.group(0), content.get(matcher.group()).apply(matcher.group())));
                     }
                 } else
                 {

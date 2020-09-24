@@ -14,6 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Test the object mapping class.
@@ -38,10 +40,23 @@ public class ObjectMapperTest
     public void testApplicant()
     {
         Map<String, Function<String, String>> documentContent = om.getDocumentContent();
-        DocumentCreator dc = new DocumentCreator(documentContent);
-        dc.createDocument(new File(ObjectMapperTest.class.getClassLoader().getResource("cv.tex").getFile()), "cv_test");
-        dc.createDocument(new File(ObjectMapperTest.class.getClassLoader().getResource("cover.tex").getFile()),
-            "cover_test");
+        Pattern pattern = Pattern.compile("(?><).*?([?=>]+)");
+        String line = "jakis tam <header>";
+        Matcher matcher = pattern.matcher(line);
+        String group = "";
+        if (matcher.find()) {
+            group = matcher.group(0);
+        }
+        String target = "tvoja stara";
+
+        line = line.replace(group, documentContent.get(group).apply(target));
+
+        line = line.replace(group, target);
+        System.out.println(line);
+
+        //        dc.createDocument(new File(ObjectMapperTest.class.getClassLoader().getResource("cv.tex").getFile()), "cv_test");
+//        dc.createDocument(new File(ObjectMapperTest.class.getClassLoader().getResource("cover.tex").getFile()),
+//            "cover_test");
         //TODO: write a test after refactor
     }
 
