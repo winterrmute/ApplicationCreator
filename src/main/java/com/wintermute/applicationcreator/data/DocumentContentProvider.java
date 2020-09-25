@@ -1,12 +1,7 @@
 package com.wintermute.applicationcreator.data;
 
-import com.wintermute.applicationcreator.model.Career;
-import com.wintermute.applicationcreator.model.CategoryGroup;
-import com.wintermute.applicationcreator.model.Language;
-import com.wintermute.applicationcreator.model.Project;
-import com.wintermute.applicationcreator.model.Skill;
+import com.wintermute.applicationcreator.model.*;
 
-import java.security.KeyPair;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -21,6 +16,9 @@ public class DocumentContentProvider
 
     private final DocumentContentParser contentParser;
 
+    /**
+     * Creates an instance.
+     */
     public DocumentContentProvider()
     {
         contentParser = new DocumentContentParser();
@@ -36,12 +34,19 @@ public class DocumentContentProvider
     }
 
     /**
-     * @param target information to replace the placeholder.
-     * @return function replacing the placeholder with provided data.
+     * @param applicantsPersonalData personal data of applicant.
+     * @return preconfigured header for curriculum vitae.
      */
-    public Function<String, String> createInline(String target)
-    {
-        return s -> s.replace(s, target);
+    public Function<String, String> getCvHeader(PersonalInfo applicantsPersonalData){
+        return s -> s.replace(s, contentParser.getParsedHeader(applicantsPersonalData));
+    }
+
+    /**
+     * @param city of residence of applicant.
+     * @return preconfigured date and place header for cover letter.
+     */
+    public Function<String, String> getCoverLetterHeader(String city) {
+        return s -> s.replace(s, contentParser.getParsedCoverLetterHeader(city).toString());
     }
 
     /**
@@ -53,6 +58,10 @@ public class DocumentContentProvider
         return s -> s.replace(s, contentParser.getParsedLanguages(target));
     }
 
+    /**
+     * @param target list containing hobbies.
+     * @return function to input list of hobbies in tex document.
+     */
     public Function<String, String> createHobbyEntries(List<String> target)
     {
         return s -> s.replace(s, contentParser.getParsedHobbies(target));
@@ -85,10 +94,43 @@ public class DocumentContentProvider
         return s -> s.replace(s, contentParser.getParsedSkills(target));
     }
 
+    /**
+     * @param applicantsData contact information of applicant.
+     * @return preconfigured contact for curriculum vitae
+     */
+    public Function<String, String> getApplicantsInfo(Contact applicantsData){
+        return createInlineEntry(contentParser.getParsedApplicantInfo(applicantsData));
+    }
+
+    /**
+     * @param applicant contact data.
+     * @return preconfigured block of recipient data.
+     */
+    public Function<String, String> getApplicantBlock(Applicant applicant){
+        return createInlineEntry(contentParser.getParsedApplicant(applicant));
+    }
+
+    /**
+     * @param recipient contact data.
+     * @return preconfigured block of recipient data.
+     */
+    public Function<String, String> getRecipientBlock(Recipient recipient){
+        return createInlineEntry(contentParser.getParsedRecipient(recipient));
+    }
+
+    /**
+     * @param paragraphs to create document body of it.
+     * @return function providing preconfigured cover letter body text as tex document.
+     */
+    public Function<String, String> createCoverLetterText(List<String> paragraphs) {
+        StringBuilder result = new StringBuilder();
+        paragraphs.forEach(p -> result.append(p).append("\n\n"));
+        return s -> s.replace(s, result);
+    }
+
     private <T> Function<String, String> createEntryForCategory(Map<CategoryGroup, List<T>> target, String section,
                                                                 boolean isTable)
     {
-        StringBuilder result = contentParser.getParsedContentGroupedByCategory(target, section, isTable);
-        return s -> s.replace(s, result.toString());
+        return s -> s.replace(s, contentParser.getParsedContentGroupedByCategory(target, section, isTable).toString());
     }
 }

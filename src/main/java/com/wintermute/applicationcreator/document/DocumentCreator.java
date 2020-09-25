@@ -17,25 +17,12 @@ import java.util.regex.Pattern;
  */
 public class DocumentCreator
 {
-
-    private final Map<String, Function<String, String>> content;
-
-    /**
-     * Creates an instance.
-     *
-     * @param content content to fill into the template and create document of it.
-     */
-    public DocumentCreator(Map<String, Function<String, String>> content)
-    {
-        this.content = content;
-    }
-
     /**
      * Takes template and generates document of it.
      *
      * @param template for specified type of document.
      */
-    public void createDocument(File template, String fileName)
+    public void createDocument(File template, String fileName, Map<String, Function<String, String>> content)
     {
         File out = writeNewFile(fileName);
         Pattern pattern = Pattern.compile("(?><).*?([?=>]+)");
@@ -73,7 +60,7 @@ public class DocumentCreator
                 System.out.println("File created: " + result.getName());
             } else
             {
-                System.out.println("File already exists.");
+                System.out.println("File already exists. Overwriting...");
             }
         } catch (IOException e)
         {

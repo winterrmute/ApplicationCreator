@@ -11,6 +11,8 @@ import java.io.Reader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Creates an application from json file including cover letter and curriculum vitae.
@@ -26,14 +28,15 @@ public class ApplicationCreator
 
         DataCollector collector = new DataCollector();
         DocumentContentFactory objectMapper =
-            new DocumentContentFactory(collector.getDataFromJson(JsonParser.parseReader(reader).getAsJsonObject()));
+            new DocumentContentFactory();
 
-        DocumentCreator documentCreator = new DocumentCreator(objectMapper.getDocumentContent());
+        Map<String, Function<String, String>> documentContent = objectMapper.getDocumentContent(collector.getDataFromJson(JsonParser.parseReader(reader).getAsJsonObject()));
+        DocumentCreator documentCreator = new DocumentCreator();
         documentCreator.createDocument(
             new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()),
-            "coverLetter");
+            "coverLetter", documentContent);
         documentCreator.createDocument(
             new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/cvTemplate.tex").getFile()),
-            "cv");
+            "cv", documentContent);
     }
 }
