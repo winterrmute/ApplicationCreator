@@ -1,8 +1,8 @@
 package com.wintermute.applicationcreator;
 
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.wintermute.applicationcreator.data.DataCollector;
-import com.wintermute.applicationcreator.data.DocumentContentFactory;
+import com.wintermute.applicationcreator.data.DocumentContentProvider;
 import com.wintermute.applicationcreator.document.DocumentCreator;
 
 import java.io.File;
@@ -23,20 +23,23 @@ public class ApplicationCreator
 {
     public static void main(String[] args) throws URISyntaxException, IOException
     {
-        Reader reader = Files.newBufferedReader(
-            Paths.get(ApplicationCreator.class.getClassLoader().getResource("data.json").toURI()));
+        try (Reader reader = Files.newBufferedReader(
+            Paths.get(ApplicationCreator.class.getClassLoader().getResource("data.json").toURI())))
+        {
+            JsonObject userData = JsonParser.parseReader(reader).getAsJsonObject();
+            Map<String, Function<String, String>> documentContent =
+                new DocumentContentProvider().getDocumentContent(userData);
+            DocumentCreator documentCreator = new DocumentCreator();
 
-        DataCollector collector = new DataCollector();
-        DocumentContentFactory objectMapper =
-            new DocumentContentFactory();
-
-        Map<String, Function<String, String>> documentContent = objectMapper.getDocumentContent(collector.getDataFromJson(JsonParser.parseReader(reader).getAsJsonObject()));
-        DocumentCreator documentCreator = new DocumentCreator();
-        documentCreator.createDocument(
-            new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()),
-            "coverLetter", documentContent);
-        documentCreator.createDocument(
-            new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/cvTemplate.tex").getFile()),
-            "cv", documentContent);
+            documentCreator.createDocument(new File(
+                    ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()),
+                "coverLetter", documentContent);
+            documentCreator.createDocument(
+                new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/cvTemplate.tex").getFile()),
+                "cv", documentContent);
+        } catch (NullPointerException e)
+        {
+            throw new NullPointerException("data.json could not be read");
+        }
     }
 }

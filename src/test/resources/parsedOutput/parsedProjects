@@ -1,0 +1,40 @@
+\customsection{Pro}{jects (professional)}
+	\begin{longtable}{p{11em}| p{25em}}
+		\columntitle{06/2013 - 06/2016} & \activity{another Project}\\
+		\columnsubtitle{role} & \singleitem{SWAT Soldat (Freizeit projekt)}\\
+		\columnsubtitle{description} & \singleitem{this is description}\\
+		\columnsubtitle{languages} & \commaseparatedlist{example languages}{keine sprachen}\\
+		\columnsubtitle{frameworks} & \commaseparatedlist{example frameworks}{zweiter framework}\\
+		\columnsubtitle{tools} & \commaseparatedlist{example tool}{zweiter tool}\\
+
+	\end{longtable}
+
+
+	\begin{longtable}{p{11em}| p{25em}}
+		\columntitle{06/2011 - 06/2012} & \activity{example professional project 1}\\
+		\columnsubtitle{role} & \singleitem{example role in example project 1}\\
+		\columnsubtitle{description} & \singleitem{example description of example project 1}\\
+		\columnsubtitle{languages} & \commaseparatedlist{language 1}{lanugage 2}\\
+		\columnsubtitle{frameworks} & \commaseparatedlist{framework_1}{framework_2}{framework_3}\\
+		\columnsubtitle{tools} & \commaseparatedlist{this}{is}{a list}{of tools}\\
+
+	\end{longtable}
+\customsection{Pro}{jects (private)}
+	\begin{longtable}{p{11em}| p{25em}}
+		\columntitle{06/2012 - 06/2013} & \activity{another Project}\\
+		\columnsubtitle{role} & \singleitem{SWAT Soldat (Freizeit projekt)}\\
+		\columnsubtitle{description} & \singleitem{this is description}\\
+		\columnsubtitle{languages} & \commaseparatedlist{example languages}\\
+		\columnsubtitle{frameworks} & \commaseparatedlist{example frameworks}{second framework}\\
+		\columnsubtitle{tools} & \commaseparatedlist{example tool}{second tool}\\
+
+	\end{longtable}
+
+
+	\begin{longtable}{p{11em}| p{25em}}
+		\columntitle{06/2010 - 06/2012} & \activity{example private project 1}\\
+		\columnsubtitle{role} & \singleitem{example role in example project 1}\\
+		\columnsubtitle{description} & \singleitem{example description of example project 1}\\
+		\columnsubtitle{tools} & \commaseparatedlist{}\\
+
+	\end{longtable}

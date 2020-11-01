@@ -1,290 +1,301 @@
 {
-  "recipient": {
-    "company": "Sarif Industries",
-    "contactPerson": "z.Hd. Herrn Sarif",
-    "address": "38 Sandy Ter, Hanson",
-    "city": "48127 Detroit"
-  },
   "applicant": {
     "info": {
       "firstName": "Adam",
       "lastName": "Jensen",
-      "jobtitle": "Sicherheitsspezialist",
+      "jobTitle": "Security expert",
       "dateOfBirth": "09.03.1993",
       "contact": {
         "address": "6127 Evergreen Rd",
-        "city": "48127 Detroit",
+        "city": "Detroit",
+        "zipCode": 48127,
         "phone": "(313) 271-918",
         "email": "ajensen@sarifindustries.com",
-        "website": "https://sarifindustries.com/ajensen"
+        "website": "https://sarifindustries.fake/employee/profile/ajensen"
       },
       "placeOfBirth": "USA, Michigan, Detroit",
-      "familyStatus": "Ledig",
+      "familyStatus": "Married",
       "spokenLanguages": [
         {
-          "language": "Englisch",
-          "rating": "1",
-          "levelDesc": "Gute Kenntnise"
+          "language": "English",
+          "position": "1",
+          "levelDesc": "Native Speaker"
         },
         {
-          "language": "Polnisch",
-          "rating": "3",
-          "levelDesc": "Muttersprache"
+          "language": "Chinese",
+          "position": "3",
+          "levelDesc": "Beginner"
         },
         {
-          "language": "Deutsch",
-          "rating": "2",
-          "levelDesc": "Muttersprache Niveau"
+          "language": "German",
+          "position": "2",
+          "levelDesc": "Good knowledge"
         }
       ],
       "hobbies": [
-        "Hacken",
-        "Anschleichen",
-        "Schießen",
-        "Augs installieren"
+        "IT security",
+        "tactical strategy",
+        "guns",
+        "mechanical augmentation"
       ]
     },
     "career": {
-      "educationalCareer": {
+      "category_1": {
         "position": 1,
-        "title": "Education",
-        "children": [
+        "title": "education",
+        "group_1": [
           {
             "from": "08/2010",
             "until": "07/2014",
-            "school": "Detroit Police Department",
-            "graduation": "Polizist Ausbildung"
+            "title": "Detroit Police Department",
+            "graduation": "Police training"
           },
           {
             "from": "08/2007",
             "until": "07/2010",
-            "school": "Secondary School",
-            "graduation": "Secondary School"
+            "title": "Secondary School",
+            "graduation": "high school"
           },
           {
             "from": "09/2004",
             "until": "07/2007",
-            "school": "Middle-School in Detroit",
-            "graduation": "Gymnasium"
+            "title": "Middle-School in Detroit",
+            "graduation": "Middle school"
           },
           {
             "from": "09/1999",
             "until": "07/2004",
-            "school": "Elementary School in Detroit",
-            "graduation": "Grundschule"
+            "title": "Elementary School in Detroit",
+            "graduation": "Elemntary school"
           }
         ]
       },
-      "professionalCareer": {
-        "title": "professional career",
+      "category_2": {
         "position": 2,
+        "title": "professional career",
         "children": [
           {
             "from": "01/2014",
             "until": "01/2018",
-            "job": "Polizist",
-            "company": "Detroit Police Department",
-            "description": "Normaller job als Bulle"
+            "job": "Police officer",
+            "title": "Detroit Police Department_1",
+            "description": "Police officer tasks."
           },
           {
             "from": "01/2018",
             "until": "01/2022",
-            "job": "SWAT Soldat",
-            "company": "Detroit Police Department",
-            "description": "Soldat in der SWAT Einheit"
+            "job": "SWAT soldier",
+            "title": "Detroit Police Department_2",
+            "description": "SWAT soldier tasks"
           },
           {
             "from": "05/2025",
             "until": "heute",
-            "job": "Sicherheitschef",
-            "company": "Sarif Industries",
-            "description": "Internes Sicherheitsmanagement"
+            "job": "security chief",
+            "title": "Sarif Industries",
+            "description": "Protecting the company"
           },
           {
             "from": "01/2022",
             "until": "01/2025",
-            "job": "SWAT Teamleiter",
-            "company": "Detroit Police Department",
-            "description": "Teamleiter der SWAT einheit"
+            "job": "SWAT Chief",
+            "title": "Detroit Police Department_3",
+            "description": "Controlling SWAT teams."
           }
         ]
       }
     },
     "skills": {
-      "manual": {
+      "category_1": {
         "position": 1,
-        "title": "Manual",
-        "children": [
+        "title": "Tactical",
+        "group_1": [
           {
-            "description": "Kampfsport",
-            "rating": 7,
-            "category": "Kampf"
-          },
+            "title": "Strategy",
+            "position": 2,
+            "skills": [
+              {
+                "title": "Unit coordination",
+                "position": 3
+              },
+              {
+                "title": "Reading architecture blueprints",
+                "position": 2
+              },
+              {
+                "title": "terrain knowledge",
+                "position": 1
+              }
+            ]
+          }
+        ],
+        "group_2": [
           {
-            "description": "Schießen",
-            "rating": 7,
-            "category": "Kampf"
-          },
+            "title": "Combat",
+            "position": 3,
+            "skills": [
+              {
+                "title": "shooting",
+                "position": 8
+              },
+              {
+                "title": "Melee",
+                "position": 6
+              },
+              {
+                "title": "Sneaking",
+                "position": 7
+              }
+            ]
+          }
+        ],
+        "group_4": [
           {
-            "description": "Hacken",
-            "rating": 5,
-            "category": "Technik"
-          },
-          {
-            "description": "Auguments Reparatur",
-            "rating": 5,
-            "category": "Biotechnik"
+            "title": "Tech",
+            "position": 1,
+            "skills": [
+              {
+                "title": "IT Security",
+                "position": 5
+              },
+              {
+                "title": "Augmentation gear maintenance",
+                "position": 3
+              }
+            ]
           }
         ]
       },
-      "aug": {
+      "category_2": {
         "position": 2,
-        "title": "Aug",
-        "children": [
+        "title": "Rhetoric",
+        "group_1": [
           {
-            "description": "Nachtsicht",
-            "rating": 7,
-            "category": "Taktische Fähigkeiten"
-          },
-          {
-            "description": "Infrarotsensoren",
-            "rating": 7,
-            "category": "Taktische Fähigkeiten"
-          },
-          {
-            "description": "In-Eye-Camera",
-            "rating": 7,
-            "category": "Spionage"
-          },
-          {
-            "description": "Tarnkappe",
-            "rating": 7,
-            "category": "Spionage"
-          }
-        ]
-      },
-      "soft": {
-        "position": 3,
-        "title": "Soft",
-        "children": [
-          {
-            "description": "Lernbegierig für innovative technische Entwicklungen",
-            "rating": 0,
-            "category": "n.a"
-          },
-          {
-            "description": "Zielorientiert",
-            "rating": 0,
-            "category": "n.a"
-          },
-          {
-            "description": "Anpassungsfähig",
-            "rating": 0,
-            "category": "n.a"
-          },
-          {
-            "description": "Kritikfähig",
-            "rating": 0,
-            "category": "n.a"
+            "title": "intimidate",
+            "position": 3,
+            "skills": [
+              {
+                "title": "persuasion",
+                "position": 4
+              },
+              {
+                "title": "bluff",
+                "position": 6
+              }
+            ]
           }
         ]
       }
     },
     "projects": {
-      "private": {
-        "position": 1,
-        "title": "Private",
+      "category_1": {
+        "position": 2,
+        "title": "private",
         "children": [
           {
-            "from": "06/2013",
+            "from": "06/2010",
             "until": "06/2012",
-            "summary": "example Project",
-            "description": "example description",
-            "position": "SWAT Soldat (Berufliches projekt)",
-            "tools": {
-              "languages": [
-                "example languages"
-              ],
-              "frameworks": [
-                "example frameworks"
-              ],
-              "other": [
-                "example tool"
-              ]
-            }
+            "title": "example private project 1",
+            "description": "example description of example project 1",
+            "role": "example role in example project 1",
+            "tools": [
+            ]
+          },
+          {
+            "from": "06/2012",
+            "until": "06/2013",
+            "title": "another Project",
+            "description": "this is description",
+            "role": "SWAT Soldat (Freizeit projekt)",
+            "programmingLanguages": [
+              "example languages"
+            ],
+            "frameworks": [
+              "example frameworks",
+              "second framework"
+            ],
+            "tools": [
+              "example tool",
+              "second tool"
+            ]
           }
         ]
       },
-      "business": {
-        "position": 2,
-        "title": "Business",
+      "category_2": {
+        "position": 1,
+        "title": "professional",
         "children": [
           {
-            "from": "06/2013",
+            "from": "06/2011",
             "until": "06/2012",
-            "summary": "example Project",
-            "description": "example description",
-            "position": "SWAT Soldat (Berufliches projekt)",
-            "tools": {
-              "languages": [
-                "example languages"
-              ],
-              "frameworks": [
-                "example frameworks"
-              ],
-              "other": [
-                "example tool"
-              ]
-            }
+            "title": "example professional project 1",
+            "description": "example description of example project 1",
+            "role": "example role in example project 1",
+            "programmingLanguages": [
+              "language 1",
+              "lanugage 2"
+            ],
+            "frameworks": [
+              "framework_1",
+              "framework_2",
+              "framework_3"
+            ],
+            "tools": [
+              "this",
+              "is",
+              "a list",
+              "of tools"
+            ]
           },
           {
             "from": "06/2013",
-            "until": "06/2012",
-            "summary": "example Project",
-            "description": "example description",
-            "position": "SWAT Soldat (Berufliches projekt)",
-            "tools": {
-              "languages": [
-                "example languages"
-              ],
-              "frameworks": [
-                "example frameworks"
-              ],
-              "other": [
-                "example tool"
-              ]
-            }
-          },
-          {
-            "from": "06/2013",
-            "until": "06/2012",
-            "summary": "example Project",
-            "description": "example description",
-            "position": "SWAT Soldat (Berufliches projekt)",
-            "tools": {
-              "languages": [
-                "example languages"
-              ],
-              "frameworks": [
-                "example frameworks"
-              ],
-              "other": [
-                "example tool"
-              ]
-            }
+            "until": "06/2016",
+            "title": "another Project",
+            "description": "this is description",
+            "role": "SWAT Soldat (Freizeit projekt)",
+            "programmingLanguages": [
+              "example languages",
+              "keine sprachen"
+            ],
+            "frameworks": [
+              "example frameworks",
+              "zweiter framework"
+            ],
+            "tools": [
+              "example tool",
+              "zweiter tool"
+            ]
           }
         ]
       }
     }
   },
   "coverLetter": {
-    "applicationTopic": "Bewerbung als Sicherheitsspezialist",
+    "applicationTopic": "Application as security chief",
+    "recipient": {
+      "company": "Sarif Industries",
+      "contactPerson": "attn: Mr. Sarif",
+      "contact": {
+        "address": "38 Sandy Ter, Hanson",
+        "city": "Detroit",
+        "zipCode": 48127
+      }
+    },
     "paragraphs": [
-      "Sehr geehrter Herr Sarif,",
-      "Das ist meine Bewerbung",
-      "Die ist schon sehr überzeugend",
-      "Darum sollte ich genommen werden.",
-      "Abschlussnote."
+      "Dear Mr. Sarif,",
+      "This is an example text.",
+      "It's just regular application letter.",
+      "Nothing special.",
+      "Cheers."
     ]
+  },
+  "sanitizerTest": {
+    "easy": "#hello it$s m%e",
+    "list": [
+      "{sanitize me}"
+    ],
+    "findMe":{
+      "inside": "L_O_L ^ found me"
+    }
   }
 }

@@ -1,0 +1,12 @@
+\customsection{Ski}{lls (Tactical)}
+	\begin{longtable}{p{11em}| p{25em}}
+		\columnsubtitle{Tech} & \newlinelist{Augmentation gear maintenance}{IT Security}\\
+		\columnsubtitle{Strategy} & \newlinelist{terrain knowledge}{Reading architecture blueprints}{Unit coordination}\\
+		\columnsubtitle{Combat} & \newlinelist{Melee}{Sneaking}{shooting}\\
+
+	\end{longtable}
+\customsection{Ski}{lls (Rhetoric)}
+	\begin{longtable}{p{11em}| p{25em}}
+		\columnsubtitle{intimidate} & \newlinelist{persuasion}{bluff}\\
+
+	\end{longtable}

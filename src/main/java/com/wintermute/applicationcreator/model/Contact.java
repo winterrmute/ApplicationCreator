@@ -2,6 +2,11 @@ package com.wintermute.applicationcreator.model;
 
 import lombok.Data;
 
+/**
+ * Contains contact information.
+ *
+ * @author wintermute.
+ */
 @Data
 public class Contact
 {

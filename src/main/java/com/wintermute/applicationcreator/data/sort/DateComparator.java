@@ -1,6 +1,6 @@
 package com.wintermute.applicationcreator.data.sort;
 
-import com.wintermute.applicationcreator.model.ElementWithTimePeriod;
+import com.wintermute.applicationcreator.model.complex.ElementWithTimePeriod;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author wintermute
  */
-class DateComparator implements Comparator<ElementWithTimePeriod>
+public class DateComparator implements Comparator<ElementWithTimePeriod>
 {
     public int compare(ElementWithTimePeriod p, ElementWithTimePeriod q)
     {

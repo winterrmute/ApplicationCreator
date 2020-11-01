@@ -1,0 +1,16 @@
+\customsection{Car}{eer (education)}
+	\begin{longtable}{p{11em}| p{25em}}
+		\columntitle{08/2010 - 07/2014} & \activity{Detroit Police Department}{Police training}\\
+		\columntitle{08/2007 - 07/2010} & \activity{Secondary School}{high school}\\
+		\columntitle{09/2004 - 07/2007} & \activity{Middle-School in Detroit}{Middle school}\\
+		\columntitle{09/1999 - 07/2004} & \activity{Elementary School in Detroit}{Elemntary school}\\
+	\end{longtable}
+
+\customsection{Car}{eer (professional career)}
+	\begin{longtable}{p{11em}| p{25em}}
+		\columntitle{05/2025 - heute} & \activity{Sarif Industries}{security chief}{Protecting the company}\\
+		\columntitle{01/2022 - 01/2025} & \activity{Detroit Police Department_3}{SWAT Chief}{Controlling SWAT teams.}\\
+		\columntitle{01/2018 - 01/2022} & \activity{Detroit Police Department_2}{SWAT soldier}{SWAT soldier tasks}\\
+		\columntitle{01/2014 - 01/2018} & \activity{Detroit Police Department_1}{Police officer}{Police officer tasks.}\\
+	\end{longtable}
+

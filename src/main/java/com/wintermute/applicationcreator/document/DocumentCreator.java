@@ -36,7 +36,8 @@ public class DocumentCreator
                 {
                     if (content.containsKey(matcher.group()))
                     {
-                        fw.write(line.replace(matcher.group(0), content.get(matcher.group()).apply(matcher.group())));
+                        String parsedUserData = content.get(matcher.group()).apply(matcher.group());
+                        fw.write(line.replace(matcher.group(0), parsedUserData));
                     }
                 } else
                 {
@@ -49,7 +50,7 @@ public class DocumentCreator
         }
     }
 
-    File writeNewFile(String name)
+    private File writeNewFile(String name)
     {
         final String path = "src/main/resources/texTemplate/" + name + ".tex";
         File result = new File(path);

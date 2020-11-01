@@ -1,48 +1,57 @@
 package com.wintermute.applicationcreator.data;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.wintermute.applicationcreator.model.Applicant;
 import com.wintermute.applicationcreator.model.CoverLetter;
-import com.wintermute.applicationcreator.model.Recipient;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
- * Generates final document content provided by tags to replace in template file.
+ * Provides translated data objects for each document.
  *
  * @author wintermute
  */
-public class DocumentContentFactory {
+public class DocumentContentFactory
+{
+    private static final Gson GSON = new Gson();
 
     /**
-     * @param data collected data about applicant, recipient and cover letter.
-     * @return
+     * @param applicant JsonObject containing all information about the applicant.
+     * @return translated, usable applicant data.
      */
-    public Map<String, Function<String, String>> getDocumentContent(Map<String, Object> data) {
-        DataOrganizer dataGetter = new DataOrganizer();
-        Map<String, Object> applicantData = (Map<String, Object>) data.get("applicant");
-        Applicant applicant = dataGetter.getApplicant(applicantData);
+    public Applicant getApplicant(JsonObject applicant)
+    {
+        DocumentComplexDataMapper objectTranslator = new DocumentComplexDataMapper();
 
-        DocumentContentProvider contentProvider = new DocumentContentProvider();
-        Map<String, Function<String, String>> result = new HashMap<>();
-        result.put("<header>", contentProvider.getCvHeader(applicant.getPersonalInfo()));
-        result.put("<header_date>", contentProvider.getCoverLetterHeader(applicant.getContact().getCity()));
-        result.put("<applicant>", contentProvider.getApplicantBlock(applicant));
-        result.put("<name>", contentProvider.createInlineEntry(applicant.getPersonalInfo().getFullName()));
-        result.put("<applicantInfo>", contentProvider.getApplicantsInfo(applicant.getContact()));
-        result.put("<career>", contentProvider.createCareerEntries(applicant.getCareer()));
-        result.put("<skills>", contentProvider.createSkillsEntries(applicant.getSkills()));
-        result.put("<projects>", contentProvider.createProjectEntries(applicant.getProjects()));
-        result.put("<hobbies>", contentProvider.createHobbyEntries(applicant.getHobbies()));
-        result.put("<languages>", contentProvider.createLanguageEntries(applicant.getLanguages()));
+        Applicant result = new Applicant();
+        JsonObject info = applicant.getAsJsonObject("info");
+        result.setPersonalInfo(GSON.fromJson(applicant.get("info"), Applicant.PersonalInfo.class));
+        result.setHobbies(
+            GSON.fromJson(info.getAsJsonArray("hobbies"), new TypeToken<ArrayList<String>>() {}.getType()));
+        result.setLanguages(objectTranslator.languageMapper(GSON.fromJson(info.getAsJsonArray("spokenLanguages"),
+            new TypeToken<List<Map<String, Object>>>() {}.getType())));
 
-        CoverLetter coverLetter = dataGetter.getCoverLetter((Map<String, Object>) data.get("coverLetter"), (Map<String, String>) data.get("recipient"));
-        Recipient recipient = coverLetter.getRecipient();
-        result.put("<recipient>", contentProvider.getRecipientBlock(recipient));
-        result.put("<applicationTopic>", contentProvider.createInlineEntry(coverLetter.getApplicationTopic()));
-        result.put("<text>", contentProvider.createCoverLetterText(coverLetter.getParagraphs()));
+        result.setSkills(objectTranslator.skillsMapper(applicant.getAsJsonObject("skills")));
 
+        result.setCareer(objectTranslator.careerMapper(applicant.getAsJsonObject("career")));
+
+        result.setProjects(objectTranslator.projectMapper(applicant.getAsJsonObject("projects")));
+
+        return result;
+    }
+
+    /**
+     * @param coverLetter JsonObject containing all information about the cover letter.
+     * @return translated, usable cover letter data.
+     */
+    public CoverLetter getCoverLetter(JsonObject coverLetter, Applicant.PersonalInfo applicantsPersonalInfo)
+    {
+        CoverLetter result = GSON.fromJson(coverLetter, CoverLetter.class);
+        result.setApplicantsInfo(applicantsPersonalInfo);
         return result;
     }
 }
