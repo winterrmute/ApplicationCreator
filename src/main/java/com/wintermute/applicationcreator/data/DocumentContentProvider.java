@@ -37,7 +37,7 @@ public class DocumentContentProvider
         result.put("<header_date>", getCoverLetterHeader(applicant.getPersonalInfo().getContact().getCity()));
         result.put("<applicant>", getApplicantBlock(applicant));
         result.put("<name>", createInlineEntry(applicant.getPersonalInfo().getFullName()));
-        result.put("<applicantInfo>", getApplicantsInfo(applicant.getPersonalInfo().getContact()));
+        result.put("<applicant_info>", getApplicantsInfo(applicant.getPersonalInfo().getContact()));
         result.put("<career>", createCareerEntries(applicant.getCareer()));
         result.put("<skills>", createSkillsEntries(applicant.getSkills()));
         result.put("<projects>", createProjectEntries(applicant.getProjects()));

@@ -9,7 +9,7 @@
         "address": "6127 Evergreen Rd",
         "city": "Detroit",
         "zipCode": 48127,
-        "phone": "(313) 271-918",
+        "phoneNumber": "(313) 271-918",
         "email": "ajensen@sarifindustries.com",
         "website": "https://sarifindustries.fake/employee/profile/ajensen"
       },
@@ -191,7 +191,7 @@
       "category_1": {
         "position": 2,
         "title": "private",
-        "children": [
+        "group_1": [
           {
             "from": "06/2010",
             "until": "06/2012",
@@ -224,7 +224,7 @@
       "category_2": {
         "position": 1,
         "title": "professional",
-        "children": [
+        "group_1": [
           {
             "from": "06/2011",
             "until": "06/2012",

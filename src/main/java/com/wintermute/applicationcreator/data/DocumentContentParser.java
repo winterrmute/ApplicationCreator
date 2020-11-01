@@ -1,11 +1,11 @@
 package com.wintermute.applicationcreator.data;
 
 import com.wintermute.applicationcreator.model.Applicant;
-import com.wintermute.applicationcreator.model.complex.CategoryGroup;
 import com.wintermute.applicationcreator.model.Contact;
 import com.wintermute.applicationcreator.model.CoverLetter;
 import com.wintermute.applicationcreator.model.Language;
 import com.wintermute.applicationcreator.model.complex.Career;
+import com.wintermute.applicationcreator.model.complex.CategoryGroup;
 import com.wintermute.applicationcreator.model.complex.Project;
 import com.wintermute.applicationcreator.model.complex.Skill;
 import org.jetbrains.annotations.NotNull;
@@ -107,19 +107,20 @@ public class DocumentContentParser
 
     public String getParsedApplicant(Applicant.PersonalInfo applicant)
     {
-        return "\\about{\\thinfont\\coverlist{\\faUser\\ \\coversender " + applicant.getFullName() + "}\n"
+        return "\\about{\\thinfont\\coverlist{\\faUser\\ \\coversender {" + applicant.getFullName() + "}}\n"
             + "{\\faMapMarker\\ \\small " + applicant.getContact().getAddress() + "}\n" + "{\\small \\faPhone\\ "
             + applicant.getContact().getPhoneNumber() + "}\n" + "{\\small \\faAt\\ " + applicant.getContact().getEmail()
-            + "}\n" + (applicant.getContact().getWebsite() != null ? "{\\small \\faGithub\\" + applicant
+            + "}\n" + (applicant.getContact().getWebsite() != null ? "{\\small \\faGithub\\ " + applicant
             .getContact()
-            .getWebsite() + "}" : "}") + "\n";
+            .getWebsite() + "}" : "}") + "}\n";
     }
 
     public String getParsedApplicantInfo(Contact applicantsContact)
     {
         return "\\faEnvelopeO\\/" + applicantsContact.getAddress() + " | " + "\\faMapMarker\\/ "
             + applicantsContact.getCityWithZipcode() + " | " + "\\faPhone\\/ " + applicantsContact.getPhoneNumber()
-            + " | " + "\\faAt\\protect\\/ " + applicantsContact.getEmail() + "\n";
+            + " | " + "\\faAt\\protect\\/ " + applicantsContact.getEmail() + " | \\faGithub "
+            + applicantsContact.getWebsite() + "\n";
     }
 
     /**
@@ -128,10 +129,10 @@ public class DocumentContentParser
      */
     String getParsedRecipient(CoverLetter.Recipient recipient)
     {
-        return "\\receipient{\\coverlist{{\\normalsize\\bodyfont " + recipient.getCompany() + "}\n" + (
-            recipient.getContactPerson() != null ? recipient.getContactPerson() : "") + "\n" + recipient
+        return "\\receipient{\\coverlist{\\normalsize\\bodyfont " + recipient.getCompany() + "}\n{" + (
+            recipient.getContactPerson() != null ? recipient.getContactPerson() : "") + "}\n{" + recipient
             .getContact()
-            .getAddress() + "\n" + recipient.getContact().getCityWithZipcode();
+            .getAddress() + "}\n{" + recipient.getContact().getCityWithZipcode() + "}}\n";
     }
 
     private <T> String getParsedListContent(List<T> content)
@@ -157,17 +158,24 @@ public class DocumentContentParser
         StringBuilder result = new StringBuilder(getTableHeader())
             .append("\t\t")
             .append(getParsedActivity(project.getFrom() + " - " + project.getUntil(), project.getTitle()))
-            .append("\\\\\n\t")
+            .append(project.getTitle().length() > 35 ? "\\\\\\\\" : "\\\\")
+            .append("\n\t")
             .append(getParsedSingleItem("role", project.getRole()))
             .append("\t")
             .append(getParsedSingleItem("description", project.getDescription()));
-        result.append(project.getProgrammingLanguages() != null ? getParsedCommaSeparatedList("languages",
-            project.getProgrammingLanguages()) : "");
-        result.append(
-            project.getFrameworks() != null ? getParsedCommaSeparatedList("frameworks", project.getFrameworks()) : "");
-        result.append(project.getTools() != null ? getParsedCommaSeparatedList("tools", project.getTools()) : "");
+
+        result.append(getProjectTools(project.getLanguages(), "languages"));
+        result.append(getProjectTools(project.getFrameworks(), "frameworks"));
+        result.append(getProjectTools(project.getTools(), "tools"));
+
         result.append(project.getGithubLink() != null ? getParsedSingleItem("github", project.getGithubLink()) : "");
+
         return result.append(getTableFooter()).toString();
+    }
+
+    private String getProjectTools(List<String> tools, String columnTitle)
+    {
+        return tools != null && !tools.isEmpty() ? getParsedCommaSeparatedList(columnTitle, tools) : "";
     }
 
     @NotNull
@@ -188,14 +196,8 @@ public class DocumentContentParser
             getParsedActivity(career.getFrom() + " - " + career.getUntil(), career.getTitle()));
         if (career.getJob() != null)
         {
-            String s = result
-                .
-                    append("{")
-                .append(career.getJob())
-                .append("}{")
-                .append(career.getDescription())
-                .append("}\\\\")
-                .toString();
+            String s = result.append("{").append(career.getJob()).append("}{").append(career.getDescription()) //
+                .append("}\\\\").toString();
             return s;
         }
         String s = result.append("{").append(career.getGraduation()).append("}\\\\").toString();

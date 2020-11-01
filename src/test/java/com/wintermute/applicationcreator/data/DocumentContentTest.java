@@ -119,8 +119,8 @@ public class DocumentContentTest
         checkSortedSequence(privateProjects, Map.of(0, "another Project", 1, "example private project 1"));
 
         Project project = privateProjects.get(0);
-        assertEquals(project.getProgrammingLanguages().size(), 1);
-        assertEquals(project.getProgrammingLanguages().get(0), "example languages");
+        assertEquals(project.getLanguages().size(), 1);
+        assertEquals(project.getLanguages().get(0), "example languages");
 
         String parsingResult = parser.getParsedContentGroupedByCategory(projects, "Projects", false);
         assertParsingResult("parsedProjects", parsingResult);

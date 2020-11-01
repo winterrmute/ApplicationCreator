@@ -16,7 +16,7 @@ public class Project extends ElementWithTimePeriod
 {
     private String role;
     private String githubLink;
-    private List<String> programmingLanguages;
+    private List<String> languages;
     private List<String> frameworks;
     private List<String> tools;
 }

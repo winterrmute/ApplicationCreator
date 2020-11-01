@@ -23,23 +23,18 @@ public class ApplicationCreator
 {
     public static void main(String[] args) throws URISyntaxException, IOException
     {
-        try (Reader reader = Files.newBufferedReader(
-            Paths.get(ApplicationCreator.class.getClassLoader().getResource("data.json").toURI())))
-        {
-            JsonObject userData = JsonParser.parseReader(reader).getAsJsonObject();
-            Map<String, Function<String, String>> documentContent =
-                new DocumentContentProvider().getDocumentContent(userData);
-            DocumentCreator documentCreator = new DocumentCreator();
+        Reader reader = Files.newBufferedReader(
+            Paths.get(ApplicationCreator.class.getClassLoader().getResource("data.json").toURI()));
+        JsonObject userData = JsonParser.parseReader(reader).getAsJsonObject();
+        Map<String, Function<String, String>> documentContent =
+            new DocumentContentProvider().getDocumentContent(userData);
+        DocumentCreator documentCreator = new DocumentCreator();
 
-            documentCreator.createDocument(new File(
-                    ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()),
-                "coverLetter", documentContent);
-            documentCreator.createDocument(
-                new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/cvTemplate.tex").getFile()),
-                "cv", documentContent);
-        } catch (NullPointerException e)
-        {
-            throw new NullPointerException("data.json could not be read");
-        }
+        documentCreator.createDocument(
+            new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/coverTemplate.tex").getFile()),
+            "coverLetter", documentContent);
+        documentCreator.createDocument(
+            new File(ApplicationCreator.class.getClassLoader().getResource("texTemplate/cvTemplate.tex").getFile()),
+            "cv", documentContent);
     }
 }
